@@ -1,0 +1,15 @@
+{
+  "api_operations": 11,
+  "sql_tables": 13,
+  "checked_local_links": 21,
+  "sources_rows": 74,
+  "claims_rows": 21,
+  "evidence_rows": 81,
+  "winner_rows": 30,
+  "errors": [],
+  "limits": [
+    "SQL static inspection only; no PostgreSQL/PostGIS runtime migration test",
+    "No historical raster training or accuracy test",
+    "OpenAPI JSON/reference checks, not full external OpenAPI validator"
+  ]
+}

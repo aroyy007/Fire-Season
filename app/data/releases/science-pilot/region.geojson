@@ -1,0 +1,39 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              90.0,
+              21.0
+            ],
+            [
+              98.0,
+              21.0
+            ],
+            [
+              98.0,
+              28.0
+            ],
+            [
+              90.0,
+              28.0
+            ],
+            [
+              90.0,
+              21.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "fixture": true,
+        "region_key": "science"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

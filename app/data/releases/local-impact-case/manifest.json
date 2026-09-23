@@ -1,0 +1,43 @@
+{
+  "artifact_id": "art_local_demo_contract_0001",
+  "files": [
+    {
+      "media_type": "application/json",
+      "path": "analysis.json",
+      "sha256": "6083f60c871f39ddcf0dc44a5dc2287a0729e6a49d9658f3d1db6da0edefd330",
+      "size_bytes": 224419
+    },
+    {
+      "media_type": "application/json",
+      "path": "evidence-receipt.json",
+      "sha256": "a4072554d1d9aa4f66a6a6fa8cb90dec0b457add3b34723ff4ae949cce4c72eb",
+      "size_bytes": 4443
+    },
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "f681030128533a1becde225eeb0fadbf472e08cdc80bb5ee62c6a08327849ec0",
+      "size_bytes": 43101
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "1d1f35bb490759e604d72783d125cc92b57c8bc15736412974fd4cc17c37dc41",
+      "size_bytes": 24551
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "6931a8d41329f2e99bc6cf132ff4b8ceef22cc81be82d77e43a78545d2aababe",
+      "size_bytes": 631
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "ba968c982137ec4200df342988ea1cf5a14e7feeab29fd6094cf2e9cd8ed681e",
+      "size_bytes": 166
+    }
+  ],
+  "manifest_created_at": "2026-09-24T00:00:00Z",
+  "schema_version": "1.0.0"
+}

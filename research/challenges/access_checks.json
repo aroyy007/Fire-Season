@@ -1,0 +1,66 @@
+[
+  {
+    "name": "power_sample",
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=90.4&latitude=23.8&start=20240101&end=20240103&format=JSON",
+    "status": 200,
+    "bytes": 642,
+    "retrieved_at": "2026-09-18T17:54:21.117924+00:00",
+    "parameters": {
+      "T2M": {
+        "20240101": 17.93,
+        "20240102": 16.97,
+        "20240103": 17.18
+      },
+      "PRECTOTCORR": {
+        "20240101": 0.01,
+        "20240102": 0.8,
+        "20240103": 0.0
+      }
+    },
+    "parameters_metadata": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "name": "nisar_collections",
+    "url": "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=NISAR%20GCOV&page_size=5",
+    "status": 200,
+    "bytes": 12389,
+    "retrieved_at": "2026-09-18T17:54:22.072154+00:00",
+    "collections": [
+      {
+        "short_name": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "id": "C2854338529-ASF",
+        "version_id": "1"
+      },
+      {
+        "short_name": "NISAR_L2_GCOV_BETA_V1",
+        "id": "C3622214170-ASF",
+        "version_id": "1"
+      },
+      {
+        "short_name": "NISAR_UR_L2",
+        "id": "C2887502657-ASF",
+        "version_id": "1"
+      }
+    ]
+  },
+  {
+    "name": "firms_recent_sample",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/viirs/csv/SUOMI_VIIRS_C2_South_Asia_24h.csv",
+    "status": 200,
+    "bytes": 63834,
+    "retrieved_at": "2026-09-18T17:54:24.225154+00:00",
+    "header_and_example": [
+      "latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,confidence,version,bright_ti5,frp,daynight",
+      "14.95029,100.13246,333.58,0.36,0.58,2026-09-17,0610,N,nominal,2.0NRT,287.1,2.69,D"
+    ]
+  }
+]

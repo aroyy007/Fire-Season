@@ -1,0 +1,19 @@
+{
+  "query": "2023\u20132025 NASA Space Apps winners, associated repositories/models, 2026 competition constraints",
+  "research_date": "2026-09-18",
+  "scope": "bounded subresearch for parent challenge-selection report",
+  "provider": "web search and official pages; local filesystem persistence",
+  "source_count": 15,
+  "verified_award_rows": 30,
+  "assumptions": [
+    "No winner status inferred from ordinary submissions",
+    "Current repositories may include post-hackathon changes",
+    "2025 guides not asserted to be 2026 rules"
+  ],
+  "unresolved": [
+    "Current pre-event development rule",
+    "2026 updated judging and submission guide",
+    "Model hyperparameters and validation for most projects",
+    "Full text of several team project pages"
+  ]
+}

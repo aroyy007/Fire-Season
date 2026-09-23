@@ -1,0 +1,17 @@
+{
+  "repo": "vercel-labs/agent-skills",
+  "sha": "063bee94c3f4df8453406c830b0a7df0f2860278",
+  "license": null,
+  "branch": "main",
+  "skills": [
+    "skills/composition-patterns/SKILL.md",
+    "skills/deploy-to-vercel/SKILL.md",
+    "skills/react-best-practices/SKILL.md",
+    "skills/react-native-skills/SKILL.md",
+    "skills/react-view-transitions/SKILL.md",
+    "skills/vercel-cli-with-tokens/SKILL.md",
+    "skills/vercel-optimize/SKILL.md",
+    "skills/web-design-guidelines/SKILL.md",
+    "skills/writing-guidelines/SKILL.md"
+  ]
+}

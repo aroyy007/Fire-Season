@@ -1,0 +1,1295 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fire Season | NASA Space Apps 2026 research</title><style>
+:root{--ink:#20343d;--blue:#245d78;--paper:#f3f6f7;--rule:#cfdae0;--accent:#b74920}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:30px}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--blue);text-underline-offset:3px}a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.skip{position:absolute;left:-999px}.skip:focus{left:20px;top:10px;background:white;z-index:9;padding:10px}.shell{max-width:1480px;margin:auto;display:grid;grid-template-columns:250px minmax(0,1fr)}aside{padding:35px 24px;position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--rule)}.brand{font-size:25px;font-weight:750;letter-spacing:-1px}.brand small{display:block;font-size:12px;letter-spacing:0;font-weight:500;margin-top:5px;color:#586d78}nav{margin-top:34px;display:grid;gap:3px}nav a{padding:9px 10px;text-decoration:none;font-size:13px;border-radius:4px}nav a:hover,nav a.active{background:#e0e9ed;color:#123b50}aside .downloads{font-size:12px;margin-top:28px;display:grid;gap:10px}main{min-width:0;padding:55px 60px 90px;background:white}.intro{max-width:950px}.date{color:#546b76;font-size:13px;margin:0 0 20px}h1,h2,h3{line-height:1.18;letter-spacing:-.035em;text-wrap:balance}h1{font-size:clamp(30px,3.4vw,48px);margin:20px 0 25px}.intro h1{font-size:clamp(42px,4.8vw,66px);max-width:780px;letter-spacing:-.045em}.lead{font-size:21px;line-height:1.5;max-width:760px}.recommend{border-left:4px solid var(--accent);padding:12px 24px;margin:32px 0;background:#f6f8f9}.recommend strong{display:block;font-size:21px;margin-bottom:6px}.facts{display:grid;grid-template-columns:1fr 1fr;gap:26px;border-top:1px solid var(--rule);padding-top:25px;margin-top:30px}.facts h2{font-size:18px}.facts p{font-size:14px}.chapter{padding-top:60px;margin-top:65px;border-top:2px solid var(--ink);min-width:0}.chapter-meta{display:flex;justify-content:space-between;gap:15px;font-size:12px;color:#586d78}.chapter h1{font-size:35px}.chapter h2{font-size:25px;margin-top:38px}.chapter h3{font-size:20px;margin-top:28px}p,li{max-width:850px}table{border-collapse:collapse;display:block;overflow-x:auto;width:100%;font-size:13px;line-height:1.5;margin:24px 0}th,td{text-align:left;border-bottom:1px solid var(--rule);padding:12px 14px;vertical-align:top;min-width:90px}th{background:#eaf0f3;font-weight:650}td:first-child{font-weight:550}pre{background:#f2f5f7;border:1px solid var(--rule);padding:22px;overflow:auto;font:12px/1.6 ui-monospace,monospace;max-width:100%}code{font-size:.86em;overflow-wrap:anywhere}blockquote{margin:25px 0;padding-left:20px;border-left:3px solid var(--blue)}.flowline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}.flowline div{border-top:3px solid var(--blue);padding-top:12px;font-size:14px}.flowline small{display:block;color:#586d78;font-size:12px;margin-top:7px}.note{font-size:13px;color:#526873}.toolbar{margin-top:25px;display:flex;gap:20px;flex-wrap:wrap;font-size:14px}button{font:inherit;background:var(--blue);color:white;border:0;padding:9px 16px;border-radius:4px;cursor:pointer}.search-wrap{margin-top:22px}label{font-size:12px;display:block;margin-bottom:5px}input{width:100%;padding:9px;border:1px solid #8da1ac;border-radius:3px;font:inherit;font-size:13px}.chapter[hidden]{display:none}.search-status{font-size:12px;min-height:20px;margin-top:7px}
+@media(max-width:1000px){.shell{grid-template-columns:210px minmax(0,1fr)}main{padding:35px 30px}aside{padding:25px 15px}}@media(max-width:720px){.shell{display:block}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--rule);padding:22px}nav{display:flex;overflow-x:auto;margin-top:20px}nav a{white-space:nowrap}aside .downloads{display:flex;flex-wrap:wrap;margin-top:18px}.search-wrap{max-width:350px}main{padding:28px 20px}.facts{grid-template-columns:1fr;gap:5px}.flowline{grid-template-columns:1fr 1fr}.chapter{padding-top:35px;margin-top:40px}.chapter h1{font-size:28px}.lead{font-size:18px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{aside,.toolbar,.search-wrap{display:none}.shell{display:block}main{padding:0}.chapter{break-before:page}.chapter[hidden]{display:block}body{font-size:11px}h1{font-size:28px}table{font-size:9px}a{color:inherit}}
+</style></head><body><a class="skip" href="#main">Skip to report</a><div class="shell"><aside><div class="brand">Fire Season<small>NASA Space Apps 2026 · Research</small></div><div class="search-wrap"><label for="search">Find a topic in this report</label><input id="search" type="search" placeholder="Try: calibration, soil, team"><div id="search-status" class="search-status" role="status"></div></div><nav aria-label="Report chapters"><a href="#decision">Decision and all 14 challenges</a><a href="#winners">Winners and prior art</a><a href="#prd">Product requirements</a><a href="#trd">Technical architecture</a><a href="#science">Data and model protocol</a><a href="#flow">App flow and visual design</a><a href="#team">Team and delivery</a><a href="#schema">Backend schema</a><a href="#repos">Repositories and models</a><a href="#skills">Requested skills audit</a><a href="#sources">Source index</a></nav><div class="downloads"><a href="output/pdf/fire-season-decision-brief.pdf">Team decision brief · PDF</a><a href="backend/schema.sql">PostgreSQL schema</a><a href="backend/openapi.json">API contract · JSON</a><a href="README.md">Workspace index</a></div></aside><main id="main"><header class="intro"><p class="date">19 September 2026 · Prepared for a team with Python and remote-sensing strength</p><h1>Make fire history<br>comparable.</h1><p class="lead">A challenge decision and implementation plan built around one question: did burning change, or did the observing system change?</p><div class="recommend"><strong>Choose MODIS–VIIRS hotspot harmonization.</strong>Build a seasonal calendar with defensible comparisons, visible uncertainty and evidence behind every result.</div><div class="facts"><div><h2>What is established</h2><p>Fourteen briefs compared. Past winners checked. Public NASA samples retrieved. Historical product records discovered. Relevant repositories and skill resources reviewed.</p></div><div><h2>What still needs proving</h2><p>Historical raster decoding, a fitted transfer model and held-out performance. This is a research and design package, not a validated fire-warning product.</p></div></div><div class="flowline" aria-label="Proposed core workflow"><div>Select a region<small>Use a bounded, reviewed pilot</small></div><div>Read the calendar<small>See seasonality and gaps</small></div><div>Inspect a comparison<small>Separate observations and estimates</small></div><div>Export the evidence<small>Reproduce the decision brief</small></div></div><div class="toolbar"><a href="#decision">Compare all challenges</a><a href="#prd">Read the product plan</a><button type="button" onclick="window.print()">Print report</button></div><p class="note">Scores and acceptance thresholds are proposed judgments. No accuracy, impact or winning probability is claimed.</p></header><section id="decision" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="research/challenges/challenge-comparison.md">Read Markdown source</a></div><h1>Which 2026 NASA Space Apps challenge should this team choose?</h1>
+<p>Research date: 18 September 2026. Decision memo, with live data smoke tests. Status: research and proposed design, not a scientifically validated application.</p>
+<h2>Executive Summary</h2>
+<p>Choose <strong>Harmonization of MODIS and VIIRS Hot Spots</strong> if the team has strong Python/data-science or remote-sensing capability and wants a practical Earth application. Build a calendar that answers a specific question: “Is this region experiencing unusually early or intense burning, or did our observing system change?” The core contribution should be a transparent comparison and calibration of satellite records, including uncertainty and observation coverage. The fire map is supporting context. This recommendation is an analyst judgment based on fit, achievable scope and demonstrated data access, not an estimate of winning probability.</p>
+<p>The top three are <strong>fire harmonization</strong>, <strong>Field Shift</strong>, and <strong>Earth System Trend Detective</strong>. Field Shift has the clearest potential connection to everyday decisions if the team can recruit an agronomist and interview farmers. Without that expertise, a polished crop-ranking interface risks presenting unvalidated agricultural advice. Trend Detective is the fallback with the best balance of mature data and tractable statistics, but it needs a concrete local investigation to differentiate it from NASA&#39;s existing analytical tools.</p>
+<p>NISAR is the strongest specialist alternative. Public provisional L-band data became available in July 2026; saying it is unavailable would be wrong. However, collection discovery is not proof that suitable before/after imagery exists for a chosen event. A NISAR entry should be selected only after downloading and processing an actual matching image pair.</p>
+<p>Small live requests succeeded for NASA POWER daily weather and FIRMS VIIRS regional detections. NISAR catalog metadata also returned successfully. Historical fire archives and Earthdata-protected science granules remain untested. Two integration hazards materially affect the farming option: SoilGrids reports its REST service paused, and NSIDC flags a 2026 SMAP geolocation issue. These findings favor a reproducible, cached scientific demonstration over dependence on unverified live integrations. [2–9,12–15,22–24]</p>
+<h2>Introduction</h2>
+<p>The comparison covers all fourteen entries in the user&#39;s pasted challenge list. The browser retrieval service initially returned errors. A later direct HTTP fetch of the official index and fire challenge succeeded; the fire summary is present in the page payload and matches the supplied brief. Its resources tab is empty in the retrieved payload. The supplied text remains the basis for the fourteen-way comparison; no additional resource requirements are invented. [1]</p>
+<p>The initial assumption was four to six mixed engineering/design teammates; the user subsequently confirmed strong Python/data-science or remote-sensing capability and a preference for farming, fire, climate or disaster impact. The decision method therefore weights practical impact at 25%, data readiness at 20%, scientific distinctiveness at 20%, demonstrability at 15%, hackathon feasibility at 15%, and validation tractability at 5%. Scores below are explicitly <strong>analyst estimates</strong>, not measured properties or official judging criteria. A score of five is favorable. The risk column remains separate to avoid hiding critical blockers in averages.</p>
+<h2>Main Analysis</h2>
+<h3>1. All fourteen choices</h3>
+<p>Brief descriptions and intended outcomes below are paraphrases of the user-supplied challenge text. Scores, demo concepts and risks are proposed analysis. Data readiness outside the four deep dives is a planning estimate, not a completed dataset audit. [1]</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th align="right">Impact</th>
+<th align="right">Data</th>
+<th align="right">Distinctiveness</th>
+<th align="right">Demo</th>
+<th align="right">Feasibility</th>
+<th align="right">Validation</th>
+<th align="right">Weighted /5</th>
+<th>Scientific or delivery risk; a focused demo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Harmonization of MODIS and VIIRS Hot Spots</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right"><strong>4.75</strong></td>
+<td>High statistical risk if raw counts are merged; show sensor discontinuity disappearing only where calibration passes validation.</td>
+</tr>
+<tr>
+<td>Field Shift: Adapting Farms with NASA Data</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right"><strong>4.30</strong></td>
+<td>Agronomy and field-scale validity; compare three feasible rotations under a farmer&#39;s water and labor constraints.</td>
+</tr>
+<tr>
+<td>Be An Earth System Trend Detective!</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right"><strong>4.20</strong></td>
+<td>False significance and causal overclaiming; show two nearby regions with opposing trends and honest uncertainty.</td>
+</tr>
+<tr>
+<td>Dancing with the SARs</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right"><strong>4.00</strong></td>
+<td>Paired coverage, interpretation and provisional quality; one verified wetland or flood-change case study.</td>
+</tr>
+<tr>
+<td>The Earth Information Jukebox</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right"><strong>3.85</strong></td>
+<td>Meaningful accessible mapping must be tested with users; hear and navigate one variable through time.</td>
+</tr>
+<tr>
+<td>Build a Junior Astronaut Mission Trainer</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right"><strong>3.80</strong></td>
+<td>Game balances can become invented science; one outpost survival loop with documented trade-offs.</td>
+</tr>
+<tr>
+<td>Space Mission Design Game</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right"><strong>3.65</strong></td>
+<td>Broad game scope; one mission design with visible mass/power/budget consequences.</td>
+</tr>
+<tr>
+<td>CLPS Lunar Mission Browser</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right"><strong>3.50</strong></td>
+<td>Terrain horizon and geometry precision; compare sunlight and Earth visibility at two sites.</td>
+</tr>
+<tr>
+<td>Abandoned but not Forgotten: Storytelling about NASA&#39;s Discarded Equipment on the Moon and Mars</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right"><strong>3.50</strong></td>
+<td>Low technical barrier but educational impact needs proof; an object-centered interactive historical story.</td>
+</tr>
+<tr>
+<td>Flame in Freefall: AI-Powered Fire Safety Insights from Microgravity Combustion Data</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right"><strong>3.35</strong></td>
+<td>Experimental comparability and document extraction; evidence-backed comparison of tightly selected experiments.</td>
+</tr>
+<tr>
+<td>Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right"><strong>3.30</strong></td>
+<td>Similarity depends on mission-specific weights; explain why one analog outranks another.</td>
+</tr>
+<tr>
+<td>Interplanetary Survival Guide: Martian Map</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right"><strong>3.25</strong></td>
+<td>Surface data integration and unsupported route safety; one annotated route with terrain uncertainty.</td>
+</tr>
+<tr>
+<td>Create Health Monitoring Software for Astronauts on Space Missions</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right"><strong>3.10</strong></td>
+<td>Representative longitudinal clinical data and intervention validity; human-reviewed health diary/trend prototype.</td>
+</tr>
+<tr>
+<td>Planet X and SPHEREx</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right"><strong>3.00</strong></td>
+<td>Image availability and astronomy expertise not audited here; image blinking with candidate triage, no discovery claims.</td>
+</tr>
+</tbody></table>
+<p>The ranks are intentionally sensitive to team composition. Adding a SAR scientist and a verified image pair could move NISAR above Trend Detective. Adding an agronomist and local extension partner could move Field Shift to first. Removing scientific capability would lower fire harmonization because its main achievement must survive scientific questioning. A beautiful map cannot compensate for an invalid merged record.</p>
+<h3>2. Fire harmonization: the recommended scientific product</h3>
+<p><strong>Verified data position.</strong> FIRMS offers historical MODIS Collection 6.1 records beginning 1 November 2000 and Suomi-NPP VIIRS 375 m records beginning 20 January 2012; NOAA-20 and NOAA-21 begin later. The historical archive supports CSV, JSON and shapefiles, with Earthdata or email authentication. NRT records are subsequently replaced by standard science-quality records with an approximately five-month lag. [8] The Area API requires a free map key, accepts a bounding box, and currently documents one to five days per call. Its stated transaction allowance is 5,000 per ten-minute interval; this is not permission to make inefficient bulk queries. [9]</p>
+<p>A live South Asia Suomi-NPP CSV returned HTTP 200, 63,834 bytes, and 787 records dated 17–18 September 2026. The local file preserves latitude, longitude, acquisition time, confidence, scan/track dimensions, brightness and FRP. This verifies one live regional feed; it does not verify a multi-year calibration dataset. [23] NASA documents nominal MODIS and VIIRS hotspot display scales of approximately 1 km and 375 m respectively, and cautions that fires of differing size/intensity can trigger detections. A hotspot is consequently not a count of independent wildfire incidents or a measured burned-area polygon. [10,11]</p>
+<p><strong>Proposed MVP.</strong> Select one substantial area with a known fire season and one contrasting validation area, subject to data inspection. Keep a stable pair of streams, preferably Aqua MODIS and Suomi-NPP VIIRS, separate during baseline analysis. Show (a) native records, (b) common spatial/temporal summaries, and (c) the experimental adjusted series. Build a weekly or monthly burning calendar rather than pretending individual 375 m pixels can be reconstructed before VIIRS existed. Use regional/seasonal calibration on the overlap period. Show the training period, withheld periods, calibration direction, sample sizes and uncertainty beside the chart.</p>
+<p><strong>Critical denominator decision.</strong> FIRMS CSV contains positive detections. A date with no records cannot distinguish a clear no-fire observation from a cloudy or missing observation. MOD14A1 explicitly distinguishes fire, no fire and no observation through a daily 1 km fire mask. NASA also lists VNP14A1 as a daily gridded 1 km VIIRS product. [18,19] The latter should not silently be treated as the observation mask for a different 375 m detection algorithm. Product compatibility, temporal compositing and coverage assumptions need explicit verification. Daily gridded coverage is an approximation of valid observed area-days, not exact satellite overpass effort.</p>
+<p>If compatible coverage is available, a proposed metric is detected active cell-days divided by valid observed land cell-days, multiplied by a stated scale such as 1,000. It must retain sensor identity, filters and uncertainty. If coverage cannot be obtained, label the result “sensor-calibrated detected activity” and show coverage unknown; do not claim an effort-adjusted or unbiased fire rate. A sensor-specific seasonal percentile can still support useful comparisons within that sensor, provided the limitations remain visible.</p>
+<p><strong>Validation plan (early alternatives; the final selected binomial model is specified in docs/03-MODEL-AND-DATA-PROTOCOL.md).</strong> Compare unadjusted common-grid aggregation against a transparent regional calibration baseline and one more flexible candidate. Use blocked time validation and a geographically withheld area; random row splitting would let closely related records contaminate evaluation. Report bias and error for monthly activity, peak-season timing error, interval coverage and behavior around sensor-change dates. Use a negative-binomial or hurdle/count model only if the count distribution and available covariates justify it. A high correlation alone does not prove harmonization: two sensors can track seasonality while disagreeing systematically in level.</p>
+<p>Ground truth must be named precisely. Landsat/HLS image interpretation or suitable agency incident records can provide external reference checks for selected events, with cloud/missingness and reporting limitations. A published MODIS study compared roughly 250,000 agency reports and found detection differences linked to fire/environmental attributes. [21] MCD64A1 and VNP64A1 burned-area products are useful corroboration but are not independent truth: the burned-area processing uses active-fire information. A recent primary study validated VIIRS burned area with interpreted Landsat pairs and still found substantial omission and commission error. [20] Do not optimize active-fire occurrence counts against burned hectares as though they were the same quantity.</p>
+<p>The strongest pitch is a visible before/after scientific diagnosis: a naive merge suggests an apparent change; the app exposes the sensor switch, applies a region-specific tested correction, and reports where evidence is insufficient. Every saved result includes a method receipt with source versions, filters, geometry and calibration version. An optional agent can explain that receipt and request a new analysis through constrained tools. It should never create measurements or make operational evacuation decisions.</p>
+<h3>3. Field Shift: potentially larger local relevance, more domain dependence</h3>
+<p><strong>Verified data position.</strong> POWER provides analysis-ready daily meteorological data, including an agriculture community and standard JSON/CSV formats. Its underlying meteorological spatial resolution is documented as 0.5 by 0.625 degrees. Requesting many nearby farm coordinates does not create local observations. [2,3] A live three-day request near Dhaka returned temperature and corrected precipitation, with unit metadata; the test demonstrates the connector, not accuracy at a particular farm. [24] HLS supplies harmonized surface reflectance at 30 m, with frequent nominal observations. Clouds still limit usable optical observations, and spectral greenness does not directly identify soil nutrient availability or guaranteed crop yield. [4]</p>
+<p>SMAP SPL4SMGP Version 8 provides three-hourly, 9 km modeled surface and root-zone soil moisture, with Earthdata authentication. The provider page notes a geolocation issue during 14 May–28 July 2026 and ongoing standard-product reprocessing; the effect on chosen exact granules must be checked. [5] SoilGrids offers 250 m predictions, six depth intervals and quantified uncertainty, but its official page reports the REST API temporarily paused without a restoration estimate. The maps use CC-BY 4.0. Official documentation describes GeoTIFF tiles and VRT access as alternatives. [6,7]</p>
+<p><strong>Proposed product.</strong> Limit the pilot to a defined agricultural zone, a small crop library and a documented set of rotations. Begin with current crop history, irrigation access, planting window, soil test or clearly labeled predicted soil properties, labor constraints and farmer priorities. Return three feasible rotation scenarios rather than an unsupported “best crop.” Each scenario explains which constraints it passes, where it requires irrigation or soil confirmation, and which priorities change its ranking. Climate anomalies inform stress scenarios; they do not become claims about exact field outcomes.</p>
+<p>The differentiator should be a legible rotation ledger: season one, season two, water demand assumptions, crop-family succession constraints, labor peak and evidence behind every rule. A useful live interaction is to reduce available irrigation or move a planting date and show which scenario becomes infeasible. Uncertainty must change the output, including asking for a soil measurement when a crucial variable is missing. Avoid invented percentages of yield improvement, income gain or nitrogen recovery.</p>
+<p>This option requires an agronomist or extension adviser to review crop rules and a few farmer interviews to establish the actual decision. A deterministic constraint engine and transparent scoring can be more defensible than training a predictive model on unrelated geography. Farmer-entered soil results should override coarse map priors with provenance preserved. The hackathon MVP can use cached raster subsets and explicit data timestamps. A multilingual explanation feature is valuable only after the agronomic comparison itself works.</p>
+<h3>4. Trend Detective and NISAR: two different alternatives</h3>
+<p><strong>Trend Detective.</strong> Mature NASA time-series access is a strength. Giovanni already supports visualization and analysis of geophysical variables and requires Earthdata login; its current beta page also warns of cloud-credit limits. MERRA-2 documentation points to visualization, statistics and downloads through Giovanni. [14,15] IMERG provides half-hourly 0.1-degree precipitation products, with Final Run more suited to retrospective research and a typical multi-month latency. [16,17] These are concrete acquisition routes, though no protected granules were downloaded in this memo.</p>
+<p>The proposed product should focus on one real investigation, such as changing dry-season heat and rainfall in contrasting agricultural districts. Include trend magnitude in physical units per decade, a baseline period, missingness, seasonal adjustment and confidence intervals. Distinguish change from evidence of a monotonic trend, and both from causal explanation. The Mann–Kendall test alone does not account for serial correlation or seasonality; the documentation explicitly warns about these assumptions. [25] Appropriate resampling, season handling and multiple-testing control are requirements for the proposed analysis, not cosmetic advanced features.</p>
+<p>The distinctive demo could let a user compare a raw trend with its seasonal and autocorrelation-aware assessment, then reveal when a visually striking change is statistically inconclusive. A plain map with linear trend lines would reproduce existing tools. A claim-checking workbench that explains exactly why a statement is or is not supported is more compelling, and can be delivered with a small reproducible dataset.</p>
+<p><strong>NISAR.</strong> ASF&#39;s release notice dates initial public calibrated L-band access to 20 July 2026, covering observations on or after 17 June, with the full first-year record expected later in 2026. The catalog now contains provisional and beta collections, so that notice must not be interpreted as a permanent lower bound on every dataset&#39;s available date. [12,22] A live CMR query found <code>NISAR_L2_GCOV_PROVISIONAL_V1</code>, collection <code>C2854338529-ASF</code>. Its metadata explicitly describes partial validation and ongoing quality work; beta metadata says beta products are not intended for scientific research. [22]</p>
+<p>GCOV is an attractive entry point because it provides terrain-corrected gamma-0 backscatter. The guide describes 10 or 20 m posting for many primary-frequency land products and 80 m for the secondary frequency; pixel spacing is not synonymous with independently validated physical resolving power. Polarization availability depends on acquisition mode. [13] A credible hackathon demo would use one actual, matching before/after pair with compatible geometry, polarization, product maturity and processing version. It would show radar change candidates and supporting context, not automatically classify all bright/dark changes as flood, forest loss or crop failure.</p>
+<p>No NISAR binary science file was downloaded here, and no usable pair for Bangladesh or another target was verified. That is a selection gate, not a minor implementation detail. NISAR can outperform the top-three options for a team with SAR experience and prevalidated imagery. Without that gate, it introduces more schedule risk than the mature fire record.</p>
+<h2>Synthesis &amp; Insights</h2>
+<p>The four strongest options all become more credible when the unit of decision is narrow: a region-month for fire, a rotation for farms, a testable local claim for trends, or a verified image pair for NISAR. More datasets increase the number of assumptions that have to be reconciled. NASA source count is not a substitute for showing what each source contributes.</p>
+<p>Fire harmonization best matches the revised team profile because the difficult scientific work is also the product&#39;s main story. Field Shift can deliver more immediate local understanding, but its critical knowledge lies partly outside satellite data. NISAR offers freshness and visual drama at the cost of a stricter acquisition and interpretation gate. Trend Detective has the safest fallback path if time or access blocks the others.</p>
+<h2>Recommendations</h2>
+<p>Select fire harmonization provisionally, then run a short feasibility gate before recruiting around an overbroad vision. The data lead must obtain overlapping historical MODIS and VIIRS data for two candidate areas, inspect completeness, and establish whether compatible non-fire/coverage masks are obtainable. The science lead must define the target quantity and an honest validation reference. If those gates fail, retain a sensor-separated calendar and disclose the limits, or switch to Trend Detective rather than claiming a corrected record that was never validated.</p>
+<p>Recruit one geospatial/data engineer, one statistician or remote-sensing scientist, one backend engineer, one visualization/frontend engineer, and one product/design/storytelling lead; a sixth teammate can focus on external reference review and user interviews. These are responsibilities and can overlap. The first demonstration should contain a single scientifically meaningful interaction, a failure case and a reproducible evidence export. Add agent explanations only after that workflow is dependable.</p>
+<h2>Limitations &amp; Caveats</h2>
+<p>This memo does not promise exhaustive coverage of all datasets or all possible challenge concepts. Ten challenges received a brief-level comparison rather than a data-by-data audit. Rankings depend on inferred team size, confirmed technical strength and preference for practical Earth impact. The selected official fire page was retrieved directly after browser-service errors; its resource tab was empty at retrieval. Dataset versions, service notices and access rules can change before the hackathon.</p>
+<p>The small live tests establish HTTP access and response structure, not scientific validity or reliability at scale. Earthdata-authenticated file downloads, FIRMS historical export completion, end-to-end calibration, reference labeling and agronomic validation remain future work. Most metadata facts appropriately have one canonical provider source; independent validation is discussed separately and was not invented to satisfy an arbitrary citation count.</p>
+<h2>Methodology Appendix</h2>
+<p>Primary-source searches covered the official Space Apps domain, NASA POWER, FIRMS, NASA Earthdata, HLS, NSIDC, ASF, ISRIC, NASA GPM and primary research on fire validation. Contradictions were retained: SoilGrids Swagger remains searchable while its official landing page says the service is paused; NISAR&#39;s dated release notice and live catalog describe different stages of archive growth. Current provider notices took precedence over stale generalized assumptions.</p>
+<p>Files <code>sources.jsonl</code>, <code>evidence.jsonl</code>, <code>claims.jsonl</code> and <code>run_manifest.json</code> preserve source identity, short quotes with locators, claim status and limitations. <code>access_checks.json</code> records live request results. Downloaded NASA samples are preserved alongside this memo. A direct shell network test initially failed under the sandbox; the authorized network-enabled retry succeeded. No private credentials were read or created, and no historical dataset availability is inferred merely from an API documentation page.</p>
+<h2>Bibliography</h2>
+<p>[1] 2026 challenge briefs supplied by user. <a href="https://www.spaceappschallenge.org/2026/challenges/">user_supplied</a>. Retrieved 18 September 2026.</p>
+<p>[2] NASA POWER API tutorial. <a href="https://power.larc.nasa.gov/docs/tutorials/service-data-request/api/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[3] NASA POWER Daily API. <a href="https://power.larc.nasa.gov/docs/services/api/temporal/daily/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[4] Harmonized Landsat and Sentinel-2. <a href="https://hls.gsfc.nasa.gov/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[5] SMAP SPL4SMGP Version 8. <a href="https://nsidc.org/data/spl4smgp/versions/8">official_data_centre</a>. Retrieved 18 September 2026.</p>
+<p>[6] SoilGrids global gridded soil information. <a href="https://isric.org/explore/soilgrids">official_data_provider</a>. Retrieved 18 September 2026.</p>
+<p>[7] SoilGrids layers. <a href="https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_01.html">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[8] FIRMS archive download. <a href="https://firms.modaps.eosdis.nasa.gov/download/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[9] FIRMS Area API. <a href="https://firms.modaps.eosdis.nasa.gov/api/area/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[10] NASA FIRMS WMS. <a href="https://firms.modaps.eosdis.nasa.gov/mapserver/wms-info/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[11] FIRMS US/Canada FAQ. <a href="https://forum.earthdata.nasa.gov/viewtopic.php?t=5200">official_support</a>. Retrieved 18 September 2026.</p>
+<p>[12] NISAR L-Band Data Now Publicly Available. <a href="https://asf.alaska.edu/notices/nisar-l-band-data-now-publicly-available/">official_data_centre</a>. Retrieved 18 September 2026.</p>
+<p>[13] NISAR GCOV Data User Guide. <a href="https://nisar-docs.asf.alaska.edu/gcov/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[14] NASA Giovanni. <a href="https://giovanni.earthdata.nasa.gov/">official_application</a>. Retrieved 18 September 2026.</p>
+<p>[15] MERRA-2 data access. <a href="https://gmao.gsfc.nasa.gov/gmao-products/merra-2/wmo-data-access_merra-2/">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[16] IMERG technical documentation. <a href="https://gpm.nasa.gov/sites/default/files/2023-07/IMERG_TechnicalDocumentation_final_230713.pdf">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[17] IMERG latency. <a href="https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg">official_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[18] MOD14A1.061 Earth Engine catalog. <a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD14A1">platform_documentation</a>. Retrieved 18 September 2026.</p>
+<p>[19] VNP14A1 NASA product record. <a href="https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP14A1">official_product_record</a>. Retrieved 18 September 2026.</p>
+<p>[20] NASA VIIRS burned area product validation and MODIS comparison. <a href="https://doi.org/10.1016/j.rse.2025.115006">primary_research</a>. Retrieved 18 September 2026.</p>
+<p>[21] Detection rates and biases of MODIS and agency reports. <a href="https://www.sciencedirect.com/science/article/pii/S0034425718304826">primary_research</a>. Retrieved 18 September 2026.</p>
+<p>[22] NISAR CMR catalog query, live response. <a href="https://cmr.earthdata.nasa.gov/search/collections.json?keyword=NISAR%20GCOV&page_size=5">live_api</a>. Retrieved 18 September 2026.</p>
+<p>[23] FIRMS VIIRS South Asia 24-hour sample. <a href="https://firms.modaps.eosdis.nasa.gov/data/active_fire/viirs/csv/SUOMI_VIIRS_C2_South_Asia_24h.csv">live_api</a>. Retrieved 18 September 2026.</p>
+<p>[24] POWER Dhaka-area 3-day sample. <a href="https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=90.4&latitude=23.8&start=20240101&end=20240103&format=JSON">live_api</a>. Retrieved 18 September 2026.</p>
+<p>[25] Trend generation documentation. <a href="https://gis.earthdata.nasa.gov/portal/help/en/11.5/analyze/generate-trend.htm">platform_documentation</a>. Retrieved 18 September 2026.</p>
+</section><section id="winners" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="research/winners/winners-and-competition-research.md">Read Markdown source</a></div><h1>NASA Space Apps: verified winners, prior art, and competition constraints</h1>
+<p>Research date: 18 September 2026. Scope: official 2023–2025 global winners; relevant creator repositories; rules discoverable for 2026. This is a research module for challenge selection, not a prediction of winning odds.</p>
+<h2>What changes the product decision</h2>
+<p>Agricultural decision support and environmental interfaces have already won. In 2024, Waterwise won Best Use of Data, 2plant | ! 2plant won Galactic Impact, and G.R.O.W. won Local Impact. A new crop map, irrigation dashboard, or conversational wildfire map therefore needs a specific improvement over existing work. These identities and award categories are confirmed by NASA, rather than inferred from a team describing itself as a finalist. <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-international-space-apps-challenge-announces-2024-global-winners/">2024 NASA announcement</a></p>
+<p><strong>Recommended differentiation test (our inference):</strong> name one user, one consequential decision, one observable input, one reproducible calculation, and one evidence-backed output. Then demonstrate why that decision is better supported than by the nearest winner. For a smallholder application, potential differences include cooperative resource allocation, explicit satellite-resolution limits, field observations that can overturn the model, and a retrospective test on a named season. These are proposed product directions, not established gaps across the entire market.</p>
+<p>Do not present an LLM, agent workflow, or number of integrated datasets as the innovation itself. GROW&#39;s current public implementation already documents OpenAI Realtime, tool calls, satellite data, map navigation, weather context, and cached queries. A voice assistant over a map would be weak differentiation. <a href="https://github.com/Florianopolis-NASA-Space-Apps/wildfires_chat_dashboard">GROW repository</a></p>
+<h2>Relevant winning approaches</h2>
+<table>
+<thead>
+<tr>
+<th>Verified winner</th>
+<th>What is substantiated</th>
+<th>Implication for a new project</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2024 GaamaRamma — Waterwise; Best Use of Data</td>
+<td>Farmer water management</td>
+<td>Avoid treating generic agricultural water advice as new.</td>
+</tr>
+<tr>
+<td>2024 NVS-knot — 2plant | ! 2plant; Galactic Impact</td>
+<td>Planting risk from soil moisture and evapotranspiration</td>
+<td>A planting recommendation needs a differentiated workflow or validation.</td>
+</tr>
+<tr>
+<td>2024 Team I.O. — G.R.O.W.; Local Impact</td>
+<td>Accessible environmental GIS</td>
+<td>A map/chat interface alone is insufficient novelty.</td>
+</tr>
+</tbody></table>
+<p>Source for award identities and descriptions: <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-international-space-apps-challenge-announces-2024-global-winners/">NASA&#39;s 2024 winner announcement</a>.</p>
+<p>The creators of 2Plant describe a field map with charts, moisture information, forecasts, and a final recommendation about planting. Their own account identifies a team containing software development, design, QA, and remote-sensing expertise. This is stronger evidence for combining domain knowledge with implementation than for choosing a fashionable ML architecture. The creator article labels a section “2025,” but NASA attributes the award to the <strong>2024 competition</strong>, announced in January 2025; retain the competition year in comparisons. The creator article is first-party product description, not an independent validation of crop outcomes. <a href="https://vitechteam.com/blog/how-vitech-s-agtech-innovation-won-the-nasa-space-apps-challenge">VITech account</a></p>
+<table>
+<thead>
+<tr>
+<th>Verified 2025 winner</th>
+<th>Relevant approach</th>
+<th>Product lesson, inferred</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Twisters — SkySense; Best Use of Technology</td>
+<td>Weather risk and activity windows</td>
+<td>Turn data into a bounded decision.</td>
+</tr>
+<tr>
+<td>QUEÑARIS; Local Impact</td>
+<td>Queñua restoration for Arequipa water security</td>
+<td>Tie a specific ecosystem to a specific community need.</td>
+</tr>
+<tr>
+<td>Zumorroda-X; Art &amp; Technology</td>
+<td>Agricultural learning through games</td>
+<td>Education can be central when the challenge calls for it.</td>
+</tr>
+<tr>
+<td>SpaceGenes+; Best Use of Science</td>
+<td>Combined spaceflight stressors and molecular responses</td>
+<td>A scientific question can organize the interface.</td>
+</tr>
+</tbody></table>
+<p>Source: <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-announces-2025-international-space-apps-challenge-global-winners/">NASA&#39;s 2025 winner announcement</a>. These descriptions substantiate project intentions, not validated prediction accuracy or measured social impact.</p>
+<p>QUEÑARIS also has evidence of activity after the competition: Peru&#39;s forestry service reported work with Tecsup in February 2026 to identify suitable planting locations from moisture, soil, slope, and other inputs. This supports the value of an implementable partner relationship; it does not establish survival improvement or causal water benefits. <a href="https://www.gob.pe/institucion/serfor/noticias/1352647-arequipa-serfor-y-tepsup-impulsan-reforestacion-de-quenua-con-inteligencia-artificial-como-herramienta-tecnica">SERFOR government report</a></p>
+<p>For a Bangladesh team, there is a relevant precedent: <strong>TeamVoyagers won 2023 Best Storytelling</strong> with a water-cycle game. Storm Prophet won that year&#39;s Best Use of Data using LSTM-based geomagnetic-storm modeling. These show that educational communication and technical modeling have both been recognized, but do not prove that either approach is favored in 2026. <a href="https://science.nasa.gov/directorates/smd/2023-nasa-international-space-apps-challenge-announces-10-global-winners/">NASA&#39;s 2023 announcement</a></p>
+<h2>What was actually checked in code and models</h2>
+<p><strong>GROW:</strong> the current repository declares MIT licensing, React/TypeScript, Mapbox, FIRMS MODIS NRT, Open-Meteo, browser SQL persistence, and OpenAI Realtime tool calling. It identifies Team I.O. and links NASA&#39;s winner announcement, making the identity connection strong. The README is an implementation description; we did not run the app, independently benchmark it, or verify its exact submission-time commit. Its present content must not be described as a verbatim snapshot of the 2024 hackathon. Its inconsistent “finalist” terminology does not override NASA&#39;s confirmed Local Impact award. <a href="https://github.com/Florianopolis-NASA-Space-Apps/wildfires_chat_dashboard">Repository</a></p>
+<p><strong>Storm Prophet:</strong> the repository identifies the 2023 team and links the matching official team/challenge. It documents TensorFlow LSTM prediction of Dst from DSCOVR, StandardScaler preprocessing, anomaly processing, a visualization app, and an MIT license. The referenced training file is <code>src/ml/lstm_andrew_clean.py</code>, but a direct code-file fetch failed; architecture depth, exact hyperparameters, split methodology, accuracy, and checkpoint reproducibility remain unverified. <a href="https://github.com/Wizard2007/storm-prophet">Repository</a></p>
+<p><strong>Other winner model claims:</strong> NASA describes 42 QuakeHeroes as using a deep neural network and signal processing; this does not identify a reproducible architecture. Model names, training data partitions, evaluation results, and deployable checkpoints for Waterwise, 2Plant, SkySense, and QUEÑARIS were not verified in this bounded search. Do not invent them or label guessed GitHub matches as their official code. <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-international-space-apps-challenge-announces-2024-global-winners/">2024 announcement</a></p>
+<p>The unrelated <code>water-wise/WATERWISE</code> repository describes a MENA water-infrastructure initiative; its name alone does not establish a relationship to GaamaRamma. It is <strong>excluded from verified winning repositories</strong>. <a href="https://github.com/water-wise/WATERWISE">Unmatched repository</a></p>
+<h2>Competition rules: current versus historical</h2>
+<p>The official homepage confirms <strong>14–15 November 2026</strong>. <a href="https://www.spaceappschallenge.org/">Official homepage</a></p>
+<p>The <strong>2026 Participant Terms and Conditions</strong>, updated August 7, require an eligible submission to address official challenge statements. Original content must be freely available without restriction or under an OSI-compliant license; NASA specifies Apache 2.0 distribution if no eligible license is selected. Third-party material requires appropriate availability/licensing documentation. Every source must be credited, including open resources. The terms allow removal of awards for missing resource citations. These requirements make a license-and-provenance inventory part of the architecture, not optional paperwork. <a href="https://www.spaceappschallenge.org/legal/">2026 terms</a></p>
+<p>The discoverable submission and formation guides are still labeled <strong>2025</strong>. Treat the following as preparation defaults pending 2026 confirmation: maximum six members; all members confirmed at the same event; a public project and demo; English submission; demo up to seven slides or 30 seconds; NASA data/resources for Global Award eligibility; judging across Impact, Creativity, Validity, Relevance, Presentation. The 2025 AI policy permits AI but requires disclosure, visible watermarks on generated images/video, and descriptive/metadata acknowledgment for audio, code, and data. Generated material may not modify/include NASA branding. These are historical guide requirements, not silently asserted 2026 rules. <a href="https://www.spaceappschallenge.org/resources/team-formation-guide/">Team formation guide</a> · <a href="https://www.spaceappschallenge.org/resources/project-submission-guide/">Submission guide</a></p>
+<p><strong>Pre-event work is unresolved for 2026.</strong> A legacy 2022 FAQ asks teams to begin actual work when that hackathon starts; it cannot establish this year&#39;s exact boundary. Researching users, evaluating data availability, identifying teammates, and drafting an explicitly labeled preparation plan are sensible now. Before building a competition submission, obtain the current official rule on prebuilt code, derived models, and pre-event prototypes. This recommendation follows from uncertainty; it is not a claimed rule that forbids the present research. <a href="https://legacy.spaceappschallenge.org/resources/faq/">Legacy FAQ</a></p>
+<h2>Recommended team and evidence strategy</h2>
+<p>Our recommendation is a five-person core: domain/data science, geospatial engineering, backend/model evaluation, product/frontend, and research/storytelling. Assign a secondary reviewer for every scientific claim. A sixth teammate is useful only if they add a concrete capability such as agronomy, hydrology, accessibility research, or high-quality scientific communication. Confirm the 2026 team limit before registration.</p>
+<p>For challenge selection, favor the project with the strongest reachable domain partner and usable validation labels. Recruit an actual decision-maker early, prepare three task scenarios, define a baseline the product must beat, and agree which uncertainty requires human review. A polished demonstration should expose its input dataset, date, resolution, and calculation behind each recommendation. The judge should be able to inspect an answer rather than trust its wording.</p>
+<p>Keep a dated research folder now. During the event, keep a separate implementation history, dataset manifest, model card, assumptions register, and AI assistance disclosure. Select one primary award fit but satisfy the full judging rubric; award categories are not separate scientific validity standards. None of these actions guarantees selection.</p>
+<h2>Limits and source handling</h2>
+<p>Official award announcements are authoritative for winner status, not independent audits of a project&#39;s marketing claims. Project page detail links frequently returned 502/timeouts. Search snippets were used where official indexed text was accessible; those failures are recorded in <code>evidence.jsonl</code>. Repository readmes were inspected, but projects were not executed. This module does not claim an exhaustive scan of GitHub or all historical submissions. All 30 award/team identities are listed in <code>global-winners-2023-2025.csv</code>; focused interpretation above is deliberately narrower.</p>
+<p><code>sources.jsonl</code> contains stable source IDs and retrieval details. <code>evidence.jsonl</code> stores paraphrased evidence and limitations; <code>claims.jsonl</code> distinguishes directly supported facts from inferred recommendations. Independent corroboration is unavailable for most implementation claims, so they remain attributed rather than presented as proven outcomes.</p>
+</section><section id="prd" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/01-PRD.md">Read Markdown source</a></div><h1>Fire Season — Product requirements</h1>
+<p>Version 1.0 · Prepared 19 September 2026 · Proposal, not a deployed or validated service.</p>
+<h2>Product decision</h2>
+<p>Enter <strong>Harmonization of MODIS and VIIRS Hot Spots</strong>. Build a burning-activity calendar for a regional environmental analyst deciding when to intensify monitoring and how to interpret changes across years. The product&#39;s central question is: <strong>“Did burning change, or did the observing system change?”</strong> The official challenge explicitly asks for harmonized records, historical patterns, unusual conditions and critical periods within an area of interest. <a href="https://www.spaceappschallenge.org/2026/challenges/harmonization-of-modis-and-viirs-hot-spots/">Official challenge</a></p>
+<p>The proposed name is a working name; trademark/domain availability has not been checked. The team has confirmed strong Python/data-science or remote-sensing experience and a preference for practical Earth impact. Plan for five people, with responsibilities that can be combined for four or split for six. Confirm the current event&#39;s team rules before registration.</p>
+<h2>Problem and user</h2>
+<p>An environmental analyst can find satellite hotspots, but comparing a modern VIIRS map to older MODIS observations is not straightforward. Different detection sensitivity, spatial support, overpass sampling, clouds and product versions can change the picture. Counting every dot as a separate fire compounds the problem. NASA&#39;s product guides describe detection and compositing behavior; they do not establish that an unadjusted merged count is a homogeneous historical record. <a href="https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf">MODIS guide</a> · <a href="https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf">VIIRS guide</a></p>
+<p>The primary user is a district or regional land-management analyst preparing a seasonal monitoring brief. A secondary user is a researcher checking whether a reported increase survives sensor and coverage controls. A community organizer may read the exported brief, but the MVP is not an emergency dispatch or evacuation product. Agricultural burning and wildfire are both in scope as detected thermal activity; neither cause nor legality is inferred from a hotspot alone.</p>
+<p>The initial regional candidate is a bounded northeast India–Myanmar area, where a public catalog query returned historical MODIS and VIIRS granules. This is an access finding, not a verified suitable study area. Choose the final boundary only after reviewing overlap, coverage, activity and an accessible local user. Use a second, nonadjacent area for external evaluation. Bangladesh can be an expansion case after checking whether its smaller burns and persistent thermal sources provide a useful signal at the chosen scale.</p>
+<h2>Job to be done</h2>
+<p>“When I prepare next month&#39;s monitoring plan, help me see the typical burning season, inspect an unusual month, and explain whether the comparison is credible, so I can decide where further investigation is justified.”</p>
+<p>The output is an inspectable comparison and a monitoring brief. A saved result records its region, period, sources, exclusions, calibration direction, model version and uncertainty. A teammate should reproduce the same result from that receipt. There is no claim yet that using the product reduces fire losses; that requires a later field evaluation.</p>
+<h2>Signature interaction</h2>
+<p>Open one region&#39;s calendar. Select a month that looks unusually active. Switch from “Sensor records” to “Comparable activity.” The app shows which differences persist after the approved adjustment, where observations are sparse, and which source change explains part of the difference. Click the month to inspect the raw observations and model receipt. If adjustment has not passed validation, the comparison is explicitly unavailable rather than silently substituted.</p>
+<p>This is the moment to design and rehearse. The map, the explanation assistant and exports support it. GROW&#39;s current public implementation already combines FIRMS, map exploration, weather and a voice agent, so those features alone are not the distinguishing contribution. <a href="https://github.com/Florianopolis-NASA-Space-Apps/wildfires_chat_dashboard">GROW repository</a></p>
+<h2>Scope and acceptance criteria</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Priority</th>
+<th>Capability</th>
+<th>Acceptance criterion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P01</td>
+<td>Must</td>
+<td>Select region</td>
+<td>Two curated study regions load without login. User can draw/upload a bounded polygon; invalid geometry receives an actionable error.</td>
+</tr>
+<tr>
+<td>P02</td>
+<td>Must</td>
+<td>Sensor calendars</td>
+<td>Monthly calendar and native series preserve product/platform identity; no MODIS/VIIRS point-count summation is labeled harmonization.</td>
+</tr>
+<tr>
+<td>P03</td>
+<td>Must</td>
+<td>Coverage display</td>
+<td>Unknown, cloud-obscured, valid non-fire and detected fire are distinguishable. Empty results never imply safety.</td>
+</tr>
+<tr>
+<td>P04</td>
+<td>Must</td>
+<td>Comparable activity</td>
+<td>Only a released calibration can produce a common-reference estimate; bounds, scope and source direction are visible.</td>
+</tr>
+<tr>
+<td>P05</td>
+<td>Must</td>
+<td>Anomaly context</td>
+<td>Compare against the same calendar month in a documented baseline. Exclude the evaluated year from its own baseline.</td>
+</tr>
+<tr>
+<td>P06</td>
+<td>Must</td>
+<td>Inspect evidence</td>
+<td>Selecting a bin exposes source IDs, valid support, QA choices, calibration version and limitations.</td>
+</tr>
+<tr>
+<td>P07</td>
+<td>Must</td>
+<td>Reproducible export</td>
+<td>Download CSV and JSON receipt. Re-running an immutable analysis reproduces its values within documented floating-point tolerance.</td>
+</tr>
+<tr>
+<td>P08</td>
+<td>Must</td>
+<td>Honest failures</td>
+<td>Missing masks, insufficient overlap, unsupported platforms and out-of-domain predictions suppress adjusted output.</td>
+</tr>
+<tr>
+<td>P09</td>
+<td>Should</td>
+<td>Region comparison</td>
+<td>Two regions share metric units and baseline controls; each retains its own coverage and calibration status.</td>
+</tr>
+<tr>
+<td>P10</td>
+<td>Should</td>
+<td>Readable brief</td>
+<td>Generate a printable one-page monitoring brief containing the selected period, comparison and material limitations.</td>
+</tr>
+<tr>
+<td>P11</td>
+<td>Should</td>
+<td>Guided explanation</td>
+<td>A bounded agent answers questions from stored results and citations. It cannot invent numbers or run arbitrary code.</td>
+</tr>
+<tr>
+<td>P12</td>
+<td>Later</td>
+<td>Seasonal watch</td>
+<td>Opt-in observations of unusual detected activity, after prospective evaluation and delivery consent.</td>
+</tr>
+<tr>
+<td>P13</td>
+<td>Later</td>
+<td>Finer products</td>
+<td>L2 matched-overpass calibration, additional regions and 375 m harmonization after independent validation.</td>
+</tr>
+</tbody></table>
+<p>The minimum convincing submission includes P01–P08 for one pilot plus held-out evaluation. If P04 fails its scientific gate, ship the transparent comparison but describe it as an incomplete harmonization prototype. For challenge selection before the event, that failure is a reason to pivot to Trend Detective; it is not a reason to relabel raw aggregation as harmonization.</p>
+<h2>Excluded from the hackathon</h2>
+<p>No wildfire spread prediction, automatic evacuation advice, burned-hectare estimation from hotspot counts, ignition-cause classifier, carbon accounting, global universal correction factor, drone dispatch, blockchain, social feed or marketplace. No large foundation-model training. A future notification feature needs separate operational validation. These exclusions protect the actual scientific question and the team&#39;s demonstration time.</p>
+<h2>Data contract visible to users</h2>
+<p>“Comparable activity” means an estimate of what the reference satellite product would have recorded under the documented transfer model. It does not mean the true number of fires. The primary scientific stream uses compatible daily 1 km gridded products, initially Aqua MODIS and Suomi-NPP VIIRS. FIRMS 375 m points form a separately labeled recent-observation layer. The two streams must never share a denominator by accident. VNP14A1 is derived from VIIRS 750 m bands and composites observations over 24 hours. <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002">NASA VNP14A1</a></p>
+<p>Every result distinguishes observed values, modeled values and unavailable values in both text and visual encoding. Showing a satellite-era boundary is mandatory. A confidence interval is labeled as model/resampling uncertainty, with a note that it does not cover all sensor omission or domain-shift error.</p>
+<h2>Measures of success</h2>
+<p>Proposed usability targets: at least four of five representative test users correctly identify the high-activity season, distinguish no observation from no detected fire, and locate the source receipt without help. Record time and mistakes; do not claim five interviews are a population study. Target a cached region calendar loading within two seconds on the declared test laptop/network, and a cached month inspection within 300 ms. These are targets, not achieved benchmarks.</p>
+<p>Scientific success is defined in the model protocol: improved held-out transfer error over transparent baselines, no material regression in season timing, calibrated uncertainty assessed on held-out blocks, and correct abstention. Success also includes demonstrating a case in which the app refuses a comparison. A polished false answer is a failed product.</p>
+<h2>Impact and adoption hypothesis</h2>
+<p>The practical benefit is reduced ambiguity in seasonal planning and historical reporting. Test it by asking users to complete the same brief with FIRMS/native plots and with Fire Season, then compare interpretation errors, time and whether they can explain uncertainty. Recruit an environmental researcher or forestry/land-management contact to review the first pilot. The team may prepare outreach materials; no contact has been messaged during this research.</p>
+<p>Longer-term maintenance requires an owner for source-version updates, calibration releases and user support. A public repository plus downloadable evidence is the initial distribution model. Institutional hosting or NGO support can be evaluated after a useful pilot; there is no validated revenue model in this plan.</p>
+</section><section id="trd" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/02-TRD.md">Read Markdown source</a></div><h1>Fire Season — Technical requirements and architecture</h1>
+<p>Status: proposed implementation contract. No production service, fitted calibration or historical raster pipeline is claimed complete.</p>
+<h2>Architecture decision</h2>
+<p>Use Python for science and a TypeScript web interface. A FastAPI service coordinates immutable analyses, reads metadata from PostgreSQL/PostGIS and reads analytical partitions from Parquet through DuckDB. A separate Python worker performs discovery, raster extraction, aggregation and calibration. Keep original granules and derived artifacts in object storage with checksums. For a hackathon, a single worker process and a PostgreSQL job table are sufficient; add a broker only when workload measurements justify it.</p>
+<p>Use React with Vite for the application, MapLibre for the contextual map and SVG/canvas for the calendar and comparison plot. This product does not need server-rendered marketing pages. Pin supported dependency versions when implementation begins. This is a proposed stack selection, not a statement that a particular framework is required by NASA.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[NASA catalogs and science granules] --&gt; B[Python ingest and QA]
+  C[FIRMS recent detections] --&gt; B
+  B --&gt; D[Immutable object storage]
+  B --&gt; E[Parquet observations and coverage]
+  E --&gt; F[Aggregation and calibration worker]
+  F --&gt; G[Analysis artifacts and evaluation]
+  H[PostgreSQL / PostGIS metadata] &lt;--&gt; F
+  G --&gt; I[FastAPI]
+  H &lt;--&gt; I
+  I --&gt; J[React calendar and MapLibre]
+  I --&gt; K[Bounded explanation tools]
+  K --&gt; J
+</code></pre>
+<p>The map is not the analytical database. Large point collections are clipped and simplified server-side. Raster arrays remain outside PostgreSQL; metadata, access control, region geometries, analysis states and compact monthly summaries live inside it. An analysis references an immutable source manifest rather than “latest data.”</p>
+<h2>Ingestion and provenance</h2>
+<ol>
+<li>Discover granules by product/version, time interval and region through CMR. Paginate until complete; a two-result discovery request proves only discovery.</li>
+<li>Download through the authorized Earthdata workflow. Store ETag/provider checksum if offered and a local SHA-256, retrieval time, source URL, processing version and source time span. Never expose credentials in receipts.</li>
+<li>Decode the product-specific fire mask and quality fields. Validate array shapes, CRS, affine transform, fill values and temporal dimension. MODIS A1 daily layers may be packaged in an eight-day file: decode the file&#39;s actual daily planes, not one row per file.</li>
+<li>Preserve native tile/pixel identities. Verify geotransforms before asserting common-grid alignment; use categorical nearest-neighbor/mask-preserving operations if reprojection is needed, never bilinear interpolation of classes.</li>
+<li>Write partitioned Parquet observations and a coverage manifest. A unique product/granule checksum plus pixel/day key prevents duplicate ingestion.</li>
+<li>Compute monthly sufficient statistics and publish only after QA. Failed ingestion does not replace the previous successful snapshot.</li>
+</ol>
+<p>The product manuals, not file-name guesses, define class decoding. <a href="https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf">MODIS C6/C6.1 guide</a> · <a href="https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf">VIIRS guide</a></p>
+<h2>Two deliberately separate observation streams</h2>
+<p><strong>Science stream:</strong> MYD14A1 Collection 6.1 and VNP14A1 Version 2 daily 1 km masks. Build valid cell-day support and common-reference activity summaries. An initial historical span of 2013–2024 is a candidate to inspect, not a verified complete archive. Start with two tiles/regions and a few overlap seasons before scaling.</p>
+<p><strong>Recent context stream:</strong> FIRMS MODIS and VIIRS 375 m detections, retaining platform, collection, acquisition time, day/night, confidence, scan/track and FRP. Show NRT status. Never use its detection count as the numerator for the A1 mask denominator. Do not deduplicate different satellites as identical events; only exact provider observations/revisions are deduplicated.</p>
+<p>NASA announces that Suomi-NPP science-product delivery will cease on 1 November 2026 and recommends VJ214A1/NOAA-21 or VJ114A1/NOAA-20 alternatives. Existing historical NPP data remains useful for a retrospective demonstration. A contemporary extension needs a separately evaluated transfer for each platform; renaming the stream is not sufficient. <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002">NASA product notice</a></p>
+<h2>Analysis object and state machine</h2>
+<p>An analysis contains region revision, source snapshot, requested dates, monthly baseline years, QA-policy version, common grid, reference product and optional released calibration. Compute a canonical request hash after normalizing JSON and geometry. Use that hash for cache lookup, not for authorization.</p>
+<p>States are <code>queued → running → succeeded | failed | cancelled</code>. A failed attempt records a typed error, safe message and retryability. A running job has a lease and heartbeat; abandoned leases may be retried with the same immutable input and a new attempt. Partial artifacts remain unpublished until the final manifest is committed. Cancellation is cooperative and does not expose partially written summaries.</p>
+<p>The result can succeed with <code>comparison_status=insufficient_support</code>. This is a valid scientific outcome, not a transport error. Numeric estimates are null with machine-readable reasons. A failed source download, in contrast, is an execution failure or an explicitly selected cached-source analysis, never a silently successful live result.</p>
+<h2>API contract</h2>
+<p>All endpoints use <code>/api/v1</code>. Request and response bodies use snake_case, UTC timestamps and explicit units. OpenAPI is generated from Pydantic models during implementation; the accompanying JSON contract fixes the initial endpoint shapes.</p>
+<table>
+<thead>
+<tr>
+<th>Method and route</th>
+<th>Purpose</th>
+<th>Important behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET <code>/datasets</code></td>
+<td>Supported products and access/quality notices</td>
+<td>Distinguish documented, discovered and downloaded status.</td>
+</tr>
+<tr>
+<td>GET <code>/regions</code></td>
+<td>Curated regions / own saved regions</td>
+<td>Cursor pagination; no private geometry leakage.</td>
+</tr>
+<tr>
+<td>POST <code>/regions</code></td>
+<td>Validate and save a region revision</td>
+<td>201; polygon area/vertex limits; never mutate used revisions.</td>
+</tr>
+<tr>
+<td>POST <code>/analyses</code></td>
+<td>Request computation</td>
+<td>202 with Location; Idempotency-Key required; ownership checked.</td>
+</tr>
+<tr>
+<td>GET <code>/analyses/{id}</code></td>
+<td>Job status and result manifest</td>
+<td>200; unsupported/insufficient comparison encoded in result.</td>
+</tr>
+<tr>
+<td>GET <code>/analyses/{id}/calendar</code></td>
+<td>Monthly summaries</td>
+<td>Include observed/modeled/unknown, support and interval type.</td>
+</tr>
+<tr>
+<td>GET <code>/analyses/{id}/receipt</code></td>
+<td>Reproduction manifest</td>
+<td>Contains public source identifiers, no tokens or signed private URLs.</td>
+</tr>
+<tr>
+<td>GET <code>/analyses/{id}/detections</code></td>
+<td>Bounded recent-context observations</td>
+<td>Clip to AOI/date, cursor paginate; capped response.</td>
+</tr>
+<tr>
+<td>POST <code>/analyses/{id}/briefs</code></td>
+<td>Generate a saved explanation</td>
+<td>202; deterministic template available without LLM.</td>
+</tr>
+<tr>
+<td>GET <code>/briefs/{id}</code></td>
+<td>Inspect/export a brief</td>
+<td>Cite result IDs and preserve caveats.</td>
+</tr>
+<tr>
+<td>POST <code>/analyses/{id}/cancel</code></td>
+<td>Cancel owned queued/running work</td>
+<td>Idempotent; no change to completed analysis.</td>
+</tr>
+</tbody></table>
+<p>Use 422 for invalid geometry/date or unsupported requested products, 409 for conflicting idempotency-key reuse, 429 with Retry-After for quotas and 503 for temporary upstream failure. Return 404 for inaccessible private resources so existence is not leaked. Error envelope: <code>error.code</code>, <code>error.message</code>, <code>error.details</code>, <code>request_id</code>.</p>
+<h2>Bounded agent behavior</h2>
+<p>An optional explanation agent may call <code>get_analysis</code>, <code>get_month_evidence</code>, <code>compare_periods</code>, <code>get_method_limitations</code> and <code>create_brief_draft</code>. Each tool accepts validated IDs and enumerations. The model never receives database credentials, arbitrary SQL, shell access or a general URL fetcher. It cannot change QA thresholds, release calibrations or publish external alerts.</p>
+<p>The orchestrator retrieves the result and limitations, asks for structured explanatory claims, validates every numeric claim against referenced fields, checks required caveats, and renders the brief. Unsupported claims fail closed to a deterministic template. A second LLM is not required to check arithmetic; code does that reliably. Budget at most four tool calls per explanation and one retry, with configurable token/cost limits. These limits are proposed operating defaults.</p>
+<p>Do not lock the science to a proprietary language model. Benchmark a available structured-output model against the template baseline on a fixed set of questions. Select by citation fidelity, abstention, numerical consistency, latency and cost; model branding has no role in the measurement method. No paid model was called or evaluated in this research.</p>
+<h2>Security and privacy</h2>
+<p>Public curated analyses are read-only and usable without an account. Saved private regions and briefs require identity and owner authorization. RLS protects private metadata; API checks remain necessary. The runtime database role must be non-owner and unable to bypass RLS. Worker privileges are separated from browser-facing reads. Signed object URLs expire, and public exports contain only public or owner-approved geometry.</p>
+<p>User-uploaded GeoJSON is parsed as data with a vertex limit and bounded coordinate values. Validate geographic area, self-intersections, CRS and anti-meridian behavior. External source descriptions and uploaded notes are untrusted text, never agent instructions. Strip active HTML when rendering explanations. Quotas limit large queries; canonical source allowlists prevent SSRF. Secrets reside server-side; query logs omit tokens and exact private geometries unless explicitly needed for debugging.</p>
+<h2>Performance, cost and deployment</h2>
+<p>Precompute the pilot calendar and hold-out evaluation. Query compact summaries on the interactive path. Cache by input hash and artifact checksum. Use static map tiles or a minimal regional context layer for offline demonstration; preserve attribution. Heavy raster downloads and model fitting run in the worker rather than short-lived web requests.</p>
+<p>Planning envelope: a CPU workstation or modest VM with 16–32 GB RAM, limited AOIs and chunked reads. Measure actual memory and runtime after the first tile; these figures are not benchmarks. No GPU is required for a GLM. Hosting can use static frontend hosting plus a container API/worker, PostgreSQL and object storage. Record actual provider quotes before spending; no cost estimates in this plan are purchase commitments.</p>
+<h2>Verification and release</h2>
+<p>Unit tests must cover mask decoding, no-observation handling, counts bounded by support, product separation, duplicate revisions and leap-day normalization. Integration tests use a tiny real paired-granule fixture and an immutable analysis snapshot. Geospatial tests include invalid polygons, an AOI crossing tile boundaries and a tiny AOI below reliable support. Security tests verify cross-user access denial and rejection of untrusted agent commands.</p>
+<p>Scientific tests are specified separately in the model protocol. UI tests exercise region selection, keyboard calendar navigation, missing-data labels, the unavailable-calibration state and receipt export. A release includes dependency lockfiles, data manifest, model card, evaluation report, license inventory and AI-assistance disclosure. The included SQL is a design artifact that must be applied and tested against PostgreSQL/PostGIS before deployment.</p>
+</section><section id="science" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/03-MODEL-AND-DATA-PROTOCOL.md">Read Markdown source</a></div><h1>Science, data and model protocol</h1>
+<p>All algorithms and thresholds below are proposed. Access smoke tests have run; no calibration has been trained and no accuracy is claimed.</p>
+<h2>Measurement definition</h2>
+<p>The primary quantity is <strong>detected active land-cell-days per 1,000 valid observed land-cell-days</strong>, for a specified product and period. A 1 km cell with several detections in its daily composite contributes at most one active cell-day. This measures product-specific detected activity, not independent fires, burned area, ignition probability or danger to a person.</p>
+<p>For product s, analysis block g and month t, let F be accepted fire cell-days and N be valid observed land-cell-days. The native rate is <code>R = 1000 × F/N</code>; if N is zero, R is null. The proposed primary mask policy counts nominal/high-confidence fire as positive and clear non-fire land as negative. Low-confidence fire is excluded from primary support and included in a sensitivity run. Water, cloud, unknown and unprocessed cells are excluded. Map these semantic classes from each current product guide; fail ingestion if class definitions are not verified. <a href="https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf">MODIS guide</a> · <a href="https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf">VIIRS guide</a></p>
+<p>Daily composites do not describe every clear overpass. Consequently, this is a valid-support normalization, not a complete observation-effort correction. Sampling time, subpixel fire size and product-specific detection effects remain. A derived transfer estimates a reference product&#39;s behavior; it does not recover invisible historical small fires.</p>
+<h2>Candidate data inventory</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Intended role</th>
+<th>Access and verification</th>
+<th>Limitations / fallback</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MYD14A1.061, Aqua MODIS daily 1 km</td>
+<td>Historical reference masks</td>
+<td>Historical CMR granules found for March 2023; binary raster not fetched</td>
+<td>Decode daily planes inside eight-day packaging; use authorized Earthdata access.</td>
+</tr>
+<tr>
+<td>VNP14A1.002, NPP VIIRS daily 1 km</td>
+<td>Overlap transfer masks</td>
+<td>Historical CMR records found</td>
+<td>Uses 750 m bands, not the FIRMS 375 m algorithm; delivery transition in Nov 2026.</td>
+</tr>
+<tr>
+<td>VJ114A1.002 / VJ214A1</td>
+<td>NOAA-20/21 future continuity</td>
+<td>NOAA-20 catalog discovery tested; NOAA-21 recommended in official notice</td>
+<td>Fit platform-specific transfer; no silent substitution.</td>
+</tr>
+<tr>
+<td>FIRMS MODIS / VIIRS regional CSV</td>
+<td>Recent point context and ingestion proof</td>
+<td>Real public CSVs downloaded and parsed</td>
+<td>NRT, positive detections only; no valid/no-fire denominator.</td>
+</tr>
+<tr>
+<td>MYD14 / VNP14 L2 and geolocation</td>
+<td>Later matched-overpass method</td>
+<td>MYD14 and VNP14IMG catalog discovery tested; VNP14 750 m route needs separate check</td>
+<td>Swath matching and geolocation increase effort; IMG is a different algorithm.</td>
+</tr>
+<tr>
+<td>HLS / Landsat imagery</td>
+<td>Selected external reference interpretation</td>
+<td>HLS catalog sample returned; imagery not downloaded</td>
+<td>Clouds; burned scars and active fire are different targets.</td>
+</tr>
+<tr>
+<td>MCD64A1 / VIIRS burned area</td>
+<td>Corroborating seasonal context</td>
+<td>Documented, not tested here</td>
+<td>Not independent ground truth; algorithm uses active-fire information.</td>
+</tr>
+<tr>
+<td>Land-cover product</td>
+<td>Stratify heterogeneous areas</td>
+<td>Optional and not fetched</td>
+<td>Must record version/year; no global extrapolation from one biome.</td>
+</tr>
+<tr>
+<td>Agency incident records</td>
+<td>Independent event reference where accessible</td>
+<td>No specific regional incident set secured</td>
+<td>Reporting bias, differing incident definitions and time/location tolerances.</td>
+</tr>
+</tbody></table>
+<p>Product access: <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002">NASA VNP14A1</a>, <a href="https://ladsweb.modaps.eosdis.nasa.gov/filespec/MODIS/6/MYD14A1">MYD14A1 file specification</a>, <a href="https://firms.modaps.eosdis.nasa.gov/download/">FIRMS archive</a>, <a href="https://firms.modaps.eosdis.nasa.gov/api/area/">FIRMS Area API</a>, <a href="https://hls.gsfc.nasa.gov/">HLS</a>.</p>
+<h2>Spatial and temporal support</h2>
+<p>Retain verified native sinusoidal tile/pixel coordinates. Group aligned 1 km cells into fixed 10×10-pixel analysis blocks. “10 km” is shorthand; calculate area from the actual grid. Use a documented centroid inclusion rule for AOI boundary pixels to retain integer binomial trials; state that narrow/small AOIs are not reliable at this scale. Reject areas with too few land pixels. Do not create a false fine-resolution result by upsampling.</p>
+<p>The unit for model fitting is block-month. Training uses the intersection of valid pixel-days from the two products, with matching date/grid and the same QA policy. This removes some coverage mismatch during fitting but selects observable conditions; it cannot make cloudy periods representative. Store common support, each native support, and the fractions lost through matching. At inference, moving from paired support to single-sensor support is a domain assumption and must be checked explicitly.</p>
+<p>Aggregate monthly for the MVP. Daily maps are for inspection. Weekly early-warning claims need a separate evaluation because sparse counts and daily sampling are less stable. The proposed historical study interval is 2013–2024, subject to archive completeness and version checks. NRT data is not spliced into a science-quality historical series without a visibly provisional mode.</p>
+<h2>Model ladder</h2>
+<table>
+<thead>
+<tr>
+<th>Candidate</th>
+<th>Purpose</th>
+<th>Training / compute</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Native sensor calendars</td>
+<td>Honest baseline</td>
+<td>No fitted model; CPU aggregation</td>
+<td>Always retain.</td>
+</tr>
+<tr>
+<td>Same-scale identity mapping</td>
+<td>Transfer baseline</td>
+<td>No fitting</td>
+<td>Measures whether extra modeling helps.</td>
+</tr>
+<tr>
+<td>Seasonal constant / simple monotone calibration</td>
+<td>Minimal fitted baseline</td>
+<td>Regional overlap; CPU</td>
+<td>Required comparison.</td>
+</tr>
+<tr>
+<td>Grouped binomial GLM with logit link</td>
+<td>Transparent reference transfer</td>
+<td>Block-month successes/trials; CPU</td>
+<td>Primary candidate.</td>
+</tr>
+<tr>
+<td>Beta-binomial or hierarchical logistic model</td>
+<td>Extra dispersion / partial pooling</td>
+<td>More fitting and diagnostic work</td>
+<td>Adopt only if GLM residuals justify it.</td>
+</tr>
+<tr>
+<td>Gradient-boosted trees</td>
+<td>Nonlinear challenger</td>
+<td>Needs enough independent blocks and calibration</td>
+<td>Later; avoid opaque improvement on leaked splits.</td>
+</tr>
+<tr>
+<td>Prithvi / TerraTorch</td>
+<td>Optical reference-image tasks</td>
+<td>Pretrained EO backbone still needs task setup and validation</td>
+<td>Not the harmonization engine.</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>Explain saved evidence</td>
+<td>Optional service inference</td>
+<td>Never predicts the scientific quantity.</td>
+</tr>
+</tbody></table>
+<p>For the GLM, target the Aqua fire count <code>F_A</code> out of paired support <code>N_pair</code>. Predictors initially include a smoothed VIIRS activity logit, seasonal sine/cosine, and support fractions. A land-cover term is added only if available and supported by sufficient samples. Do not use a target-year ID that would make future generalization meaningless. The response is passed as successes/failures, not incorrectly as raw counts under an unconstrained linear regression. <a href="https://www.statsmodels.org/stable/generated/statsmodels.genmod.generalized_linear_model.GLM.html">Statsmodels GLM documentation</a></p>
+<p>For prediction, report <code>1000 × predicted_probability</code> as <strong>Aqua-reference estimated activity</strong>. Historical Aqua observations and modeled VIIRS estimates retain distinct visual marks. Where both exist, prefer the fixed reference measurement for the historical line and use the transfer for evaluation; do not double-count or average correlated streams without a justified fusion model. No global multiplier is proposed.</p>
+<h2>Evaluation protocol</h2>
+<p>Pre-register candidate splits before fitting: 2013–2019 training, 2020–2021 model/threshold selection, 2022–2024 untouched temporal test, plus one geographically separated test area. These dates are a proposed template and can change once coverage is inspected, but freeze them before inspecting test performance. Keep neighboring spatial blocks and adjacent seasonal sequences together. Any smoothing, feature scaling, tuning and resampling must operate within training folds.</p>
+<p>Report rate MAE, signed bias, seasonal peak-month error, skill against identity and seasonal baselines, and prediction-interval empirical coverage. Report results by region, season, activity stratum and coverage stratum; pooled performance can hide failure in small-fire areas. Compare interval width as well as coverage, since an uninformatively broad interval can cover everything. Check pseudo-transitions within a stable overlap period and sensitivity to confidence filters. Do not require a real physical trend to disappear merely because a sensor changes.</p>
+<p>Use spatial and annual/seasonal block resampling for uncertainty, initially 200 bootstrap fits as a planning default. Inspect residual dependence before choosing block sizes. A binomial observation model is a working approximation: fires cluster and observations are dependent. Bootstrap or overdispersion modeling addresses some of this; it does not remove cloud-selection bias. Label intervals by their actual construction.</p>
+<p>Proposed release gate: at least 10% lower held-out MAE than the best simple transfer baseline, absolute bias not materially worse in either pilot, and peak-season timing error no greater than one month where season peaks are identifiable. Assess a nominal 90% interval, targeting empirical coverage of 85–95% with adequate independent test blocks. These are team acceptance targets, not published universal scientific standards. If test support is too small to assess them, say so and keep the model experimental.</p>
+<h2>Abstention and anomaly rules</h2>
+<p>Proposed guardrails: require at least 50% usable land-cell-day support in a displayed month, five training seasons, two held-out seasons and sufficient positive examples for fitting. Determine positive-example minimum and covariate-support bounds from training-only diagnostics; an example starting gate is 50 positive block-months, not proof of adequacy. These gates are configurable, versioned and sensitivity-tested. Mask changes and unsupported products invalidate old calibration unless re-evaluated.</p>
+<p>An anomaly is a descriptive comparison against the same month in a fixed reference period, initially 2013–2021 for later test years. Require at least eight usable baseline years for percentile display. With few years, show a rank and range rather than a spurious precise tail probability. Bootstrap uncertainty may make the anomaly indeterminate. Baseline years must not include the queried year; long-term trend and nonstationarity are disclosed. This feature describes unusual recorded activity, not tomorrow&#39;s fire forecast.</p>
+<h2>What the current checks establish</h2>
+<p>Saved evidence includes real MODIS and VIIRS regional CSV responses, NASA POWER weather JSON, NISAR and HLS catalog metadata, fire-product granule metadata, product manuals and repository/license metadata. The recent MODIS sample contains 3,759 rows; the VIIRS sample contains 11,695 rows from the downloaded regional feeds. Their counts are <strong>not a comparative result</strong>: platform coverage, timing and sensitivity differ. Checksums and request URLs are in the endpoint ledgers.</p>
+<p>No authenticated historical raster download, paired mask decode, training run, model score or field-impact test has occurred. These remain the first implementation gates. A downloadable catalog entry is not a successfully decoded science file. An observed hotspot is not independently verified wildfire truth.</p>
+</section><section id="flow" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/04-APP-FLOW-AND-DESIGN.md">Read Markdown source</a></div><h1>App flow and visual direction</h1>
+<h2>Experience</h2>
+<p>Open on a seasonal calendar for a curated region, with a visible region/date selector and a short explanation of the measurement. The user should see the scientific question immediately. Avoid a marketing hero, a spinning globe and a wall of KPI tiles. The memorable element is a year-by-month calendar that exposes both activity and missing evidence.</p>
+<pre><code class="language-mermaid">flowchart TD
+  A[Open sample region] --&gt; B[Inspect calendar]
+  A --&gt; C[Select or draw region]
+  C --&gt; D{Supported data and geometry?}
+  D --&gt;|Yes| E[Build analysis]
+  D --&gt;|No| F[Explain limitation and choose another region]
+  E --&gt; B
+  B --&gt; G[Select month]
+  G --&gt; H[View raw sensor evidence]
+  G --&gt; I{Released transfer available?}
+  I --&gt;|Yes| J[Compare reference-scale estimate]
+  I --&gt;|No| K[Show unavailable reason and native series]
+  J --&gt; L[Inspect uncertainty and method receipt]
+  H --&gt; L
+  K --&gt; L
+  L --&gt; M[Export data or monitoring brief]
+</code></pre>
+<h2>Screen specification</h2>
+<table>
+<thead>
+<tr>
+<th>Screen</th>
+<th>Primary task</th>
+<th>Essential elements</th>
+<th>Failure state</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Region calendar</td>
+<td>Find typical season / unusual month</td>
+<td>Region, date range, year×month matrix, activity legend, coverage legend, sensor-era strip</td>
+<td>No usable observations; select another period.</td>
+</tr>
+<tr>
+<td>Month inspection</td>
+<td>Understand one value</td>
+<td>Native source values, valid support, modeled/reference distinction, map context, exclusions</td>
+<td>Sparse support; estimate suppressed.</td>
+</tr>
+<tr>
+<td>Sensor comparison</td>
+<td>Inspect discontinuity</td>
+<td>Same-scale native plots, transfer plot, held-out score, training dates</td>
+<td>Model not released for this area/platform.</td>
+</tr>
+<tr>
+<td>Method receipt</td>
+<td>Audit an analysis</td>
+<td>Sources, hashes, masks, grid, baseline, model ID, evaluation and caveats</td>
+<td>Source asset unavailable; receipt still names preserved version.</td>
+</tr>
+<tr>
+<td>Brief</td>
+<td>Communicate findings</td>
+<td>One question, chart, plain-language result, limitations, citations, CSV/JSON export</td>
+<td>Template explanation when model service fails.</td>
+</tr>
+</tbody></table>
+<h2>Desktop composition</h2>
+<pre><code class="language-text">Fire Season       Region: Pilot A       2013–2024       Export
+────────────────────────────────────────────────────────────
+When does this region burn?                  Source status
+             Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2013          ·   ▧   ■   ■   ·   ·   ·   ▧   ·   ·   ·   ·
+2014          ·   ·   ■   ■   ■   ·   ·   ·   ·   ·   ·   ·
+...           Calendar cells encode values; hatching = gaps
+────────────────────────────────────────────────────────────
+Selected month         Native / Comparable activity selector
+Context map            Comparison plot + uncertainty band
+                       Why this comparison is supported
+────────────────────────────────────────────────────────────
+Measurement definition       Coverage       Method receipt
+</code></pre>
+<p>This is a wireframe, not a scientific result. Actual values and shapes must come from released analysis artifacts. No synthetic “saved lives” or fire-risk percentage appears in the interface.</p>
+<p>Use a pale mineral background <code>#F3F6F7</code>, white work surfaces <code>#FFFFFF</code>, deep slate text <code>#20343D</code>, restrained blue <code>#245D78</code> for selected controls and burnt orange <code>#B74920</code> for activity emphasis. A neutral hatched treatment denotes unknown support. Validate text contrast at implementation, especially colored labels. Choose Source Sans 3 for controls/body and IBM Plex Sans for major headings, with a local sans-serif fallback. Font assets and licenses must be bundled or attributed before release.</p>
+<p>Keep the calendar on a continuous surface. Avoid nested cards, glowing gradients, decorative code-style labels and indiscriminate monospace. Use tabular numerals for aligned values. The observation interval and unit belong next to the number, not buried in a tooltip. Model uncertainty uses a band; missing evidence uses a pattern; the two are not visually interchangeable.</p>
+<h2>Mobile and accessibility</h2>
+<p>On a narrow screen, select a year and render its twelve months as a vertical list. Region selection remains a text/list interaction even if drawing is unavailable. All map information has a table alternative. A keyboard user can move through calendar cells, activate one, and return from the evidence panel without losing focus. Announce selected month, value type, support and uncertainty with an accessible name. Do not make color the only way to interpret activity.</p>
+<p>Use visible labels, 44 px touch targets where feasible, clear focus indicators and reduced-motion support. Animate only transitions that explain a change in selected period or view. Preserve the previous result while a new analysis runs, with a clear loading label and cancellation control. Never recolor stale results as if a new request completed.</p>
+<h2>Product copy</h2>
+<p>Use “No usable observations” rather than “No fires.” Use “Estimated on the Aqua reference scale” rather than “True fire activity.” Use “Higher than this region&#39;s baseline for March” rather than “High danger.” Use “Comparison unavailable: this satellite has not been calibrated here” rather than a generic error. Explain that a hotspot can represent agricultural burning, wildfire or another thermal source, without assigning a cause the data does not support.</p>
+<h2>Agent interaction</h2>
+<p>Offer contextual questions beside selected evidence: “Why did this month change?”, “How much data is missing?” and “What does this measure?” The user should not need to formulate a prompt to use the app. Each answer links to exact analysis fields and method sections. Any request for evacuation, fire cause or future danger receives a scope explanation and returns to available evidence. The default brief is deterministic; conversational phrasing is optional.</p>
+<h2>Demo narrative</h2>
+<p>Begin with a real region and a simple apparent increase. Expose the satellite boundary. Show the native values and coverage. Apply a transfer only if it passed held-out evaluation, then explain the remaining difference and uncertainty. End by opening the receipt and a deliberate insufficient-data case. The demonstration proves that the product can qualify a claim, including declining one. Choose the exact story only after seeing real data; do not preselect a dramatic conclusion.</p>
+</section><section id="team" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/05-TEAM-AND-DELIVERY.md">Read Markdown source</a></div><h1>Team, feasibility gates and delivery plan</h1>
+<h2>Recommended recruitment</h2>
+<p>Recruit around <strong>Fire Season: a sensor-aware burning calendar</strong>, not “an AI disaster platform.” The core needs five responsibilities: remote-sensing science, data engineering, backend/reproducibility, visualization/frontend, and product/research/storytelling. With four people, combine backend and data engineering. With six, add a reference-data/user-research reviewer. Domain expertise in fire ecology or environmental monitoring is more valuable than a second generic chatbot engineer.</p>
+<table>
+<thead>
+<tr>
+<th>Owner</th>
+<th>Concrete deliverable</th>
+<th>Secondary reviewer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Science lead</td>
+<td>Metric definition, transfer baseline, split plan, model card</td>
+<td>Data engineer</td>
+</tr>
+<tr>
+<td>Data engineer</td>
+<td>Paired masks, QA, provenance, cached pilot</td>
+<td>Science lead</td>
+</tr>
+<tr>
+<td>Backend engineer</td>
+<td>Analysis API, immutable artifacts, export, access control</td>
+<td>Frontend engineer</td>
+</tr>
+<tr>
+<td>Frontend engineer</td>
+<td>Calendar, evidence panel, accessible inspection</td>
+<td>Product lead</td>
+</tr>
+<tr>
+<td>Product/research lead</td>
+<td>User tasks, reference examples, demo, submission credits</td>
+<td>Science lead</td>
+</tr>
+</tbody></table>
+<p>Suggested recruitment text: “We are forming a NASA Space Apps team for MODIS–VIIRS hotspot harmonization. Our focus is a reproducible burning calendar that distinguishes changes in fire activity from changes in satellite observations. We need Python/geospatial processing, statistical validation, an excellent data-visualization frontend, and someone who understands environmental monitoring. The goal is one convincing regional demo with open evidence.” This is a draft; it has not been posted.</p>
+<h2>Before committing to the challenge</h2>
+<p>Run a bounded feasibility exercise: obtain one real matching historical tile/date from both science products; decode masks; calculate fire and valid-support counts; inspect a small overlap series; then time the pipeline. Confirm an Earthdata account and the permitted data-access route. The current research established catalog discovery and public CSV access, not this gate.</p>
+<p>Pass conditions: readable masks, verified alignment, sufficient overlap, explainable product differences, and a practical CPU runtime for the intended pilot. If access fails, ask a data mentor or use an approved existing extraction route. If science support remains inadequate, choose <strong>Be An Earth System Trend Detective!</strong> with a narrow dry-season heat/rainfall investigation. If an agronomist and extension partner join, reconsider <strong>Field Shift</strong> with constrained rotation scenarios. If a SAR expert produces a usable repeat pair, NISAR becomes a serious alternative.</p>
+<h2>Preparation versus competition work</h2>
+<p>The event homepage currently states 14–15 November 2026. The legal page provides 2026 terms, while the discoverable detailed submission guide still says 2025. Confirm current rules on pre-event code/models, team limits, AI disclosure and demo duration with the event before treating prepared assets as a submission. Keep this research and design package dated and distinguish any permitted starter material from event-created work. <a href="https://www.spaceappschallenge.org/">Homepage</a> · <a href="https://www.spaceappschallenge.org/legal/">Terms</a> · <a href="https://www.spaceappschallenge.org/resources/project-submission-guide/">Submission guide</a></p>
+<p>Preparation can establish user needs, scientific reading, data-access requirements, team roles and a plan. The schedule below is an implementation sequence to use when permitted; it does not assert permission to prebuild a competition entry.</p>
+<h2>Proposed 48-hour build sequence</h2>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>Work</th>
+<th>Exit evidence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0–4 h</td>
+<td>Freeze AOI, metric, QA policy and splits; obtain first paired masks</td>
+<td>Printed counts and source receipt reviewed by two people.</td>
+</tr>
+<tr>
+<td>4–12 h</td>
+<td>Extract limited history; build native calendars and backend contracts</td>
+<td>Real calendar from immutable data, no modeled claims.</td>
+</tr>
+<tr>
+<td>12–20 h</td>
+<td>Fit simple baselines and GLM; implement comparison view</td>
+<td>Training diagnostics plus untouched test ready.</td>
+</tr>
+<tr>
+<td>20–28 h</td>
+<td>Evaluate; implement abstention; integrate model receipt</td>
+<td>Published pass/fail report; failed model stays experimental.</td>
+</tr>
+<tr>
+<td>28–34 h</td>
+<td>Complete inspect/export flow; add bounded brief if core works</td>
+<td>Reproducible JSON/CSV export and readable brief.</td>
+</tr>
+<tr>
+<td>34–40 h</td>
+<td>Test with users; check failure cases, accessibility and offline cache</td>
+<td>Recorded task results; no unexplained critical defects.</td>
+</tr>
+<tr>
+<td>40–48 h</td>
+<td>Freeze features, rehearse, credit sources, submit</td>
+<td>Public demo/repository, reproducibility instructions and disclosure.</td>
+</tr>
+</tbody></table>
+<p>Actual available work hours vary by local event. Reserve sleep and handoffs; “48-hour event” does not mean every member should work continuously. Assign the science and interface tracks independently but agree on the result schema first. At hour 20, cut optional AI, extra regions and notifications before cutting data validity or a reliable demo.</p>
+<h2>Demo and submission package</h2>
+<p>Prepare a concise narrative usable at different official length limits: user problem, sensor mismatch, real calendar, evidence/uncertainty, and practical use. A longer rehearsal can be three minutes; do not assume that is the submission video allowance. The historical 2025 guide mentioned a much shorter video or a slide option, so verify the 2026 format.</p>
+<p>The repository should contain installation instructions, pinned dependencies, a small distributable fixture, data acquisition instructions, schema/migrations, model card, evaluation report, license notices and AI-assistance disclosure. The data receipt lists public source URLs and provider identifiers. No private API credentials or unlicensed reference imagery should be included. Credit open-source work even when its license does not require prominent UI credit, because Space Apps terms separately require resource attribution.</p>
+<h2>Risks and explicit decisions</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Trigger</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Historical raster access blocked</td>
+<td>Cannot download/decode first pair</td>
+<td>Resolve before selecting; pivot if unresolved.</td>
+</tr>
+<tr>
+<td>Transfer does not beat baseline</td>
+<td>Held-out gate fails</td>
+<td>Keep native calendars; label harmonization experimental; do not invent improvement.</td>
+</tr>
+<tr>
+<td>Coverage selection dominates</td>
+<td>Many months below support threshold</td>
+<td>Change pilot or coarsen time/space transparently.</td>
+</tr>
+<tr>
+<td>Platform transition</td>
+<td>NPP delivery ends before event</td>
+<td>Retrospective demo works; add NOAA transfer only after validation.</td>
+</tr>
+<tr>
+<td>No user relevance</td>
+<td>Testers cannot name a useful decision</td>
+<td>Reframe around monitoring brief, not a generic risk score.</td>
+</tr>
+<tr>
+<td>Too many features</td>
+<td>Core flow incomplete by midpoint</td>
+<td>Cut assistant/alerts/extra overlays.</td>
+</tr>
+<tr>
+<td>Competition rules change</td>
+<td>Updated 2026 guide published</td>
+<td>Update preparation boundary, credits and submission format.</td>
+</tr>
+</tbody></table>
+<h2>After the event</h2>
+<p>First, reproduce the analysis in a clean environment and publish known failure cases. Then seek a domain partner to review calibration transfer across regions and a prospective monitoring workflow. Add L2 overpass matching before stronger observation-effort claims. Measure adoption through actual completed briefs and interpretation accuracy. Do not claim prevented fires or financial savings without an appropriate study.</p>
+</section><section id="schema" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/06-BACKEND-SCHEMA.md">Read Markdown source</a></div><h1>Backend schema and service invariants</h1>
+<p>The SQL in <code>backend/schema.sql</code> is a concrete PostgreSQL/PostGIS design, not an applied migration. It contains 13 tables, indexes, checks and example row-level read/insert policies. Production role creation, worker credentials and operational migration/rollback scripts are deliberately deployment-specific and have not been executed.</p>
+<pre><code class="language-mermaid">erDiagram
+  APP_USER ||--o{ REGION : owns
+  APP_USER ||--o{ ANALYSIS : requests
+  DATASET ||--o{ GRANULE : contains
+  SOURCE_SNAPSHOT ||--|{ SNAPSHOT_GRANULE : freezes
+  GRANULE ||--o{ SNAPSHOT_GRANULE : included
+  SOURCE_SNAPSHOT ||--o{ CALIBRATION : trains
+  REGION ||--o{ ANALYSIS : bounds
+  SOURCE_SNAPSHOT ||--o{ ANALYSIS : supplies
+  CALIBRATION o|--o{ ANALYSIS : adjusts
+  ANALYSIS ||--o{ ANALYSIS_JOB : attempts
+  ANALYSIS ||--o{ CALENDAR_BIN : summarizes
+  ANALYSIS ||--o{ ARTIFACT : produces
+  ANALYSIS ||--o{ BRIEF : explains
+  APP_USER ||--o{ IDEMPOTENCY_REQUEST : deduplicates
+</code></pre>
+<h2>Table responsibilities</h2>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Grain</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>app_user</td>
+<td>Verified external identity</td>
+<td>Ownership without storing login credentials.</td>
+</tr>
+<tr>
+<td>dataset</td>
+<td>Product + collection/version + platform</td>
+<td>Prevent accidental interchange of sensors or algorithms.</td>
+</tr>
+<tr>
+<td>granule</td>
+<td>Provider observation file/revision</td>
+<td>Preserve acquisition period, retrieved checksum and source.</td>
+</tr>
+<tr>
+<td>source_snapshot</td>
+<td>Immutable input manifest</td>
+<td>Reproduce an analysis after providers update data.</td>
+</tr>
+<tr>
+<td>snapshot_granule</td>
+<td>Snapshot membership</td>
+<td>Trace a result to exact downloaded inputs.</td>
+</tr>
+<tr>
+<td>region</td>
+<td>Immutable geometry revision</td>
+<td>A changed boundary produces a new analysis, not a changed past result.</td>
+</tr>
+<tr>
+<td>calibration</td>
+<td>Model/version and domain</td>
+<td>Stores reference direction, QA policy, evaluation and release status.</td>
+</tr>
+<tr>
+<td>analysis</td>
+<td>Frozen computation request/result</td>
+<td>Owns dates, configuration, source snapshot and lifecycle.</td>
+</tr>
+<tr>
+<td>analysis_job</td>
+<td>Execution attempt</td>
+<td>Retry safely without changing scientific identity.</td>
+</tr>
+<tr>
+<td>calendar_bin</td>
+<td>Region/product/month/value-kind</td>
+<td>Display compact results with support, bounds and missing reasons.</td>
+</tr>
+<tr>
+<td>artifact</td>
+<td>Immutable result object</td>
+<td>CSV, receipt, evaluation and reference labels with hashes.</td>
+</tr>
+<tr>
+<td>brief</td>
+<td>Explanation of one analysis</td>
+<td>Keep model/template provenance and claim validation.</td>
+</tr>
+<tr>
+<td>idempotency_request</td>
+<td>Owner + request key</td>
+<td>Avoid duplicate compute and reject conflicting reuse.</td>
+</tr>
+</tbody></table>
+<p>Scientific block-level data stays in Parquet. A future notification/subscription table is outside MVP scope.</p>
+<h2>Constraints beyond simple column checks</h2>
+<p>The service must verify that every modeled bin uses the analysis&#39;s calibration, that the calibration matches the exact source/reference versions and QA policy, and that its domain covers the query. A released status alone is insufficient. Validate that region/date coverage matches the snapshot manifest, baseline excludes the target year, and observed rate equals 1,000 × fire/valid counts within tolerance. The SQL checks bounds but does not implement the scientific pipeline.</p>
+<p>Before publishing an analysis, atomically verify all artifacts and bins and then mark it succeeded. A worker cannot publish a modeled estimate from an experimental calibration under <code>comparison_status=available</code>. Withdrawn calibrations remain in historical receipts with a warning; do not rewrite past values silently. New analyses use an eligible replacement or abstain.</p>
+<p>Private analyses must not reference another user&#39;s private region. RLS policies defend reads and inserts, while the authenticated API enforces ownership, area limits, status transitions and quota. Identity context is set transaction-locally by the backend. A pooled connection must not retain another user&#39;s identity. The API role is non-owner and cannot bypass RLS; the trusted worker has narrowly provisioned lifecycle permissions. Public publication is an explicit privileged action, never a user-controlled input field.</p>
+<p>No grants are included because role names and hosting are not chosen. Until roles, grants and worker policies are configured, this schema is not a working access-control deployment. Test unauthenticated, owner, non-owner and worker cases against a real PostgreSQL instance before enabling it.</p>
+<h2>Analytical storage contract</h2>
+<p><code>observations/</code> partitions retain dataset ID, granule checksum, native tile/pixel, date, semantic mask state and QA-policy version. <code>block_month/</code> retains product, block/grid version, month, eligible/valid/fire counts and common paired support. <code>models/</code> contains fitted coefficients, feature ordering, preprocessing, training/test split manifest and environment lock. <code>analyses/</code> contains receipt, calendar, evaluation linkage and downloadable assets. Object keys never substitute for authorization.</p>
+<p>Use integer cell-day counts for the MVP centroid boundary rule. If later adopting fractional area weights, change the metric/schema and likelihood explicitly; do not insert fractional support into bigint columns or claim integer binomial trials. Keep recent FIRMS points in a separate Parquet schema with original confidence encoding and processing status.</p>
+</section><section id="repos" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/07-REPOSITORIES-AND-MODELS.md">Read Markdown source</a></div><h1>Related code and model due diligence</h1>
+<p>This is a focused inventory of relevant starting points, not a claim to have inspected every related repository. README inspection, repository metadata, license text, endpoint tests and executed model evaluations are different evidence levels. No external research repository was installed or executed in this work.</p>
+<h2>Recommended fire stack and prior art</h2>
+<table>
+<thead>
+<tr>
+<th>Repository / source</th>
+<th>What it offers</th>
+<th>Reuse decision and verification limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/Florianopolis-NASA-Space-Apps/wildfires_chat_dashboard">GROW</a></td>
+<td>Current implementation of a 2024 winning environmental GIS project: FIRMS, React, Mapbox and voice/tool interaction</td>
+<td>Verified identity against NASA award announcement; MIT shown. Study interaction, but calendar calibration must be the new contribution. Current code need not match its 2024 submission.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Earth-Information-System/fireatlas">FireAtlas / FEDS</a></td>
+<td>Groups satellite detections into estimated fire events/perimeters</td>
+<td>Useful scientific prior art; not a MODIS–VIIRS historical transfer model. Root LICENSE request returned 404; do not assume reuse rights without locating authoritative terms.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/NASA-IMPACT/us-fire-events-tool">NASA fire-events viewer</a></td>
+<td>Existing fire-event exploration application</td>
+<td>Apache-2.0 license text downloaded. Study its data-navigation patterns; adding another map alone offers limited differentiation.</td>
+</tr>
+<tr>
+<td><a href="https://earthaccess.readthedocs.io/en/latest/">earthaccess</a></td>
+<td>NASA Earthdata discovery, authentication and access workflows</td>
+<td>Candidate ingestion library. Documentation read; GitHub metadata calls hit rate limits. Pin and review its distribution/license when implementing.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/statsmodels/statsmodels">statsmodels</a></td>
+<td>GLMs, count models and statistical diagnostics</td>
+<td>Preferred transparent model implementation. Documentation inspected; no model fitted.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/maplibre/maplibre-gl-js">MapLibre GL JS</a></td>
+<td>Browser vector-map rendering</td>
+<td>Proposed context map; library and basemap licenses are separate. README inspected; version and full dependency-license audit deferred to build.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/developmentseed/titiler">TiTiler</a></td>
+<td>Dynamic raster tile services</td>
+<td>Optional when raster context is needed. Omit from MVP if static regional tiles suffice.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Wizard2007/storm-prophet">Storm Prophet</a></td>
+<td>2023 winning space-weather LSTM project</td>
+<td>Relevant precedent for a model-led entry; Dst prediction is not transferable fire training data. Architecture/hyperparameters were not independently reproduced.</td>
+</tr>
+</tbody></table>
+<p>The proposed binomial transfer model is new project work. None of these repositories is represented as a ready-made validated solution to this year&#39;s harmonization task. Model evaluation must compare against straightforward native and seasonal baselines before adding complexity.</p>
+<h2>Agriculture alternatives checked</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Inputs and intended use</th>
+<th>License/access evidence</th>
+<th>Fit for Field Shift</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/aquacropos/aquacrop">AquaCrop-OSPy</a></td>
+<td>Weather, crop, soil, water and management; crop-water scenarios</td>
+<td>GitHub license metadata: Apache-2.0</td>
+<td>Accessible Python option for comparative water scenarios; calibration still required. Do not assume full soil fertility, salinity or rotation carryover support.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/KUL-RSDA/AquaCrop">FAO-endorsed AquaCrop source</a></td>
+<td>Process-based crop-water model</td>
+<td>Downloaded license explicitly states BSD-3 for the Fortran version, despite GitHub <code>NOASSERTION</code></td>
+<td>More direct source implementation; distinguish its features/version from OSPy.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ajwdewit/pcse">PCSE / WOFOST</a></td>
+<td>Weather, soil, cultivar and management parameters</td>
+<td>Official documentation states EUPL; GitHub automated classification was inconclusive</td>
+<td>Strong process-model candidate with appropriate crop parameters and domain review; not plug-and-play crop advice.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/DSSAT/dssat-csm-os">DSSAT CSM</a></td>
+<td>Crop/soil/weather/management simulation</td>
+<td>BSD-3-Clause license metadata/text checked</td>
+<td>Domain-rich but parameter and setup burden may exceed MVP.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/APSIMInitiative/ApsimX">APSIM Next Generation</a></td>
+<td>Agricultural systems and management simulation</td>
+<td>Custom general-use license downloaded; do not label as ordinary permissive OSS</td>
+<td>Consider only after reviewing intended use and distribution terms.</td>
+</tr>
+</tbody></table>
+<p>FAO describes AquaCrop as a field-scale crop-water model with uniform-field assumptions and vertical water fluxes. That supports bounded scenarios; it does not justify guaranteed yield or soil-health gains for an arbitrary farm. <a href="https://www.fao.org/aquacrop/overview/en">FAO overview</a> The primary NASA-supported crop-rotation research also reports effects that depend on sequence and weather, reinforcing the need for local agronomic rules. <a href="https://science.nasa.gov/earth/earth-observatory/how-to-rotate-crops-154601/">NASA crop-rotation article</a></p>
+<h2>Foundation models and radar tooling</h2>
+<p><a href="https://github.com/NASA-IMPACT/Prithvi-EO-2.0">Prithvi-EO-2.0</a> has MIT repository metadata and released model information; <a href="https://github.com/torchgeo/terratorch">TerraTorch</a> and <a href="https://github.com/NASA-IMPACT/hls-foundation-os">HLS foundation examples</a> have Apache-2.0 metadata. These are relevant to optical EO representation learning and task adaptation. Repository licensing does not automatically establish every checkpoint/dataset&#39;s terms. No checkpoint, GPU inference or downstream score was tested here.</p>
+<p>For Fire Season, a foundation model would add data preparation and validation without directly solving the sampling mismatch. It may later assist reference-image segmentation if task-specific labels and a clear evaluation justify it. It should not be selected merely to advertise AI.</p>
+<p>ISCE3 and MintPy were considered as radar-processing leads, but GitHub API requests hit rate limits before their metadata/license review completed. They are not verified dependencies in this plan. NISAR selection still requires a real compatible repeat pair, product maturity review and SAR interpretation skill. Do not confuse a foundation model pretrained on optical imagery with a validated NISAR change detector.</p>
+<h2>Model-selection conclusion</h2>
+<p>Start with a transparent statistical transfer and deterministic explanations. CPU-scale science is sufficient for a strong demonstration if the measurement, validation and interface are compelling. Add a constrained language-model explanation only after numerical consistency tests work. If a model does not outperform the relevant baseline or cannot explain when it abstains, leave it out of the released product.</p>
+</section><section id="skills" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="docs/08-SKILLS-AUDIT.md">Read Markdown source</a></div><h1>Requested skills and repositories — disposition</h1>
+<p>The user&#39;s links were reviewed selectively for this research/design task. Repository metadata and available skill paths were saved under <code>research/skills/</code>, including commit identifiers. Installing every workflow would introduce conflicting defaults and unnecessary scope. Three relevant ECC skills were installed with the system skill-installer and their instructions read during this task.</p>
+<table>
+<thead>
+<tr>
+<th>Requested resource</th>
+<th>What was checked</th>
+<th>Disposition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/affaan-m/ecc">ECC</a></td>
+<td>Repository metadata, skill tree, API/PostgreSQL/verification instructions</td>
+<td>Installed <code>api-design</code>, <code>postgres-patterns</code>, <code>verification-loop</code> at commit <code>dd6ee538aee0f548d4a6b520118f875431fd749e</code>. No hooks or full plugin installed.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/obra/superpowers">Superpowers</a></td>
+<td>Skill tree and verification-before-completion</td>
+<td>Used its evidence-before-completion principle; no global workflow replacement.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">UI/UX Pro Max</a></td>
+<td>Current SKILL.md and repository structure</td>
+<td>Reviewed accessibility and interaction guidance. Its search database was not installed or run; no design recommendation is represented as a database result.</td>
+</tr>
+<tr>
+<td><a href="https://vercel.com/docs/agent-resources/skills">Vercel skills</a></td>
+<td>Official skills catalog and web-design-guidelines instructions</td>
+<td>Relevant future implementation/review resources; no deployment action.</td>
+</tr>
+<tr>
+<td><a href="https://mcpservers.org/agent-skills/vercel/frontend-design">MCPServers frontend-design listing</a></td>
+<td>Directory entry and upstream pointer</td>
+<td>Treated as a directory, not authoritative NASA or product-science evidence. Existing frontend-design skill used for the plan.</td>
+</tr>
+<tr>
+<td><a href="https://snyk.io/articles/top-claude-skills-ui-ux-engineers/">Snyk UI/UX article</a></td>
+<td>Article available and reviewed as discovery material</td>
+<td>Not used to establish technical model claims.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/anthropics/skills/tree/main/skills">Anthropic skills</a></td>
+<td>Available skills and existing equivalents</td>
+<td>Avoided duplicating already installed document/design capabilities.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/multica-ai/andrej-karpathy-skills">Karpathy guidelines</a></td>
+<td>Skill text</td>
+<td>Adopted explicit assumptions, simple baselines and verifiable outcomes; not installed globally.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/mattpocock/skills">Matt Pocock skills</a></td>
+<td>Current skill tree and domain-modeling text</td>
+<td>Used precise terminology in specifications; no claim that historical PRD skill names still exist.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md">Caveman</a></td>
+<td>Skill text and current paths</td>
+<td>Not activated: compressed speech conflicts with a detailed scientific design package.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/leonxlnx/taste-skill">Taste skill</a></td>
+<td>Current repository tree and available local equivalents</td>
+<td>Existing frontend-design guidance sufficient; no redundant install.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ayghri/i-have-adhd">i-have-adhd</a></td>
+<td>Skill text and repository metadata</td>
+<td>Not activated; concise entry point plus detailed linked documents provides manageable reading without adopting personal framing.</td>
+</tr>
+</tbody></table>
+<p>Installed locations are <code>~/.codex/skills/api-design</code>, <code>~/.codex/skills/postgres-patterns</code>, and <code>~/.codex/skills/verification-loop</code>. They are available on the next turn and have appeared in the skill catalog. Installation does not imply the schema or API has passed runtime tests. Full ECC plugin configuration was not requested as a separate product setup task and was not performed.</p>
+<p>Research used the existing deep-research skill, ai-writing-signs guidance, and bounded independent investigations. The primary task reviewed their saved evidence and reconciled the final recommendation. An interrupted research worker did not complete a model report; its saved endpoint tests and manuals were retained and the final model inventory was written in the main task. No missing evaluation was filled with invented results.</p>
+</section><section id="sources" class="chapter"><div class="chapter-meta"><span>Research &amp; planning</span><a href="research/SOURCES.md">Read Markdown source</a></div><h1>Source index</h1>
+<p>Research dates: 18–19 September 2026. Each entry is a source, not an independent validation of product performance. See the module-level evidence and endpoint logs for retrieval limits.</p>
+<ul>
+<li><strong>C01</strong> — <a href="https://www.spaceappschallenge.org/2026/challenges/">2026 challenge briefs supplied by user</a></li>
+<li><strong>C02</strong> — <a href="https://power.larc.nasa.gov/docs/tutorials/service-data-request/api/">NASA POWER API tutorial</a></li>
+<li><strong>C03</strong> — <a href="https://power.larc.nasa.gov/docs/services/api/temporal/daily/">NASA POWER Daily API</a></li>
+<li><strong>C04</strong> — <a href="https://hls.gsfc.nasa.gov/">Harmonized Landsat and Sentinel-2</a></li>
+<li><strong>C05</strong> — <a href="https://nsidc.org/data/spl4smgp/versions/8">SMAP SPL4SMGP Version 8</a></li>
+<li><strong>C06</strong> — <a href="https://isric.org/explore/soilgrids">SoilGrids global gridded soil information</a></li>
+<li><strong>C07</strong> — <a href="https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_01.html">SoilGrids layers</a></li>
+<li><strong>C08</strong> — <a href="https://firms.modaps.eosdis.nasa.gov/download/">FIRMS archive download</a></li>
+<li><strong>C09</strong> — <a href="https://firms.modaps.eosdis.nasa.gov/api/area/">FIRMS Area API</a></li>
+<li><strong>C10</strong> — <a href="https://firms.modaps.eosdis.nasa.gov/mapserver/wms-info/">NASA FIRMS WMS</a></li>
+<li><strong>C11</strong> — <a href="https://forum.earthdata.nasa.gov/viewtopic.php?t=5200">FIRMS US/Canada FAQ</a></li>
+<li><strong>C12</strong> — <a href="https://asf.alaska.edu/notices/nisar-l-band-data-now-publicly-available/">NISAR L-Band Data Now Publicly Available</a></li>
+<li><strong>C13</strong> — <a href="https://nisar-docs.asf.alaska.edu/gcov/">NISAR GCOV Data User Guide</a></li>
+<li><strong>C14</strong> — <a href="https://giovanni.earthdata.nasa.gov/">NASA Giovanni</a></li>
+<li><strong>C15</strong> — <a href="https://gmao.gsfc.nasa.gov/gmao-products/merra-2/wmo-data-access_merra-2/">MERRA-2 data access</a></li>
+<li><strong>C16</strong> — <a href="https://gpm.nasa.gov/sites/default/files/2023-07/IMERG_TechnicalDocumentation_final_230713.pdf">IMERG technical documentation</a></li>
+<li><strong>C17</strong> — <a href="https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg">IMERG latency</a></li>
+<li><strong>C18</strong> — <a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD14A1">MOD14A1.061 Earth Engine catalog</a></li>
+<li><strong>C19</strong> — <a href="https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP14A1">VNP14A1 NASA product record</a></li>
+<li><strong>C20</strong> — <a href="https://doi.org/10.1016/j.rse.2025.115006">NASA VIIRS burned area product validation and MODIS comparison</a></li>
+<li><strong>C21</strong> — <a href="https://www.sciencedirect.com/science/article/pii/S0034425718304826">Detection rates and biases of MODIS and agency reports</a></li>
+<li><strong>C22</strong> — <a href="https://cmr.earthdata.nasa.gov/search/collections.json?keyword=NISAR%20GCOV&page_size=5">NISAR CMR catalog query, live response</a></li>
+<li><strong>C23</strong> — <a href="https://firms.modaps.eosdis.nasa.gov/data/active_fire/viirs/csv/SUOMI_VIIRS_C2_South_Asia_24h.csv">FIRMS VIIRS South Asia 24-hour sample</a></li>
+<li><strong>C24</strong> — <a href="https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=90.4&latitude=23.8&start=20240101&end=20240103&format=JSON">POWER Dhaka-area 3-day sample</a></li>
+<li><strong>C25</strong> — <a href="https://gis.earthdata.nasa.gov/portal/help/en/11.5/analyze/generate-trend.htm">Trend generation documentation</a></li>
+<li><strong>W01</strong> — <a href="https://science.nasa.gov/directorates/smd/2023-nasa-international-space-apps-challenge-announces-10-global-winners/">NASA 2023 global winner announcement</a></li>
+<li><strong>W02</strong> — <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-international-space-apps-challenge-announces-2024-global-winners/">NASA 2024 global winner announcement</a></li>
+<li><strong>W03</strong> — <a href="https://www.nasa.gov/learning-resources/stem-engagement-at-nasa/nasa-announces-2025-international-space-apps-challenge-global-winners/">NASA 2025 global winner announcement</a></li>
+<li><strong>W04</strong> — <a href="https://www.spaceappschallenge.org/legal/">2026 Participant Terms and Conditions</a></li>
+<li><strong>W05</strong> — <a href="https://www.spaceappschallenge.org/resources/project-submission-guide/">Project Submission Guide</a></li>
+<li><strong>W06</strong> — <a href="https://www.spaceappschallenge.org/resources/team-formation-guide/">Team Formation Guide</a></li>
+<li><strong>W07</strong> — <a href="https://legacy.spaceappschallenge.org/resources/faq/">Legacy participant FAQ</a></li>
+<li><strong>W08</strong> — <a href="https://www.spaceappschallenge.org/">Official homepage</a></li>
+<li><strong>W09</strong> — <a href="https://github.com/Florianopolis-NASA-Space-Apps/wildfires_chat_dashboard">GROW repository</a></li>
+<li><strong>W10</strong> — <a href="https://github.com/Wizard2007/storm-prophet">Storm Prophet repository</a></li>
+<li><strong>W11</strong> — <a href="https://vitechteam.com/blog/how-vitech-s-agtech-innovation-won-the-nasa-space-apps-challenge">2Plant creator account</a></li>
+<li><strong>W12</strong> — <a href="https://www.gob.pe/institucion/serfor/noticias/1352647-arequipa-serfor-y-tepsup-impulsan-reforestacion-de-quenua-con-inteligencia-artificial-como-herramienta-tecnica">SERFOR reports Queñaris deployment work</a></li>
+<li><strong>W13</strong> — <a href="https://github.com/water-wise/WATERWISE">Unmatched WATERWISE repository</a></li>
+<li><strong>W14</strong> — <a href="https://www.spaceappschallenge.org/2025/meet-the-2025-global-winners/">2025 winner interviews</a></li>
+<li><strong>W15</strong> — <a href="https://www.spaceappschallenge.org/nasa-space-apps-2024/awards/">2024 awards and process</a></li>
+<li><strong>R0198322c03</strong> — <a href="https://www.spaceappschallenge.org/2026/challenges/harmonization-of-modis-and-viirs-hot-spots/">Official challenge</a></li>
+<li><strong>Rf25e734a69</strong> — <a href="https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf">MODIS guide</a></li>
+<li><strong>R6ba2b4e795</strong> — <a href="https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf">VIIRS guide</a></li>
+<li><strong>Rdb77e3e8d4</strong> — <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002">NASA VNP14A1</a></li>
+<li><strong>Rb5cf20824a</strong> — <a href="https://ladsweb.modaps.eosdis.nasa.gov/filespec/MODIS/6/MYD14A1">MYD14A1 file specification</a></li>
+<li><strong>Rb11f425a46</strong> — <a href="https://www.statsmodels.org/stable/generated/statsmodels.genmod.generalized_linear_model.GLM.html">Statsmodels GLM documentation</a></li>
+<li><strong>R27d508a398</strong> — <a href="https://github.com/Earth-Information-System/fireatlas">FireAtlas / FEDS</a></li>
+<li><strong>R21ae5dbd30</strong> — <a href="https://github.com/NASA-IMPACT/us-fire-events-tool">NASA fire-events viewer</a></li>
+<li><strong>R4917b4a36d</strong> — <a href="https://earthaccess.readthedocs.io/en/latest/">earthaccess</a></li>
+<li><strong>R15f65d50dc</strong> — <a href="https://github.com/statsmodels/statsmodels">statsmodels</a></li>
+<li><strong>Raaf77f6292</strong> — <a href="https://github.com/maplibre/maplibre-gl-js">MapLibre GL JS</a></li>
+<li><strong>R7e1d793d98</strong> — <a href="https://github.com/developmentseed/titiler">TiTiler</a></li>
+<li><strong>R1ce181c486</strong> — <a href="https://github.com/aquacropos/aquacrop">AquaCrop-OSPy</a></li>
+<li><strong>Rc2a429b57e</strong> — <a href="https://github.com/KUL-RSDA/AquaCrop">FAO-endorsed AquaCrop source</a></li>
+<li><strong>R2998818559</strong> — <a href="https://github.com/ajwdewit/pcse">PCSE / WOFOST</a></li>
+<li><strong>Rccf44b589e</strong> — <a href="https://github.com/DSSAT/dssat-csm-os">DSSAT CSM</a></li>
+<li><strong>R1d32e195fb</strong> — <a href="https://github.com/APSIMInitiative/ApsimX">APSIM Next Generation</a></li>
+<li><strong>Rb3fc04da7e</strong> — <a href="https://www.fao.org/aquacrop/overview/en">FAO overview</a></li>
+<li><strong>Rcf0bccdf70</strong> — <a href="https://science.nasa.gov/earth/earth-observatory/how-to-rotate-crops-154601/">NASA crop-rotation article</a></li>
+<li><strong>R57cf76d952</strong> — <a href="https://github.com/NASA-IMPACT/Prithvi-EO-2.0">Prithvi-EO-2.0</a></li>
+<li><strong>Rf43c3ffc60</strong> — <a href="https://github.com/torchgeo/terratorch">TerraTorch</a></li>
+<li><strong>R3226bf6353</strong> — <a href="https://github.com/NASA-IMPACT/hls-foundation-os">HLS foundation examples</a></li>
+<li><strong>Rea4e4af275</strong> — <a href="https://github.com/affaan-m/ecc">ECC</a></li>
+<li><strong>R8c6014a36c</strong> — <a href="https://github.com/obra/superpowers">Superpowers</a></li>
+<li><strong>R845dff761b</strong> — <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">UI/UX Pro Max</a></li>
+<li><strong>Redb4432f64</strong> — <a href="https://vercel.com/docs/agent-resources/skills">Vercel skills</a></li>
+<li><strong>R7e93192e7a</strong> — <a href="https://mcpservers.org/agent-skills/vercel/frontend-design">MCPServers frontend-design listing</a></li>
+<li><strong>R1e13e3f663</strong> — <a href="https://snyk.io/articles/top-claude-skills-ui-ux-engineers/">Snyk UI/UX article</a></li>
+<li><strong>R8abc7a25be</strong> — <a href="https://github.com/anthropics/skills/tree/main/skills">Anthropic skills</a></li>
+<li><strong>Rca6e9330cc</strong> — <a href="https://github.com/multica-ai/andrej-karpathy-skills">Karpathy guidelines</a></li>
+<li><strong>R637c99109a</strong> — <a href="https://github.com/mattpocock/skills">Matt Pocock skills</a></li>
+<li><strong>Rbfce3f47fc</strong> — <a href="https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md">Caveman</a></li>
+<li><strong>R6364bcd43f</strong> — <a href="https://github.com/leonxlnx/taste-skill">Taste skill</a></li>
+<li><strong>R46f3c1d612</strong> — <a href="https://github.com/ayghri/i-have-adhd">i-have-adhd</a></li>
+</ul>
+</section></main></div><script>
+const search=document.querySelector('#search');const chapters=[...document.querySelectorAll('.chapter')];const links=[...document.querySelectorAll('nav a')];search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let visible=0;chapters.forEach(c=>{const match=!q||c.textContent.toLowerCase().includes(q);c.hidden=!match;if(match)visible++});document.querySelector('#search-status').textContent=q?visible+' matching chapters':'';});links.forEach(a=>a.addEventListener('click',()=>{search.value='';chapters.forEach(c=>c.hidden=false);document.querySelector('#search-status').textContent='';}));const observer=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.hash==='#'+e.target.id));}})},{rootMargin:'-10% 0px -75% 0px'});chapters.forEach(c=>observer.observe(c));
+</script></body></html>

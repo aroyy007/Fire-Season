@@ -1,0 +1,3 @@
+# Use no paid or proprietary critical dependencies
+
+The project must build, reproduce its approved analyses, run the judged demonstration, and publish its static application using Open Resources. Free NASA registration and API keys are acceptable for preparation, but paid APIs, trial credits, proprietary model endpoints, commercial map tokens, and paid hosting cannot sit on the critical path. The primary deployment will be a public static host such as GitHub Pages with a verified local fallback; maps will use open-source rendering and locally packaged open or public-domain geography where practical.

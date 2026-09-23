@@ -1,0 +1,988 @@
+NASA VIIRS Land Science Investigator Processing System (SIPS)
+     Visible Infrared Imaging Radiometer Suite (VIIRS)
+             375 m & 750 m Active Fire Products
+
+              Product User’s Guide Version 1.4
+
+
+
+
+                          July 2018
+                                                           Table of Contents
+
+1. INTRODUCTION .................................................................................................................................... 2
+2. FIRE PRODUCT FORMAT .................................................................................................................... 3
+2.1. GENERIC VIIRS ACTIVE FIRE PRODUCT LEVEL 2 (SWATH) FORMAT ........................... 3
+2.2. THE VNP14IMG ACTIVE FIRE PRODUCT .............................................................................. 4
+2.3. THE VNP14 ACTIVE FIRE PRODUCT ........................................................................................ 8
+2.4. THE VNP14A1 LEVEL 3 DAILY FIRE PRODUCT ................................................................ 11
+2.4.1.  DATA LAYERS ......................................................................................................................... 11
+2.4.2.  METADATA .............................................................................................................................. 11
+3. DATA ACCESS ................................................................................................................................... 13
+3.1. LEVEL 2 (SWATH) NETCDF4/HDF5 .................................................................................... 14
+3.2. ASCII FIRE LOCATION DATA.................................................................................................. 15
+3.3. LEVEL 3 VNP14A1 PRODUCT................................................................................................. 17
+4. DATA HANDLING ............................................................................................................................. 17
+5. FREQUENTLY ASKED QUESTIONS ............................................................................................... 19
+6. REFERENCES ...................................................................................................................................... 23
+
+
+
+
+Written by:
+
+Wilfrid Schroeder
+National Oceanic and Atmospheric Administration (NOAA)
+National Environmental Satellite, Data, and Information Service (NESDIS)
+Email: wilfrid.schroeder@noaa.gov
+
+Louis Giglio
+Department of Geographical Sciences
+University of Maryland
+Email: lgiglio@umd.edu
+
+
+
+
+                                                                                                                                                     1
+1. INTRODUCTION
+
+This document describes the Suomi National Polar-orbiting Partnership Visible Infrared
+Imaging Radiometer Suite (S-NPP/VIIRS) active fire detection products based on that
+instrument’s 375 m (I-bands) and 750 m (M-bands) nominal resolution Collection 1 (C1)
+reprocessed data from the NASA Land Science Investigator Processing System (SIPS).
+The VIIRS instrument was first launched on 28 October 2011, and is to be superseded by
+other similar instruments on board the Joint Polar Satellite System (JPSS). The first
+active fires detected with the VIIRS sensor occurred on 19 January 2012, when the
+instrument was fully commissioned.
+        The NASA Land-SIPS VIIRS 750 m active fire product (hereafter referred to as
+VNP14) evolved from the baseline algorithm implementation designed to provide
+continuity to the 1-km Earth Observing System Moderate Resolution Imaging
+Spectroradiometer (EOS/MODIS) active fire data record [Csiszar et al., 2014]. The
+original version of the VIIRS 750 m active fire product was based on the MODIS Fire
+and Thermal Anomalies (MOD14/MYD14) Collection 4 algorithm [Giglio et al., 2003],
+although lacking some key output science data sets found in the MODIS product such as
+the 2D image classification product (fire mask), and sub-pixel fire radiative power
+retrievals (FRP)[Csiszar et al., 2014]. That product was later replaced with the latest
+version (Collection 6) of the MODIS active fire algorithm equivalent [Giglio et al.,
+2016], incorporating all the missing output science data layers. NASA’s Land-SIPS
+adopted the “VNP14” nomenclature for that version of the product.
+        The NASA Land-SIPS VIIRS 375 m active fire product (hereafter referred to as
+VNP14IMG) was proposed during the early post-launch period following the successful
+application of the 375 m data for active fire detection. This new application constituted a
+repurposing of the VIIRS 375 m (I) channels, as none of these channels were originally
+designed for active fire detection. Most importantly, abnormal radiometric conditions
+involving different pixel saturation scenarios are frequently observed in the primary mid-
+infrared (I4) channel, thereby requiring special handling of the data. Building on the
+MOD14/MYD14 algorithm, several modifications were implemented to accommodate
+the unique characteristics associated with the VIIRS 375 m data [Schroeder et al., 2014].
+As a new application, the VNP14IMG data set is deemed experimental – the product’s
+status is expected to change in the near future as provisions are added to the VIIRS
+program.
+        Due to its higher spatial resolution, the VNP14IMG active fire product provides
+greater response over fires of relatively small areas, as well as improved mapping of large
+fire perimeters. In comparison, the VNP14 fire data set provides rather similar
+performance relative to the MYD14 1-km product. Consequently, users should be aware
+of those differences and select the data set that is most appropriate for their own
+applications.
+        Currently, both VNP14 and VNP14IMG algorithms are in production although
+availability varies depending on the data processing environment. Users should consult
+Section 3 of this document for more information.
+
+
+
+
+                                                                                         2
+2. FIRE PRODUCT FORMAT
+
+The VIIRS active fire data products were intentionally designed after the
+MOD14/MYD14 MODIS products in order to support data continuity between those two
+major satellite programs and their corresponding environmental data records. Data
+processing is divided primarily among the following levels:
+   • Level 2: swath data projection similar to input L1 data. No data resampling or
+       other corrections are applied;
+   • Level 3: tiled data sets: spatial resampling performed using pre-determined
+       projection type (e.g., sinusoidal) and fixed pixel size (e.g., 500 m) along with
+       some temporal aggregation (e.g., files containing an 8-day data stack).
+   • Level 4: gridded data sets: spatial resampling performed in order to conform to
+       Climate Modeling Grid (CMG) products (e.g., 0.25o × 0.25o gridded data).
+       Gridded data are corrected for cloud obscuration and sampling frequency, which
+       will vary as a function of latitude.
+
+       Product nomenclature may vary according to data processing level and
+environment. Currently, only the Level 2 VNP14, Level 2 VNP14IMG, and Level 3
+VNP14A1 active fire data sets are available.
+
+
+   2.1. GENERIC VIIRS ACTIVE FIRE PRODUCT LEVEL 2 (SWATH) FORMAT
+A single Level 2 file (granule) comprises a »6-min orbit segment spanning multiple scans
+(N), with each individual scan containing a fixed number of rows, with one row for each
+detector. VIIRS 375 m and 750 m channels have 32 and 16 detectors per scan,
+respectively. Individual rows contain a total of 6400 and 3200 samples (X axis) in the
+375 m and 750 m data. Consequently, VIIRS Level 2 fire product granules will cover a
+total of 6400 × N × 32 and 3200 × N × 16 image elements in the 375 m and 750 m data,
+respectively, both describing a ground swath of approximately 3060 km wide.
+         Several global attributes are included in the Level 2 file providing comprehensive
+information about individual granules. Those attributes describe summary statistics
+detailing the number of fire, land, and water pixels, day/night flag, and the granule’s
+beginning/ending times and bounding geographic coordinates, among others. Information
+about granule attributes can be accessed using NetCDF-enabled software.
+         The 8-bit image classification product (‘fire mask’) is the primary science data set
+(SDS) consisting of a two-dimensional array with same [x, y] dimensions as the input
+data driving the respective fire detection algorithms (Figure 1). The ‘fire mask’ SDS
+consists of 10 different pixel classes that build on the heritage EOS/MODIS active fire
+product. Three of those classes are used to flag fire pixels along with their detection
+confidence. A quality assurance (‘algorithm QA’) SDS of same dimensions as the
+companion ‘fire mask’ SDS provides complementary information for all pixels
+processed, and can be used to partially reconstruct the observation conditions pertinent to
+each case. In addition to the data above, sparse array SDSs are used to store several
+parameters for all fire pixels detected in each granule, including key information such as
+center pixel latitude and longitude, brightness temperatures on relevant channels, and
+FRP retrievals, among others (see Tables 3 & 6). The number of fire pixels detected in
+
+
+                                                                                           3
+each granule is stored in the global attribute ‘FirePix’. That parameter is set to 0 and
+sparse array SDSs are empty when no fire pixels are detected in a granule.
+
+
+
+
+Figure 1: S-NPP/VIIRS active fire detection classification SDS (‘fire mask’) derived from single granule
+acquired on 22 November 2015 at ~1035UTC over parts of northern Madagascar and southeast Africa
+(left). Right panel shows magnified subset containing land (green), water (blue), clouds (white) and fire
+(red) pixels. Glint (cyan- exclusive to 375 m fire product) and bow-tie deletion (black) pixels are also
+visible in the large image.
+
+
+    2.2. THE VNP14IMG ACTIVE FIRE PRODUCT
+The VNP14IMG 8-bit ‘fire mask’ SDS classes are similar to the heritage
+MOD14/MYD14 data (Table 1). Class 0 identifies pixels that couldn’t be processed due
+to missing or poor quality data in one or more of the input data layers. Class 1 is used to
+mark bowtie pixels corresponding to redundant data elements towards the edge of the
+swath that are deleted prior to relay to the ground stations in order to reduce downlink
+bandwidth [Wolfe et al., 2013]. It is important to note that residual bowtie is still present
+in the regular input files. The fire algorithm will handle those redundant data as part of
+the regular processing sequence. Fire pixels identified as residual bowtie data are output
+to the VNP14IMG ‘fire mask’ SDS (classes 7-9) and sparse array SDSs (Table 3), and
+marked up with a unique flag in the ‘algorithm QA’ SDS (Table 2, bit 22). The latter
+should be used when emissions estimates based on FRP data are calculated, thereby
+avoiding potential double-counting of redundant FRP values.
+         Class 2 is used to mark areas potentially affected by Sun glint where pixels are
+processed although algorithm performance is normally reduced. Clouds, water and land
+pixels (classes 3-5) are classified using internal tests included in the algorithm along with
+a static land-water mask. Unclassified pixels (class 6) coincide with those cases when the
+analysis of individual pixels was prevented due to insufficient background information.
+         Low confidence (class 7) daytime fire pixels are typically associated with areas of
+Sun glint or water pixels, and lower relative temperature anomaly (<15K) in the mid-
+infrared channel I4. In order to minimize confusion among data users, low confidence
+pixels occurring over water or otherwise associated with the South Atlantic magnetic
+anomaly (see Schroeder et al. [2014] for details) are marked up with unique quality flags
+in the ‘algorithm QA’ SDS (Table 2, bits 18-21). Those occurrences are predominantly
+
+
+                                                                                                            4
+linked to spurious detections although some verifiable fires may be mixed in. In order to
+prevent contamination of fire data displays, those pixels are assigned a corresponding
+land or water class in the ‘fire mask’ SDS and removed from the sparse array SDSs
+(Table 3) describing the fire pixels detected.
+        Nominal confidence (class 8) pixels are those pixels free of potential Sun glint
+contamination during the day, and marked by strong (>15K) temperature anomaly in
+either day or nighttime data. Finally, high confidence (class 9) fire pixels are associated
+with day or nighttime saturated pixels, including nominal saturation and digital number
+(DN) folding (i.e., pixels that greatly exceed the saturation temperature causing the DN
+value to fold over; see Schroeder et al., [2014] for details).
+
+                             Table 1: VNP14IMG ‘fire mask’ SDS classes.
+               Pixel Class        Definition
+               0                  Not processed
+               1                  Bow-tie deletion
+               2                  Sun glint
+               3                  Water
+               4                  Cloud
+               5                  Land
+               6                  Unclassified
+               7                  Low confidence fire pixel
+               8                  Nominal confidence fire pixel
+               9                  High confidence fire pixel
+
+
+
+        A two-dimensional ‘algorithm QA’ SDS complements the fire mask output
+providing quality assurance information for every pixel processed. The ‘algorithm QA’
+SDS is stored in 32-bit integer format populated with several fields that together can be
+used to reconstruct some of the key observation conditions pertinent to each pixel
+analyzed. Bits 0-6 describe the overall (nominal/non-nominal) quality of all input files
+used, followed by bits 7-18 describing primary and secondary fire detection tests (see
+Algorithm Theoretical Basis Document [ATBD]1 for details). Bits 19-22 are used to
+mark pixels associated with detection over water (persistence test) and/or residual bowtie
+data, whereas bit 23-31 are reserved for future use.
+
+
+
+
+1
+ VNP14IMG ATBD available at:
+https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_375m_ATBD.pdf
+
+                                                                                              5
+                  Table 2: VNP14IMG ‘algorithm QA’ SDS bits and definition.
+       Bit       Description
+       0         Channel I1 quality (0 = nominal (or nighttime), 1 = non-nominal)
+       1         Channel I2 quality (0 = nominal (or nighttime), 1 = non-nominal)
+       2         Channel I3 quality (0 = nominal (or nighttime), 1 = non-nominal)
+       3         Channel I4 quality (0 = nominal, 1 = non-nominal)
+       4         Channel I5 quality (0 = nominal, 1 = non-nominal)
+       5         Geolocation data quality (0 = nominal, 1 = non-nominal)
+       6         Channel M13 quality (0 = nominal, 1 = non-nominal)
+       7         Unambiguous fire (0 = false, 1 = true [night only])
+       8         Background pixel (0 = false, 1 = true)
+                 BT4 > 335 K AND DBT45 > 30 K OR saturation/folding (day)
+                 BT4 > 300 K AND DBT45 > 10 K OR saturation/folding (night)
+       9         Bright pixel rejection (0 = false, 1 = true)
+                 r3 > 30% AND r3 > r2 AND r2 > 25% AND BT4 £ 335K
+       10        Candidate pixel (0 = false, 1 = true)
+                 BT4 > 325 K AND DBT45 > 25 K (daytime)
+                 BT4 > 295 K AND DBT45 > 10 K (nighttime)
+       11        Scene background (0 = false, 1 = true)
+                 BT4 > MIN([330, BT4M]) (day)
+       12        Test 1 (0 = false, 1 = true)
+                 DBT45 > DBT45B +2×d45B (day)
+                 DBT45 > DBT45B +3×d45B (night)
+       13        Test 2 (0 = false, 1 = true)
+                 DBT45 > DBT45B +10 K (day)
+                 DBT45 > DBT45B +9 K (night)
+       14        Test 3 (0 = false, 1 = true)
+                 BT4 > BT4B +3.5×d4B (day)
+                 BT4 > BT4B +3×d4B (night)
+       15        Test 4 (0 = false, 1 = true) (day)
+                 BT5 > BT5B +d5B – 4 K OR d’4B > 5 K
+       16        Pixel saturation condition (0 = false, 1 = true) (day)
+                 BT5 ³ 325 K OR BT4 = 367 K OR DBT45 < 0
+       17        Glint condition (0 = false, 1 = true) (day)
+                 DBT45 £ 30 K OR Glint (θg) < 15o
+       18        Potential South Atlantic magnetic anomaly pixel (0 = false, 1 = true)
+       19        Fire pixel over water (0 = false, 1 = true)
+       20        Persistence test (0 = false, 1 = true)
+                 BT13-MAX[BT13B] < 2.5 K
+       21        Persistence test (0 = false, 1 = true)
+                 Number of previous co-located detections < 3
+       22        Residual bow-tie pixel (0 = false, 1 = true)
+       23-31     Reserved for future use
+
+
+
+       In addition to the ‘fire mask’ and ‘algorithm QA’ data layers above, sparse arrays
+provide several parameters for each individual fire pixel detected in the granule as
+described in Table 3.
+
+
+
+
+                                                                                            6
+Table 3: Complementary VNP14IMG SDSs. Individual data sets contain n entries each corresponding to n
+fire pixels detected. N is the number of scans in a granule. “»” describes typical dynamic range
+(approximate).
+  Data set             Description                           Units            Type          Range     Fill
+                                                                                                     Value
+  FP_line              Fire pixel line                          -            uint16     0 : (32´N)-1   -
+  FP_sample            Fire pixel sample                        -            uint16        0 : 6399    -
+  FP_latitude          Fire pixel latitude                  degrees          float32      -90 : +90    -
+  FP_longitude         Fire pixel longitude                 degrees          float32    -180 : +180    -
+  FP_T4                Fire pixel channel I4                 kelvin          float32    » 208 : 367    -
+                       brightness temperature
+  FP_T5                Fire pixel channel I5                 kelvin          float32    » 205 : 380    -
+                       brightness temperature
+  FP_MeanT4            Background channel I4                 kelvin          float32    » 270 : 340    0
+                       brightness temperature
+  FP_MeanT5            Background channel I5                 kelvin          float32    » 265 : 330    0
+                       brightness temperature
+  FP_MeanDT            Background channel I4-I5              kelvin          float32     » -10 : 50    0
+                       brightness temperature
+                       difference
+  FP_MAD_T4            Mean absolute deviation               kelvin          float32      » >0 : 20    0
+                       (channel I4 background)
+  FP_MAD_T5            Mean absolute deviation               kelvin          float32     » > 0 : 20    0
+                       (channel I5 background)
+  FP_MAD_DT            Mean absolute deviation               kelvin          float32     » > 0 : 20    0
+                       (background channel I4-I5
+                       temperature difference)
+  FP_power             Fire radiative power               megawatts          float32    » > 0 : 1500   0
+  FP_Rad13             Channel M13 radiance of fire     W.m-2.sr-1.µm-1      float32     » > 0 : 400   0
+                       pixel
+  FP_MeanRad13 Channel M13 mean                         W.m-2.sr-1.µm-1      float32     » > 0 : 10    0
+                       background radiance
+  FP_AdjCloud          Number of adjacent cloud                 -            uint16           0:8      -
+                       pixels
+  FP_AdjWater          Number of adjacent water                 -            uint16           0:8      -
+                       pixels
+  FP_WinSize           Window size (contextual                  -            uint16         10 : 35    0
+                       analysis)
+  FP_confidence        Fire detection confidence                -             byte8           7:9      -
+                       (7=low, 8=nominal, 9 = high)
+  FP_day               Day/night flag                           -             byte8           0:1      -
+  FP_SolZenAng         Fire pixel solar zenith angle        degrees          float32        0 : 180    -
+  FP_SolAzAng          Fire pixel solar azimuth angle       degrees          float32     -180 : 180    -
+  FP_ViewZenAng Fire pixel view zenith angle                degrees          float32         0 : 70    -
+  FP_ViewAzAng         Fire pixel view azimuth angle        degrees          float32     -180 : 180    -
+
+
+
+
+                                                                                                      7
+        As a result of the FRP calculation method employed (see VNP14IMG ATBD for
+details), 375 m fire pixels co-located with a single 750 m pixel used in the retrieval will
+share the same fractional FRP value in MW (Figure 2). Users should be aware of this
+characteristic, which serves as an alternative solution to the frequent saturation of the
+mid-infrared I4 channel. Despite being extremely rare, M13 pixel saturation can occur
+over very large and intense active fires. In that event, 375 m fire pixels may still be
+detected and output (provided the algorithm is able to resolve those fires using the
+available data) whereas their FRP retrievals will be set to zero. Other situations involving
+challenging FRP retrieval (e.g., insufficient background data) may also result in fire
+pixels accompanied by null FRP values. We note that such cases are rather infrequent.
+
+
+
+
+Figure 2: VNP14IMG FRP calculation using a combination of VIIRS 375 m and 750 m data. The former is
+used to identify fire-affected (solid and dashed red), cloud (solid blue), water (dashed blue), and valid
+background pixels (gray; in this case representing fire-free land surface). Co-located M13 channel radiance
+data (750 m) coinciding with fire pixel (red shade) and valid background pixels (gray-only) are used in the
+FRP calculation. In scenario 1, the single 750 m retrieval (center pixel; FRP) is assigned to the single
+coincident 375 m fire pixel (solid red; FRPi, where i is the 375 m fire-affected sub-pixel index). In scenario
+2, the single 750 m FRP retrieval is split between the two coincident 375 m fire-affected sub-pixels, so that
+FRPi = FRP÷2.
+
+
+
+
+    2.3. THE VNP14 ACTIVE FIRE PRODUCT
+The VNP14 ‘fire mask’ pixel classes are essentially the same as in the MOD14/MYD14
+product (Table 4)(see VNP14 ATBD2 for details). Pixel class 0 describes all pixels that
+could not be processed due to missing data (e.g., instrument is not pointing at the Earth)
+or poor quality data. Bowtie pixels discarded by the on-board trim procedure are
+designated as class 1. Class 3 is associated with water pixels identified with the ancillary
+land-water mask used in the algorithm, while class 4 is assigned to cloud-covered pixels
+that are classified using the algorithm’s internal cloud detection tests. Class 5 refers to
+fire-free land pixels, and class 6 is reserved for pixels having insufficient background
+
+2
+ VNP14 ATBD available at:
+https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_750m_ATBD.pdf
+
+                                                                                                            8
+information for the detection algorithm to function. Classes 7-9 denote low, nominal,
+high confidence fire pixels, respectively, based on a heuristic measure of confidence
+[Giglio et al., 2016].
+
+                             Table 4: VNP14 ‘fire mask’ data set classes.
+               Pixel Class       Definition
+               0                 Not processed (no data or poor quality data)
+               1                 Not processed (bowtie deletion)
+               2                 Unused
+               3                 Water
+               4                 Cloud
+               5                 Land
+               6                 Unclassified
+               7                 Low confidence fire pixel
+               8                 Nominal confidence fire pixel
+               9                 High confidence fire pixel
+
+
+
+        Like the ‘fire mask’ data layer, the VNP14 quality assurance science data set
+(‘algorithm QA’) mimics the MOD14/MYD14 product. It consists of a 32-bit unsigned
+integer array containing additional information describing the observation conditions and
+analyses results for every pixel in the Level 2 data granule (Table 5).
+
+                    Table 5: VNP14 ‘algorithm QA’ data set bits and definition.
+       Bit       Description
+       0-1       land/water state (00 = water, 01 = coast, 10 = land, 11 = unused)
+       2         EDR ground trim zone (0= false, 1 = true)
+       3         atmospheric correction performed (0 = no, 1 = yes)
+       4         day/night algorithm (0 = night, 1 = day)
+       5         potential fire pixel (0 = false, 1 = true)
+       6         spare (set to 0)
+       7-10      background window size parameter
+       11-16     individual detection test flags (0 = fail, 1 = pass)
+       17-19     spare (set to 0)
+       20        adjacent cloud pixel (0 = no, 1 = yes)
+       21        adjacent water pixel (0 = no, 1 = yes)
+       22-23     Sun glint level (0-3)
+       24-28     individual rejection test flags (0 = false, 1 = true)
+       29-31     spare (set to 0)
+
+
+
+        Sparse arrays provide information for all fire pixels detected in the Level 2
+granule as described in Table 6. Additional Climate Modeling Grid (CMG) layers are
+also found among the SDSs. Those CMG layers contain information used for the
+forthcoming generation of Level 3 products by the VIIRS Science Team.
+
+
+
+
+                                                                                        9
+Table 6: Complementary VNP14 science data sets. Individual data sets contain n entries each
+corresponding to n fire pixels detected. N is the number of scans in a granule. “»” describes typical
+dynamic range (approximate)
+ Data set             Description                            Units           Type          Range         Fill
+                                                                                                        Value
+ FP_line              Fire pixel line                          -            uint16      0 : (16´N)-1       -
+ FP_sample            Fire pixel sample                        -            uint16        0 : 3199         -
+ FP_latitude          Fire pixel latitude                  degrees          float32        -90 : 90        -
+ FP_longitude         Fire pixel longitude                 degrees          float32      -180 : 180        -
+ FP_R7                M7 reflectance of fire pixel             -            float32      » > 0: 0.35      -1
+ FP_T13               M13 brightness temperature            kelvin          float32     » 300 : 634        -
+                      of fire pixel
+ FP_T15               M15 brightness temperature            kelvin          float32     » 265 : 330       -
+                      of fire pixel
+ FP_MeanT13           M13 brightness temperature            kelvin          float32     » 260 : 340       0
+                      of background
+ FP_MeanT15           M15 brightness temperature            kelvin          float32     » 265 : 330       0
+                      of background
+ FP_MeanDT            Mean background M13-M15               kelvin          float32      » -10 : 40       0
+                      brightness temperature
+                      difference
+ FP_MAD_T13           Background M13 brightness             kelvin          float32      » > 0 : 20       0
+                      temperature mean absolute
+                      deviation
+ FP_MAD_T15           Background M15 brightness             kelvin          float32      » > 0 : 20       0
+                      temperature mean absolute
+                      deviation
+ FP_MAD_DT            Background M13-M15                    kelvin          float32      » > 0 : 20       0
+                      brightness temperature
+                      difference mean absolute
+                      deviation
+ FP_power             Fire radiative power                megawatts         float32     » >0 : 5000       0
+ FP_AdjCloud          Number of adjacent cloud                -             uint16         0:8            -
+                      pixels
+ FP_AdjWater          Number of adjacent water                 -            uint16          0:8           -
+                      pixels
+ FP_WinSize           Background window size                   -            uint16         5 : 21         -
+                      (contextual analysis)
+ FP_NumValid          Number of valid background               -            uint16
+                      pixels
+ FP_confidence        Detection confidence                     -             uint8         0 : 100        -
+ FP_land              Land pixel flag                          -             uint8
+ FP_MeanR7            Background M7 reflectance                -            float32      » >0 : 0.6      -1
+ FP_MAD_R7            Background M7 reflectance                -             byte8       » >0 : 0.2      -1
+                      mean absolute deviation
+ FP_ViewZenAng        View zenith angle of fire pixel      degrees          float32       » 0 : 70        -
+ FP_SolZenAng         Solar zenith angle of fire pixel     degrees          float32        0: 180         -
+ FP_RelAzAng          Relative azimuth angle of fire       Degrees          float32      -180 : 180       -
+                      pixel
+
+
+
+
+                                                                                                        10
+   2.4. THE VNP14A1 LEVEL 3 DAILY FIRE PRODUCT
+The VNP14A1 daily Level 3 fire product is tile based, with each product file spanning a
+single 1,200 × 1,200 km sinusoidal tile3. The product is a 1-km gridded composite of
+750-m VNP14 fire pixels detected in each grid cell over each daily (24-hour)
+compositing period; the 1-km grid was adopted for compatibility with the existing 1-km
+MODIS MOD14A1 and MYD14A1 data records.
+
+
+          2.4.1. DATA LAYERS
+The product contains four data layers (FireMask, MaxFRP, QA, and sample), each stored
+as a separate NetCDF variable.
+
+FireMask: The fire mask is stored as a 1200 × 1200, 8-bit unsigned integer array. This
+mask is essentially a maximum value composite of the Level 2 VNP14 fire product pixel
+classes (Table 4) for those swaths overlapping the corresponding sinusoidal tile during
+the 24-h product period. As with the predecessor MOD14A1 and MYD14A1 products,
+the “maximum value” compositing scheme has been slightly modified to prevent cloud-
+obscured water grid cells from having precedence over cloud-free water grid cells.
+MaxFRP: The maximum FRP of all fire pixels falling within each 1 km grid cell is
+provided on a daily basis in the “MaxFRP” variable. Here the FRP values have been
+scaled by a factor of 10 and stored as a 32-bit signed integer. Multiply these scaled
+values by 0.1 to retrieve the maximum FRP in MW.
+QA: This quality assurance layer is a 1200 × 1200 8-bit unsigned integer array. Only
+seven unique QA values are possible, ranging from 0 through 6, with the meaning shown
+in the table below. Note that for missing-data grid cells (bit pattern 11 in bits 0-1), bit 2
+will always be clear.
+ Bit(s)     Meaning
+  0-1       land/water state (00 = water, 01 = coast, 10 = land, 11 = missing data)
+   2        day/night observation (0 = day, 1 = night)
+
+sample: For all grid cells assigned one of the VNP14 fire pixel classes (values 7, 8, or 9),
+the position of the fire pixel within the scan is recorded on a daily basis in a 1200 × 1200
+16-bit signed integer SDS named “sample”. Sample values have a range of 0 to 3199.
+All grid cells assigned one of the non-fire classes in the “FireMask” variable will be filled
+with a value of -1.
+
+
+          2.4.2. METADATA
+The VNP14A1 products contains HDFEOS geo-referencing metadata, with additional
+product-specific metadata stored as NetCDF file attributes (Table 7).
+
+
+
+
+3 Sinusoidal tile grid: https://modis-land.gsfc.nasa.gov/MODLAND_grid.html
+
+
+
+                                                                                           11
+Table 7: VNP14A1 fire product metadata stored as standard NetCDF file attributes.
+         Name                 Description
+ VNP14GD_input_file           VNP14GD input pointer
+ VNP14GN_input_file           VNP14GN input pointer
+ tile                         MODIS/VIIRS sinusoidal tile descriptor (e.g., “h08v05”)
+ InstrumentShortname          “VIIRS”
+ ShortName                    “VNP14A1”
+ CodeVersion                  Software version string (e.g., “1.1.1”)
+ TileID                       Long form of sinusoidal tile descriptor (e.g., “51008005”)
+ StartTime                    ISO-format start date/time (e.g., “2018-01-01 00:00:00”)
+ EndTime                      ISO-format end date/time (e.g., “2018-01-01 23:59:59”)
+ FireCells                    Number of 1-km grid cells of class fire (unsigned integer)
+ NorthBoundingCoord           Northern-most bounding latitude (decimal degrees)
+ SouthBoundingCoord           Southern-most bounding latitude (decimal degrees)
+ EastBoundingCoord            Eastern-most bounding longitude (decimal degrees)
+ WestBoundingCoord            Western-most bounding longitude (decimal degrees)
+
+
+
+
+                                                                                           12
+3. DATA ACCESS
+
+The current Collection 1 reprocessed time series builds on the VIIRS Science Data
+Record (SDR). The first several hours of S-NPP/VIIRS data acquired after the nominal
+start of sensor operations on 19 Jan 2012 were characterized by the cooling of onboard
+calibration sources, with gradual improvement and stabilization of the thermal emissive
+bands’ performance. For practical purposes, users should adopt 20 Jan 2012 as the
+effective start date of the VIIRS active fire data record.
+         Additional intermittent data calibration anomalies affecting the SDR granules
+used as input to the VNP14IMG algorithm resulted in 468 output files containing empty
+fire masks and another 114 files showing lines of spurious detections in the fire product
+during the Jan 2012-Oct 2017 period (Figure 3). Similarly, anomalous SDR input data
+serving the VNP14 algorithm resulted in lines of spurious fire pixels impacting 188 files
+during the Jan 2012-Oct 2017 period (Figure 3). The frequency of those SDR data
+anomalies was found to be higher during the first year of the time series (2012), then
+gradually decreasing with time.
+         Outstanding data anomalies are being addressed by the VIIRS calibration team
+therefore future VIIRS Collections are expected to be free of those artifacts resulting in a
+more complete data record. An updated list of VNP14IMG and VNP14 files affected by
+the SDR anomalies will be posted to the dedicated VIIRS directory under the “fuoco” ftp
+server at the University of Maryland (see section 3.2 below). The filenames containing
+those lists will be clearly marked and maintained regularly with the most up-to-date
+information. Users should consult those lists and take appropriate steps to avoid the
+spurious fire pixels.
+
+
+
+
+                          2012    2013    2014    2015    2016    2017   2018
+Figure 3: Annual global distribution of spurious VNP14IMG fire pixels associated with poorly-calibrated
+SDR input data acquired between Jan 2012- Jun 2018. Map shows data from 112 separate granules.
+
+
+
+
+                                                                                                      13
+                          2012    2013    2014    2015    2016    2017    2018
+Figure 3 (continued): Annual global distribution of spurious VNP14 fire pixels associated with poorly-
+calibrated SDR input data acquired between Jan 2012- Jun 2018. Map shows data from 187 separate
+granules.
+
+
+    3.1. LEVEL 2 (SWATH) NETCDF4/HDF5
+Currently, both VNP14IMG and VNP14 Level 2 swath products are being generated in
+NetCDF4/HDF5 format by NASA’s Land-SIPS using the V1 reprocessed Level 1 data.
+The VNP14 product can be accessed through NASA’s Land Processes Distributed Active
+Archive Center (LP DAAC) at:
+
+https://lpdaac.usgs.gov/
+
+       In addition to the LP DAAC data access portal, the VNP14IMG and VNP14
+products are available through the Level 1 and Atmosphere Archive Distribution System
+(LAADS Web) public web site using the following links:
+
+https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5000/VNP14IMG/
+https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5000/VNP14/
+
+       Individual data files describe »6-min orbit segments. The filename convention
+(standard across Land-SIPS products) is as follows:
+
+VNP14IMG.AYYYYDDD.HHMM.vvv.yyyydddhhmmss.nc
+VNP14.AYYYYDDD.HHMM.vvv.yyyydddhhmmss.nc
+Where:
+YYYYDDD         = year and Julian day (001-366) of data acquisition
+HHMM            = hour and minute of data acquisition (approximate beginning time)
+vvv             = version number
+yyyyddd = year and Julian day of data processing
+hhmmss          = hour, minute, and second of data processing
+
+
+
+
+                                                                                                         14
+     Users are encouraged to consult the global attributes in the VNP14IMG and
+VNP14 files for additional metadata information describing those granules.
+
+
+    3.2. ASCII FIRE LOCATION DATA
+VNP14IMGML and VNP14ML data are available in ASCII format mimicking the
+heritage MCD14ML product (see MODIS Collection 6 Active Fire Product User’s Guide
+[2015]). The ASCII data are grouped into global monthly summary files, and carry
+essential fire detection information in comma-separated format that can be easily
+displayed on a map using common GIS software. Data granules containing spurious fire
+pixels (Section 3/figure 3) are excluded from VNP14IMGML and VNP14ML files.
+Those files are labeled as follows:
+
+VNP14IMGML.YYYMM.CC.VV.txt ||                       VNP14ML.YYYMM.CC.VV.txt
+Where:
+YYYYMM           = year and month (01-12) of data acquisition
+CC               = collection number
+VV               = version number
+
+       The VNP14IMGML data file contains 12 separate fields with the following
+information:
+
+YYYYMMDD Detection date in year (YYYY), month (MM) and day (DD)
+HHMM            Detection time (UTC) in hour (HH) and minutes (MM)
+Sat             Satellite descriptor (three letters). Example: Suomi-NPP (VNP)
+Lat             Fire pixel latitude (degrees)
+Lon             Fire pixel longitude (degrees)
+T_I4            Fire pixel brightness temperature on channel I4 (Kelvin)
+T_I5            Fire pixel brightness temperature on channel I5 (Kelvin)
+Sample          VIIRS I-band image sample number of fire pixel (range 0-6399)
+Pixarea VIIRS I-band fire pixel area (km2)
+FRP             Fire radiative power (MW)
+Conf            Confidence class (low, nominal, high)
+Type            Type attributed to thermal anomaly:
+                          0 = presumed vegetation fire
+                          1 = active volcano
+                          2 = other static land source
+                          3 = offshore detection (includes all detections over water)
+
+       Similarly, the VNP14GML data file contains 12 separate fields with the following
+information:
+YYYYMMDD         Detection date in year (YYYY), month (MM) and day (DD)
+HHMM             Detection time (UTC) in hour (HH) and minutes (MM)
+Sat              Satellite descriptor (three letters). Example: Suomi-NPP (VNP)
+Lat              Fire pixel latitude (degrees)
+Lon              Fire pixel longitude (degrees)
+T_M13            Fire pixel brightness temperature on channel M13 (Kelvin)
+T_M15            Fire pixel brightness temperature on channel M15 (Kelvin)
+Sample           VIIRS M-band image sample number of fire pixel (range 0-3199)
+Pixarea          VIIRS M-band fire pixel area (km2)
+
+
+                                                                                        15
+FRP            Fire radiative power (MW)
+Conf           Confidence class (0-100%)
+Type           Type attributed to thermal anomaly:
+                        0 = presumed vegetation fire
+                        1 = active volcano
+                        2 = other static land source
+                        3 = offshore detection (includes all detections over water)
+
+Users can download the VNP14IMGML and VNP14ML data sets by connecting to an ftp
+server at the University of Maryland using:
+
+server:     fuoco.geog.umd.edu
+login:      fire
+password:   burnt
+directory (VNP14IMGML): /VIIRS/VNP14IMGML
+directory (VNP14ML): /VIIRS/VNP14ML
+
+
+
+         New VNP14IMGML and VNP14ML files are created regularly and posted to the
+ftp server above shortly after all data for a given month becomes available.
+         In addition to the standard Level 2 NetCDF4/HDF5 and ASCII data formats,
+users can find links to near real-time (NRT) VNP14IMG data generated by NASA’s
+Land, Atmosphere Near real-time Capability for EOS (LANCE) and distributed in GIS-
+friendly (e.g., ASCII, shapefile) formats. The VIIRS NRT active fire data are primarily
+meant for use in support of fire management applications requiring low-latency data
+access. Users are warned about possible coverage gaps resulting from temporary
+interruptions in the NRT data processing chain. In response to users’ demand, only
+VNP14IMG data are produced and distributed in near real-time. Latency-insensitive
+applications demanding higher consistency (e.g., scientific studies) should favor the non-
+NRT VNP14IMG and VNP14 data stream serving the LP DAAC and LAADS Web
+archives.
+         The VIIRS NRT VNP14IMG product can be accessed through the NASA FIRMS
+portals:
+https://earthdata.nasa.gov/viirs-fire-data
+https://firms2.modaps.eosdis.nasa.gov/active_fire/viirs/
+
+        An online VIIRS NRT global data browser including VNP14IMG data
+visualization (Figure 4) is also available at:
+https://earthdata.nasa.gov/labs/worldview/
+
+
+
+
+                                                                                       16
+Figure 4: NASA’s Worldview data display system showcasing VIIRS 375 m daytime global active fire
+detections for 10 December 2015.
+
+
+    3.3. LEVEL 3 VNP14A1 PRODUCT
+The Level 3 tiled VNP14A1 product is generated in NetCDF4/HDF5 format by NASA’s
+Land SIPS, and is distributed from the LP-DAAC (https://lpdaac.usgs.gov/).
+
+
+4. DATA HANDLING
+
+         The Level 2 VNP14IMG and VNP14 and Level 3 VNP14A1 products are
+compatible with NetCDF4 and HDF5 libraries and can be read/handled using commercial
+off-the-shelf (e.g., ENVI/IDL) as well as publicly available software (e.g., HDFView).
+Example 1 describes a short IDL program that can be used to read the ‘fire mask’,
+‘FP_latitude’, and ‘FP_longitude’ variables contained in the Level 2 (swath) product
+files. Due to the similarities between the VNP14IMG and VNP14 active fire product
+files, the code can be used interchangeably to read both products.
+         The Level 2 NetCDF output files are available in the satellite (swath) projection.
+The HDF-EOS to GeoTIFF (HEG) data conversion tool can be downloaded from:
+
+https://newsroom.gsfc.nasa.gov/sdptoolkit/HEG/HEGDownload.html
+
+        The HEG tool allows users to convert the fire mask swath data into standard geo-
+referenced output files (e.g., GeoTIFF). The VIIRS geolocation data are needed to
+perform the transformation; users are referred to the tool’s documentation (available at
+the link above) for additional details. Currently, only VNP14 files are supported by HEG.
+
+
+
+
+                                                                                                   17
+Example 1: IDL code designed to read VNP14IMG m or VNP14 active fire masks (2D
+array) and fire pixel latitude, longitude, and FRP vectors.
+
+  PRO read_viirs_fire_nc,input_file
+
+        ;input_file = input VIIRS fire data file (string)
+        ;example: ‘/data/VNP14IMG.A2016001.1200.001.2016001230000.nc’
+        ;code will also work with VIIRS 750 m fire data (VNP14*.nc)
+
+        ;Open file to read
+        file_id = H5F_OPEN(input_file)
+        ;Read fire mask data set (2D array)
+        sd_id   = H5D_OPEN(file_id,'fire mask')
+        fire_mask = H5D_READ(sd_id)
+        H5D_CLOSE,sd_id
+        ;Read global attribute containing number of fire pixels
+        attr_id = H5A_OPEN_NAME(file_id,'FirePix')
+        firepix = H5A_READ(attr_id)
+        H5A_CLOSE,attr_id
+        ;Read fire pixel info included among sparse arrays
+        IF (firepix GT 0) THEN BEGIN
+        ;Read fire pixel latitude data set (vector)
+        sd_id   = H5D_OPEN(file_id,'FP_latitude')
+        fp_latitude = H5D_READ(sd_id)
+        H5D_CLOSE,sd_id
+        ;Read fire pixel longitude data set (vector)
+        sd_id   = H5D_OPEN(file_id,'FP_longitude')
+        fp_longitude = H5D_READ(sd_id)
+        H5D_CLOSE,sd_id
+        ;Read fire pixel FRP data set (vector)
+        sd_id   = H5D_OPEN(file_id,'FP_power')
+        fp_power = H5D_READ(sd_id)
+        H5D_CLOSE,sd_id
+        ENDIF
+        ;Close file
+        H5F_CLOSE,file_id
+
+  END
+
+
+
+
+                                                                             18
+5. FREQUENTLY ASKED QUESTIONS
+
+Q: Where can I find additional information on VIIRS active fire products?
+A: A dedicated website containing additional VIIRS fire data information is available at:
+http://viirsfire.geog.umd.edu/
+
+Q: What is the temporal frequency of the VIIRS fire data?
+A: The 3060 km VIIRS swath enables »15% image overlap between consecutive orbits at
+the equator, thereby providing full global coverage every 12h. The nominal (equator-
+crossing) overpass times for S-NPP are 1:30pm and 1:30am. Thanks to its polar orbit,
+mid-latitudes will experience 3-4 looks a day.
+
+Q: What is the main difference between the VNP14IMG and VNP14 active fire data?
+A: The two data products use similar methodologies to detect active fire pixels although
+differences in the spectral characteristics of the VIIRS channels used in each case led to
+unique algorithms. Because of its improved spatial resolution, the VNP14IMG product
+will usually detect more fire pixels compared to VNP14. That difference is particularly
+pronounced during the nighttime part of the orbit when the occurrence of smaller/cooler
+fires will favor the VNP14IMG product.
+
+Q: Will the VNP14IMG fire product always outperform the lower resolution VNP14
+product?
+A: Generally speaking, the higher spatial resolution product will achieve higher
+probability of fire detection in both day and nighttime scenes. Summary statistics were
+calculated using 90 consecutive days of coincident VNP14IMG and VNP14 product data
+for the entire globe resulting in the following:
+
+Daytime data:
+      - VNP14IMG product detected up +3x more fire pixels (absolute difference)
+          than the VNP14
+      - ≈45% of the daytime VNP14IMG fire pixels had no match in the VNP14
+          product
+      - ≈4% of the VNP14 daytime fire pixels had no match in the VNP14IMG
+          product (concentrated occurrence in Sun glint areas due to more conservative
+          tests used in the VNP14IMG product. Other reasons vary, spatial
+          mismatch/point spread function help explain part of it)
+
+Nighttime data:
+       - VNP14IMG product picked up +20x more fire pixels (absolute difference)
+           than the VNP14
+       - ≈80% of the VNP14IMG pixels had no match in the VNP14 product
+       - Rare/negligible occurrence of VNP14 fire pixels with no match in the
+           VNP14IMG product (usually associated with areas of missing/poor-quality
+           data in the VNP14IMG algorithm input)
+
+
+
+
+                                                                                         19
+       The summary statistics above are meant for illustration purposes only and may
+vary based on sample size and geographic area analyzed. Differences between
+VNP14IMG m and MODIS 1 km fire detection performance are further magnified due to
+coverage gaps along the tropics and sampling characteristics (pixel enlargement away
+from nadir) impacting the MODIS data (Figure 5).
+
+
+
+
+                         Daytime                                              Nighttime
+     Terra/MODIS S-NPP/VIIRS Aqua/MODIS Terra/MODIS S-NPP/VIIRS Aqua/MODIS
+     (04:05 UTC)       (06:20 UTC)      (07:10 UTC)        (14:55 UTC)      (18:55 UTC)      (19:20 UTC)
+           606            9,643              361                 58              4,608            22
+Figure 5: Fire detection maps and statistics for the Lower Mekong region in southeast Asia derived from
+Terra/MODIS (MOD14) (left panels), S-NPP/VIIRS (VNP14IMG) (center panels), and Aqua/MODIS
+(MYD14) (right panels) data acquired on 01 March 2016. Top panels show daytime fire pixels (red dots)
+overlaid on the corresponding true color RGB composite, whereas bottom panels show nighttime fire pixels
+overlaid on plain map. Blank sections on Terra and Aqua/MODIS RGB composites describe coverage gaps
+typically found across tropical regions. Identical fire pixel representation (size, form) was used in each
+panel.
+
+Q: How often do fire pixels saturate the 375 m mid-infrared (I4) channel?
+A: Quite often. There are three main scenarios associated with saturated pixels in the I4
+mid-infrared channel used in the VNP14IMG active fire detection algorithm. First there
+is the typical saturation condition in which the pixel is assigned the nominal saturation
+temperature of 367 K. The second scenario involves the more extreme case when the fire
+signal will greatly exceed the dynamic range of channel I4. In that case, the pixel’s digital
+number will fold over and show an abnormally low temperature which can be confronted
+by the companion long-wave infrared channel (I5) data. The third and last scenario is the
+more challenging one. It represents those cases when native pixels that reach saturation
+are mixed with other non-saturated pixels during onboard data aggregation resulting in
+corrupted Level 1 radiances. Currently, there are no quality flags available in the input
+Level 1 data indicating those anomalies. The different saturation scenarios above are
+believed to have small/negligible effect on the fire detection performance. However, their
+occurrence is a major factor limiting the retrieval of sub-pixel fire characteristics (FRP)
+using the I4 channel.
+
+
+                                                                                                       20
+Q: A few VNP14IMG fire pixels were located outside the reported perimeter of a large
+wildfire. Was it an error? What data source should I trust?
+A: In those circumstances users may need to look for additional clues when there is
+indication of potential commission error surrounding large wildfires. There have been a
+few instances involving large and intense wildfires over which tall plumes carrying large
+volumes of hot material into the air were formed when the VNP14IMG product detected
+the surface fire along with part of the plume. Those occurrences typically share the
+following set of conditions:
+     (i)    Nighttime detection. This is the period during which the VNP14IMG product
+            is particularly responsive to heat sources thereby favoring plume detection;
+     (ii)   Very large wildfires undergoing explosive growth and accompanied by
+            rapid/vertically elongated plume development. Enough hot material must
+            entrain the plume creating a distinguishable thermal signal (i.e., one that
+            significantly exceeds the fire-free surface background);
+     (iii)  High scan angle. This is what will ultimately produce the detections extending
+            beyond the actual fire perimeter. The parallax effect causes the tall/super-
+            heated plume detection pixel(s) to be displaced laterally when projected onto
+            the surface. Displaced pixels will be located on the fire perimeter’s side
+            further away from the image center and closer to the swath’s edge.
+If those conditions apply, look for alternative observations (previous/next overpass)
+acquired closer to nadir and try and prioritize the use of the fire detection data
+accordingly. Unfortunately, the VNP14IMG isn’t currently able to distinguish nighttime
+surface fire pixels from the isolated plume detections due to strong similarities between
+their radiometric signatures.
+
+Q: Are the VIIRS active fire data science-ready?
+A: The VIIRS active fire data have been extensively tested since routine production of
+the mission’s data record started in 19 January 2012. Corrupted SDR data were still
+found in the Collection 1 reprocessed data (Figure 3). Those anomalies are being
+addressed by the VIIRS calibration team and their occurrence have significantly reduced,
+though not completely eliminated. Consequently, the reprocessed data show isolated
+granules affected by those anomalies. Those granules have been removed from the
+Collection 1 VNP14IMG and VNP14 public archives.
+        Initial assessment of both VNP14IMG and VNP14 data was implemented over a
+few experimental sites indicating consistent fire detection and characterization
+performance (e.g., Dickinson et al. [2015]). Additional data comparison analyses were
+implemented using near coincident Aqua/MODIS and TET-1 (German Aerospace
+Center) active fire data, which again showed consistent performance of the VIIRS active
+fire products across different observation conditions [Rucker et al., 2016]. Consequently,
+we consider the current data of good enough quality for use in fire management
+applications and scientific studies. However, users must be aware of the intrinsic quality
+limitations involving the various publicly available data records. Make sure to consult the
+online documentation describing the primary data archives at
+http://viirsfire.geog.umd.edu/.
+
+
+
+
+                                                                                        21
+Q: Are these products still being refined?
+A: Absolutely. The current suite represents the second release of the VNP14IMG and
+VNP14 active fire algorithms; data imperfections can – and likely will – occur. As with
+other satellite data products, the VIIRS active fire algorithm development undergoes
+routine quality control during which data issues such as omission errors, false alarms and
+other anomalies are investigated and addressed. New versions of the products will be
+released once algorithm revisions are implemented and tested. Users are encouraged to
+report back to the science team when encountering potential data discrepancies.
+
+
+
+
+                                                                                        22
+6. REFERENCES
+
+Csiszar, I., Schroeder, W., Giglio, L., Ellicott, E., Vadrevu, K.P., Justice, C.O., and Wind,
+   B. (2014). Active fires from the Suomi NPP Visible Infrared Imaging Radiometer
+   Suite: Product Status and first evaluation results. Journal of Geophysical Research:
+   Atmospheres, doi: 10.1002/2013JD020453.
+Dickinson, M.B., Hudak, A.T., Zajkowski, T., Loudermilk, L.E., Schroeder W., Ellison,
+   L., Kremens, R.L., Holley, W., Martinez, O., Paxton, A., Bright, B.C., O’Brien, J.,
+   Hornsby, B., Ichoku, C., Faulring, J., Gerace, A., Peterson, D., and Mauceri, J. (2015).
+   Measuring radiant emissions from entire prescribed fires with ground, airborne and
+   satellite sensors – RxCADRE 2012. International Journal of Wildland Fire, doi:
+   10.1071/WF15090.
+Giglio, L., Descloitres, J., Justice, C.O., and Kaufman, Y.J. (2003). An enhanced
+   contextual fire detection algorithm for MODIS. Remote Sensing of Environment, 87,
+   273-282.
+Giglio, L., Schroder, W., and Justice, C. (2016). The Collection 6 MODIS active fire
+   detection algorithm and fire products. Remote Sensing of Environment, 178, 31-41.
+Kaufman, Y.J., Justice, C.O., Flynn, L.P., Kendall, J.D., Prins, E.M., Giglio, L., Ward,
+   D.E., Menzel, W.P., and Setzer, A.W. (1998). Potential global fire monitoring from
+   EOS-MODIS. Journal of Geophysical Research, 103 (D24), 32,215-32,238.
+MODIS Collection 6 Active Fire Product User’s Guide (2015). URL: http://modis-
+   fire.umd.edu/files/MODIS_C6_Fire_User_Guide_A.pdf
+Rucker, G., Schroeder, W., Lorenz, E., Kaiser, J., and Caseiro, A. (2016). Detection and
+   characterization of small hot fires: Comparing FireBird, BIRD, S-NPP VIIRS and
+   MODIS capacities over gas flares. Geophysical Research Abstracts, vol 18.,
+   EGU2016-15092 (http://meetingorganizer.copernicus.org/EGU2016/EGU2016-
+   15092.pdf)
+Schroeder, W., Oliva, P., Giglio, L., and Csiszar, I. (2014). The new VIIRS 375 m active
+   fire detection data product: Algorithm description and initial assessment. Remote
+   Sensing of Environment, 143, 85-96.
+Wolfe, R.E., Lin, G., Nishihama, M., Tewari, K.P., Tilton, J.C., and Isaacman, A.R.
+   (2013). Suomi NPP VIIRS prelaunch and on-orbit geometric calibration and
+   characterization. Journal of Geophysical Research: Atmospheres, 118,
+   doi:10.1002/jgrd.50873.
+Wooster, M. J., Zhukov, B., and Oertel, D. (2003). Fire radiative energy for quantitative
+   study of biomass burning: derivation from the BIRD experimental satellite and
+   comparison to MODIS fire products. Remote Sensing of Environment, 86, 83–107.
+
+
+
+
+                                                                                          23
+

@@ -1,0 +1,10 @@
+{
+  "repo": "ayghri/i-have-adhd",
+  "sha": "b15d0be58f55b33972ba3e39709e0e5208ef30cb",
+  "license": "MIT",
+  "branch": "main",
+  "skills": [
+    ".cursor/skills/i-have-adhd/SKILL.md",
+    "skills/i-have-adhd/SKILL.md"
+  ]
+}

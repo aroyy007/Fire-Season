@@ -1,0 +1,43 @@
+{
+  "artifact_id": "art_science_demo_contract_0001",
+  "files": [
+    {
+      "media_type": "application/json",
+      "path": "analysis.json",
+      "sha256": "dbc81b44eed74e342da12c39b3b89702999f6174dfc60f2643c0ff35c0aa2d06",
+      "size_bytes": 224393
+    },
+    {
+      "media_type": "application/json",
+      "path": "evidence-receipt.json",
+      "sha256": "a33c7963a257a4df2e769a4e2304ef363dd126b21aaaf2016b676a9d84574be8",
+      "size_bytes": 4432
+    },
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "dbe8341316f3b82521b4fefeb6d309c5575c64b0e1fa0f5b05d00e64771e58de",
+      "size_bytes": 43659
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "9ea02a387a45343fcdb9b919394016384a9d78b76a6258499e6f29c2e05d6d2f",
+      "size_bytes": 24830
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "5b98838129b62e8ae8909d01ac64aad9e89cf969ce3a3f1f9a15991df1eaa63f",
+      "size_bytes": 633
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "ba968c982137ec4200df342988ea1cf5a14e7feeab29fd6094cf2e9cd8ed681e",
+      "size_bytes": 166
+    }
+  ],
+  "manifest_created_at": "2026-09-24T00:00:00Z",
+  "schema_version": "1.0.0"
+}

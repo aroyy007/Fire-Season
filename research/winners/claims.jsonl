@@ -1,0 +1,10 @@
+{"claim_id": "C01", "claim": "2024 agriculture and environmental workflows are relevant winning prior art", "evidence_ids": ["E02"], "support_status": "supported"}
+{"claim_id": "C02", "claim": "A voice or tool-calling wildfire map alone is insufficient product differentiation", "evidence_ids": ["E11"], "support_status": "researcher_inference"}
+{"claim_id": "C03", "claim": "2026 event dates November 14–15", "evidence_ids": ["E10"], "support_status": "supported"}
+{"claim_id": "C04", "claim": "2026 terms require open availability/licensing and third-party credit", "evidence_ids": ["E04", "E05"], "support_status": "supported"}
+{"claim_id": "C05", "claim": "2026 team size/demo/AI rules equal 2025", "evidence_ids": ["E06", "E07", "E08"], "support_status": "not_confirmed_do_not_assert"}
+{"claim_id": "C06", "claim": "The exact 2026 pre-event development boundary is established", "evidence_ids": ["E09"], "support_status": "not_confirmed_do_not_assert"}
+{"claim_id": "C07", "claim": "Five complementary roles is a useful recruiting plan", "evidence_ids": ["E13"], "support_status": "researcher_recommendation"}
+{"claim_id": "C08", "claim": "GROW current implementation is identical to original 2024 submission", "evidence_ids": ["E11"], "support_status": "not_verified_do_not_assert"}
+{"claim_id": "C09", "claim": "Verified repositories include GROW and Storm Prophet", "evidence_ids": ["E11", "E12"], "support_status": "supported_identity_readme"}
+{"claim_id": "C10", "claim": "Winner recognition establishes predictive accuracy or causal impact", "evidence_ids": ["E02", "E03"], "support_status": "not_supported_do_not_assert"}

@@ -1,0 +1,8 @@
+{"claim_id": "fire_access", "claim": "FIRMS live regional CSV retrieved with 787 records.", "source_ids": ["C23"], "status": "verified_live_sample"}
+{"claim_id": "power_access", "claim": "POWER daily sample returned 3 daily values for each of two parameters.", "source_ids": ["C24"], "status": "verified_live_sample"}
+{"claim_id": "nisar_access", "claim": "CMR lists provisional GCOV collection C2854338529-ASF; binary granule was not downloaded.", "source_ids": ["C22"], "status": "verified_metadata_only"}
+{"claim_id": "soil_api", "claim": "SoilGrids official page reports temporarily paused REST service.", "source_ids": ["C06"], "status": "verified_documentation"}
+{"claim_id": "effort", "claim": "Effort-adjusted detection rates need observed-clear/no-fire information beyond positive-only FIRMS records.", "source_ids": ["C18", "C23"], "status": "inference_from_product_schemas"}
+{"claim_id": "recommendation", "claim": "Fire harmonization is best fit for strong Python/remote-sensing team focused on practical Earth impact.", "source_ids": ["C01", "C08", "C18", "C20"], "status": "analyst_recommendation"}
+{"claim_id": "field_limits", "claim": "Coarse climate/soil moisture grids cannot establish measured field-specific agronomic outcomes.", "source_ids": ["C02", "C05"], "status": "scale-based_inference"}
+{"claim_id": "nisar_quality", "claim": "Provisional GCOV is suitable for exploratory analysis with explicit validation limitations.", "source_ids": ["C22"], "status": "verified_metadata"}

@@ -1,0 +1,18 @@
+{
+  "fixture_status": "contract_fixture_not_scientific_result",
+  "regions": [
+    {
+      "key": "science",
+      "name": "Northeast India–Myanmar Science Pilot",
+      "path": "data/releases/science-pilot",
+      "role": "science_pilot"
+    },
+    {
+      "key": "local",
+      "name": "Chattogram Hills and Cox's Bazar Local Impact Case",
+      "path": "data/releases/local-impact-case",
+      "role": "local_impact_case"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

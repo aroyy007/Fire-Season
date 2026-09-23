@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-18",
+  "task": "Compare 14 NASA Space Apps 2026 challenges; deep-dive fire, farms, trends and NISAR",
+  "mode": "deep",
+  "assumptions": [
+    "4-6 people",
+    "Strong Python/data science or remote sensing confirmed via parent",
+    "Practical Earth impact preferred",
+    "Hackathon MVP, not operational decision system"
+  ],
+  "providers": [
+    "web search/open",
+    "direct HTTPS small public samples"
+  ],
+  "limitations": [
+    "Main challenge web pages unavailable through web open; supplied brief used",
+    "Full historical fire archive not downloaded",
+    "No Earthdata authentication or remote-sensing binary granule download",
+    "Rankings are analyst judgments, not competition outcome probabilities"
+  ]
+}

@@ -1,0 +1,25 @@
+{"source_id": "C01", "title": "2026 challenge briefs supplied by user", "url": "https://www.spaceappschallenge.org/2026/challenges/", "retrieved_at": "2026-09-18", "source_type": "user_supplied"}
+{"source_id": "C02", "title": "NASA POWER API tutorial", "url": "https://power.larc.nasa.gov/docs/tutorials/service-data-request/api/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C03", "title": "NASA POWER Daily API", "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C04", "title": "Harmonized Landsat and Sentinel-2", "url": "https://hls.gsfc.nasa.gov/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C05", "title": "SMAP SPL4SMGP Version 8", "url": "https://nsidc.org/data/spl4smgp/versions/8", "retrieved_at": "2026-09-18", "source_type": "official_data_centre"}
+{"source_id": "C06", "title": "SoilGrids global gridded soil information", "url": "https://isric.org/explore/soilgrids", "retrieved_at": "2026-09-18", "source_type": "official_data_provider"}
+{"source_id": "C07", "title": "SoilGrids layers", "url": "https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_01.html", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C08", "title": "FIRMS archive download", "url": "https://firms.modaps.eosdis.nasa.gov/download/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C09", "title": "FIRMS Area API", "url": "https://firms.modaps.eosdis.nasa.gov/api/area/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C10", "title": "NASA FIRMS WMS", "url": "https://firms.modaps.eosdis.nasa.gov/mapserver/wms-info/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C11", "title": "FIRMS US/Canada FAQ", "url": "https://forum.earthdata.nasa.gov/viewtopic.php?t=5200", "retrieved_at": "2026-09-18", "source_type": "official_support"}
+{"source_id": "C12", "title": "NISAR L-Band Data Now Publicly Available", "url": "https://asf.alaska.edu/notices/nisar-l-band-data-now-publicly-available/", "retrieved_at": "2026-09-18", "source_type": "official_data_centre"}
+{"source_id": "C13", "title": "NISAR GCOV Data User Guide", "url": "https://nisar-docs.asf.alaska.edu/gcov/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C14", "title": "NASA Giovanni", "url": "https://giovanni.earthdata.nasa.gov/", "retrieved_at": "2026-09-18", "source_type": "official_application"}
+{"source_id": "C15", "title": "MERRA-2 data access", "url": "https://gmao.gsfc.nasa.gov/gmao-products/merra-2/wmo-data-access_merra-2/", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C16", "title": "IMERG technical documentation", "url": "https://gpm.nasa.gov/sites/default/files/2023-07/IMERG_TechnicalDocumentation_final_230713.pdf", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C17", "title": "IMERG latency", "url": "https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg", "retrieved_at": "2026-09-18", "source_type": "official_documentation"}
+{"source_id": "C18", "title": "MOD14A1.061 Earth Engine catalog", "url": "https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD14A1", "retrieved_at": "2026-09-18", "source_type": "platform_documentation"}
+{"source_id": "C19", "title": "VNP14A1 NASA product record", "url": "https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP14A1", "retrieved_at": "2026-09-18", "source_type": "official_product_record"}
+{"source_id": "C20", "title": "NASA VIIRS burned area product validation and MODIS comparison", "url": "https://doi.org/10.1016/j.rse.2025.115006", "retrieved_at": "2026-09-18", "source_type": "primary_research"}
+{"source_id": "C21", "title": "Detection rates and biases of MODIS and agency reports", "url": "https://www.sciencedirect.com/science/article/pii/S0034425718304826", "retrieved_at": "2026-09-18", "source_type": "primary_research"}
+{"source_id": "C22", "title": "NISAR CMR catalog query, live response", "url": "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=NISAR%20GCOV&page_size=5", "retrieved_at": "2026-09-18", "source_type": "live_api"}
+{"source_id": "C23", "title": "FIRMS VIIRS South Asia 24-hour sample", "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/viirs/csv/SUOMI_VIIRS_C2_South_Asia_24h.csv", "retrieved_at": "2026-09-18", "source_type": "live_api"}
+{"source_id": "C24", "title": "POWER Dhaka-area 3-day sample", "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=90.4&latitude=23.8&start=20240101&end=20240103&format=JSON", "retrieved_at": "2026-09-18", "source_type": "live_api"}
+{"source_id": "C25", "title": "Trend generation documentation", "url": "https://gis.earthdata.nasa.gov/portal/help/en/11.5/analyze/generate-trend.htm", "retrieved_at": "2026-09-18", "source_type": "platform_documentation"}

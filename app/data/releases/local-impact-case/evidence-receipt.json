@@ -1,0 +1,116 @@
+{
+  "analysis": {
+    "end_date": "2024-12-31",
+    "grid_version": "demo-grid-0.1",
+    "metric_id": "detected_active_land_cell_days_per_1000_valid_land_cell_days",
+    "minimum_monthly_support_fraction": 0.5,
+    "quality_policy_version": "demo-policy-0.1",
+    "reference_product_id": "myd14a1_061_aqua",
+    "source_manifest_id": "src_000000000000",
+    "source_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "start_date": "2013-01-01"
+  },
+  "artifact_id": "art_local_demo_contract_0001",
+  "calibration": null,
+  "environment": {
+    "dependency_lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "operating_system": "portable contract fixture",
+    "pipeline_revision": "demo-contract-0001",
+    "python_version": "3.9+"
+  },
+  "exclusions": [],
+  "files": [
+    {
+      "media_type": "application/json",
+      "path": "analysis.json",
+      "sha256": "6083f60c871f39ddcf0dc44a5dc2287a0729e6a49d9658f3d1db6da0edefd330",
+      "size_bytes": 224419
+    },
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "f681030128533a1becde225eeb0fadbf472e08cdc80bb5ee62c6a08327849ec0",
+      "size_bytes": 43101
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "1d1f35bb490759e604d72783d125cc92b57c8bc15736412974fd4cc17c37dc41",
+      "size_bytes": 24551
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "6931a8d41329f2e99bc6cf132ff4b8ceef22cc81be82d77e43a78545d2aababe",
+      "size_bytes": 631
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "ba968c982137ec4200df342988ea1cf5a14e7feeab29fd6094cf2e9cd8ed681e",
+      "size_bytes": 166
+    }
+  ],
+  "limitations": [
+    "Contract fixture only: values are deterministic UI rehearsal data, not a scientific result.",
+    "No paired historical raster has been decoded or evaluated in this artifact.",
+    "Comparable Activity is unavailable because no Calibration Release exists.",
+    "FIRMS point detections are not used as a daily-mask denominator."
+  ],
+  "published_at": "2026-09-24T00:00:00Z",
+  "receipt_id": "rcpt_local_demo_contract_0001",
+  "region": {
+    "geometry_sha256": "6931a8d41329f2e99bc6cf132ff4b8ceef22cc81be82d77e43a78545d2aababe",
+    "name": "Chattogram Hills and Cox's Bazar Local Impact Case",
+    "region_id": "region_chattogram_hills_r1",
+    "revision": 1,
+    "role": "local_impact_case"
+  },
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Aqua",
+      "product_guide_url": "https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf",
+      "product_id": "myd14a1_061_aqua",
+      "provider_objects": [
+        {
+          "observed_end": "2024-12-31T23:59:59Z",
+          "observed_start": "2013-01-01T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "contract-fixture-myd14a1_061_aqua",
+          "retrieved_at": "2026-09-24T00:00:00Z",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "size_bytes": 0,
+          "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-myd14a1-061"
+        }
+      ],
+      "short_name": "MYD14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-myd14a1-061",
+      "stream": "science_mask",
+      "version": "Collection 6.1"
+    },
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Suomi-NPP",
+      "product_guide_url": "https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf",
+      "product_id": "vnp14a1_002_suomi_npp",
+      "provider_objects": [
+        {
+          "observed_end": "2024-12-31T23:59:59Z",
+          "observed_start": "2013-01-01T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "contract-fixture-vnp14a1_002_suomi_npp",
+          "retrieved_at": "2026-09-24T00:00:00Z",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "size_bytes": 0,
+          "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002"
+        }
+      ],
+      "short_name": "VNP14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002",
+      "stream": "science_mask",
+      "version": "Version 2"
+    }
+  ]
+}

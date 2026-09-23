@@ -1,0 +1,21 @@
+{"claim_id": "fire_access", "claim": "FIRMS live regional CSV retrieved with 787 records.", "source_ids": ["C23"], "status": "verified_live_sample", "module": "challenges"}
+{"claim_id": "power_access", "claim": "POWER daily sample returned 3 daily values for each of two parameters.", "source_ids": ["C24"], "status": "verified_live_sample", "module": "challenges"}
+{"claim_id": "nisar_access", "claim": "CMR lists provisional GCOV collection C2854338529-ASF; binary granule was not downloaded.", "source_ids": ["C22"], "status": "verified_metadata_only", "module": "challenges"}
+{"claim_id": "soil_api", "claim": "SoilGrids official page reports temporarily paused REST service.", "source_ids": ["C06"], "status": "verified_documentation", "module": "challenges"}
+{"claim_id": "effort", "claim": "Effort-adjusted detection rates need observed-clear/no-fire information beyond positive-only FIRMS records.", "source_ids": ["C18", "C23"], "status": "inference_from_product_schemas", "module": "challenges"}
+{"claim_id": "recommendation", "claim": "Fire harmonization is best fit for strong Python/remote-sensing team focused on practical Earth impact.", "source_ids": ["C01", "C08", "C18", "C20"], "status": "analyst_recommendation", "module": "challenges"}
+{"claim_id": "field_limits", "claim": "Coarse climate/soil moisture grids cannot establish measured field-specific agronomic outcomes.", "source_ids": ["C02", "C05"], "status": "scale-based_inference", "module": "challenges"}
+{"claim_id": "nisar_quality", "claim": "Provisional GCOV is suitable for exploratory analysis with explicit validation limitations.", "source_ids": ["C22"], "status": "verified_metadata", "module": "challenges"}
+{"claim_id": "C01", "claim": "2024 agriculture and environmental workflows are relevant winning prior art", "evidence_ids": ["E02"], "support_status": "supported", "module": "winners"}
+{"claim_id": "C02", "claim": "A voice or tool-calling wildfire map alone is insufficient product differentiation", "evidence_ids": ["E11"], "support_status": "researcher_inference", "module": "winners"}
+{"claim_id": "C03", "claim": "2026 event dates November 14–15", "evidence_ids": ["E10"], "support_status": "supported", "module": "winners"}
+{"claim_id": "C04", "claim": "2026 terms require open availability/licensing and third-party credit", "evidence_ids": ["E04", "E05"], "support_status": "supported", "module": "winners"}
+{"claim_id": "C05", "claim": "2026 team size/demo/AI rules equal 2025", "evidence_ids": ["E06", "E07", "E08"], "support_status": "not_confirmed_do_not_assert", "module": "winners"}
+{"claim_id": "C06", "claim": "The exact 2026 pre-event development boundary is established", "evidence_ids": ["E09"], "support_status": "not_confirmed_do_not_assert", "module": "winners"}
+{"claim_id": "C07", "claim": "Five complementary roles is a useful recruiting plan", "evidence_ids": ["E13"], "support_status": "researcher_recommendation", "module": "winners"}
+{"claim_id": "C08", "claim": "GROW current implementation is identical to original 2024 submission", "evidence_ids": ["E11"], "support_status": "not_verified_do_not_assert", "module": "winners"}
+{"claim_id": "C09", "claim": "Verified repositories include GROW and Storm Prophet", "evidence_ids": ["E11", "E12"], "support_status": "supported_identity_readme", "module": "winners"}
+{"claim_id": "C10", "claim": "Winner recognition establishes predictive accuracy or causal impact", "evidence_ids": ["E02", "E03"], "support_status": "not_supported_do_not_assert", "module": "winners"}
+{"claim_id": "P01", "claim": "Fire Season is the recommended team-specific concept.", "status": "analyst_judgment", "support": "challenge-comparison.md"}
+{"claim_id": "P02", "claim": "The proposed transfer model improves on baselines.", "status": "not_tested_do_not_assert", "support": "docs/03-MODEL-AND-DATA-PROTOCOL.md"}
+{"claim_id": "P03", "claim": "The backend migration works in PostgreSQL.", "status": "not_runtime_tested_do_not_assert", "support": "backend/schema.sql"}

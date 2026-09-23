@@ -1,0 +1,2451 @@
+MODIS Collection 6 and Collection 6.1
+ Active Fire Product User’s Guide
+
+                  Version 1.0
+
+
+
+
+                  Louis Giglio
+              University of Maryland
+                 Wilfrid Schroeder
+  National Oceanic and Atmospheric Administration
+                  Joanne V. Hall
+              University of Maryland
+              Christopher O. Justice
+              University of Maryland
+
+                    May 2021
+                                    Technical Contacts
+
+          Topic                    Contact
+          Algorithm and products   Louis Giglio (lgiglio@umd.edu)
+                                   Joanne Hall (jhall1@umd.edu)
+          Product validation       Wilfrid Schroeder (wilfrid.schroeder@noaa.gov)
+
+
+
+
+                                Document Change History
+
+Version     Date    Description
+  1.0     5/2021    Original version adapted from C6 Revision-C User’s Guide.
+
+
+
+
+                                             2
+Contents
+1 Introduction                                                                                   8
+
+2 Summary of Algorithm and Product Changes                                                       8
+  2.1 Collection 6.1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   8
+  2.2 Collection 6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+
+3 Overview of the MODIS Active Fire Products                                                     10
+  3.1 Terminology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    10
+      3.1.1 Granules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       10
+      3.1.2 Tiles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    10
+      3.1.3 Climate Modeling Grid (CMG) . . . . . . . . . . . . . . . . . . . . . . .            11
+      3.1.4 Collections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      11
+  3.2 Level 2 Fire Products: MOD14 (Terra) and MYD14 (Aqua) . . . . . . . . . . . . .            11
+  3.3 Level 2G Daytime and Nighttime Fire Products . . . . . . . . . . . . . . . . . . .         12
+  3.4 Level 3 8-Day Daily Composite Fire Products . . . . . . . . . . . . . . . . . . . .        12
+  3.5 Level 3 8-Day Summary Fire Products: MOD14A2 (Terra) and MYD14A2 (Aqua)                    13
+  3.6 Climate Modeling Grid Fire Products (MOD14CMQ, MYD14CMQ, etc.) . . . . .                   14
+  3.7 Global Monthly Fire Location Product (MCD14ML) . . . . . . . . . . . . . . . .             14
+  3.8 Near Real-Time MODIS Imagery and Fire Products . . . . . . . . . . . . . . . . .           15
+  3.9 LDOPE Global Browse Imagery . . . . . . . . . . . . . . . . . . . . . . . . . . .          16
+
+4 Obtaining the MODIS Active Fire Products                                                       17
+  4.1 LAADS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      17
+  4.2 LP-DAAC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      17
+  4.3 University of Maryland SFTP Server . . . . . . . . . . . . . . . . . . . . . . . . .       18
+      4.3.1 MODIS CMG Active-Fire Products . . . . . . . . . . . . . . . . . . . . .             19
+      4.3.2 MODIS Monthly Fire Location Product . . . . . . . . . . . . . . . . . . .            19
+      4.3.3 Documentation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        19
+      4.3.4 Example sftp command line session . . . . . . . . . . . . . . . . . . . .            20
+      4.3.5 VIRS Monthly Fire Product . . . . . . . . . . . . . . . . . . . . . . . . .          21
+  4.4 NASA LANCE . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         21
+  4.5 NASA FIRMS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       21
+
+5 Detailed Product Descriptions                                                                  22
+  5.1 MOD14 and MYD14 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .          22
+       5.1.1 Fire Mask . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     22
+       5.1.2 Collection 6 Water Processing . . . . . . . . . . . . . . . . . . . . . . . .       22
+       5.1.3 Detection Confidence . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      22
+       5.1.4 Algorithm Quality Assessment Bits . . . . . . . . . . . . . . . . . . . . .         23
+       5.1.5 Fire Pixel Table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    24
+       5.1.6 Metadata . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      25
+       5.1.7 Example Code . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        26
+  5.2 MOD14A1 and MYD14A1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .            27
+       5.2.1 Fire Mask . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     27
+       5.2.2 QA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      27
+
+
+                                                 3
+         5.2.3 Maximum FRP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        27
+         5.2.4 Scan Sample . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      27
+         5.2.5 Metadata . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     28
+         5.2.6 Level 3 Tile Navigation . . . . . . . . . . . . . . . . . . . . . . . . . . . .    30
+         5.2.7 Example Code . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       31
+   5.3   MOD14A2 and MYD14A2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .          33
+         5.3.1 Fire Mask . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    33
+         5.3.2 QA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     33
+         5.3.3 Level 3 Tile Navigation . . . . . . . . . . . . . . . . . . . . . . . . . . . .    33
+         5.3.4 Example Code . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       33
+   5.4   CMG Fire Products (MOD14CMQ, MYD14CMQ, etc.) . . . . . . . . . . . . . . .               36
+         5.4.1 CMG Naming Convention . . . . . . . . . . . . . . . . . . . . . . . . . .          36
+         5.4.2 Data Layers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    37
+         5.4.3 Global Metadata . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      37
+         5.4.4 Climate Modeling Grid Navigation . . . . . . . . . . . . . . . . . . . . .         37
+         5.4.5 Example Code . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       38
+   5.5   Global Monthly Fire Location Product (MCD14ML) . . . . . . . . . . . . . . . .           39
+         5.5.1 Naming Convention . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        40
+         5.5.2 Versions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   40
+         5.5.3 Example Code . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       41
+
+6 Validation of the MODIS Active Fire Products                                                    43
+  6.1 Validation Based on ASTER Imagery . . . . . . . . . . . . . . . . . . . . . . . .           43
+  6.2 Other Validation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    43
+
+7 Caveats and Known Problems                                                                      44
+  7.1 Caveats . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     44
+      7.1.1 Fire Pixel Locations vs. Gridded Fire Products . . . . . . . . . . . . . . .          44
+  7.2 Collection 6 Known Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . .         44
+      7.2.1 Pre-November 2000 Data Quality . . . . . . . . . . . . . . . . . . . . . .            44
+      7.2.2 Detection Confidence . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        44
+      7.2.3 Flagging of Static Sources . . . . . . . . . . . . . . . . . . . . . . . . . .        45
+      7.2.4 August 2020 Aqua Outage . . . . . . . . . . . . . . . . . . . . . . . . . .           45
+  7.3 Collection 5 Known Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . .         46
+      7.3.1 False Alarms in Small Forest Clearings . . . . . . . . . . . . . . . . . . .          46
+      7.3.2 False Alarms During Calibration Maneuvers . . . . . . . . . . . . . . . .             47
+
+8 Frequently Asked Questions                                                                      48
+  8.1 Terra and Aqua Satellites . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     48
+      8.1.1 Where can I find general information about the Terra and Aqua satellites? .           48
+      8.1.2 When were the Terra and Aqua satellites launched? . . . . . . . . . . . . .           48
+      8.1.3 How can I determine overpass times of the Terra and Aqua satellites for a
+              particular location? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    48
+  8.2 General MODIS Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         48
+      8.2.1 Where can I find Algorithm Technical Basis Documents (ATBDs) for the
+              MODIS land products? . . . . . . . . . . . . . . . . . . . . . . . . . . . .        48
+      8.2.2 Do the MODIS sensors have direct broadcast capability? . . . . . . . . . .            48
+
+
+                                                 4
+8.3   General Fire Product Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . .     48
+      8.3.1 How are the fires and other thermal anomalies identified in the MODIS fire
+              products detected? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     48
+      8.3.2 What is the smallest fire size that can be detected with MODIS? What about
+              the largest? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   49
+      8.3.3 Why didn’t MODIS detect a particular fire? . . . . . . . . . . . . . . . . .         49
+      8.3.4 How well can MODIS detect understory burns? . . . . . . . . . . . . . . .            49
+      8.3.5 Can MODIS detect fires in unexposed coal seams? . . . . . . . . . . . . .            49
+      8.3.6 How do I obtain the MODIS fire products? . . . . . . . . . . . . . . . . .           49
+      8.3.7 What validation of the MODIS active fire products has been performed? . .            50
+      8.3.8 I don’t want to bother with strange file formats and/or an unfamiliar ordering
+              interface and/or very large data files. Can’t you just give me the locations
+              of fire pixels in plain ASCII files and I’ll bin them myself? . . . . . . . . .    50
+      8.3.9 I want to estimate burned area using active fire data. What effective area
+              burned should I assume for each fire pixel? . . . . . . . . . . . . . . . . .      50
+      8.3.10 Why are some of the MODIS fire products not available prior to November
+              2000? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    50
+      8.3.11 Why then are the Level 2 swath and Level 3 tiled fire products available
+              before November 2000? . . . . . . . . . . . . . . . . . . . . . . . . . . .        50
+8.4   Level 2 Fire Products . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    50
+      8.4.1 Why do the Level 2 product files vary in size? . . . . . . . . . . . . . . . .       50
+      8.4.2 How should the different fire detection confidence classes be used? . . . .          51
+      8.4.3 How are the confidence values in the “FP confidence” SDS related to the
+              confidence classes assigned to fire pixels? . . . . . . . . . . . . . . . . . .    51
+      8.4.4 How can I take data from the fire-pixel-table SDSs (i.e., the one-dimensional
+              SDSs with the prefix “FP ”) and place the values in the proper locations of
+              a two-dimensional array that matches the swath-based “fire mask” and “al-
+              gorithm QA” SDSs? . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        51
+      8.4.5 Why are the values of the fire radiative power (FRP) in the Collection 4
+              Level 2 product inconsistent with those in the Collection 5 Level 2 product?       52
+      8.4.6 What is the area of a MODIS pixel at the Earth’s surface? . . . . . . . . .          53
+      8.4.7 Can I use cloud pixels identified in the Level 2 fire product as a general-
+              purpose cloud mask for other applications? . . . . . . . . . . . . . . . . .       53
+8.5   Level 3 Tiled Fire Products . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    54
+      8.5.1 Why do coastlines in the tile-based Level 3 products looked so warped? . .           54
+      8.5.2 Is there an existing tool I can use to reproject the tiled MODIS products into
+              a different projection? . . . . . . . . . . . . . . . . . . . . . . . . . . . .    54
+      8.5.3 Why do some MOD14A1 and MYD14A1 product files have fewer than
+              eight daily data layers? . . . . . . . . . . . . . . . . . . . . . . . . . . . .   54
+      8.5.4 How can I determine the date associated with each daily composite in the
+              MOD14A1 and MYD14A1 products when fewer than eight days of data are
+              present? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   54
+      8.5.5 How do I calculate the latitude and longitude of a grid cell in the Level 3
+              products? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    55
+      8.5.6 How do I calculate the tile and grid cell coordinates of a specific geographic
+              location (latitude and longitude)? . . . . . . . . . . . . . . . . . . . . . .     55
+
+
+                                               5
+         8.5.7 What size are the grid cells of Level 3 MODIS sinusoidal grid? . . . . . . 55
+   8.6   Level 3 CMG Fire Products . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+         8.6.1 I need to reduce the resolution of the 0.25◦ CMG fire product to grid cells
+                 that are a multiple of 0.25◦ in size. How do I go about doing this? . . . . . 56
+         8.6.2 Why don’t you distribute a daily CMG fire product? . . . . . . . . . . . . 58
+         8.6.3 Why don’t you distribute the CMG fire products as plain binary (or ASCII)
+                 files? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+         8.6.4 Does the last 8-day CMG product for each calendar year include data from
+                 the first few days of the following calendar year? . . . . . . . . . . . . . . 58
+         8.6.5 Where can I find details about the different corrections performed on some
+                 of the data layers in the CMG fire products? . . . . . . . . . . . . . . . . . 58
+         8.6.6 Are non-fire hot spots filtered out of the MODIS CMG fire products? . . . 58
+         8.6.7 Is there an easy way to convert a calendar date into the ordinal dates (day-
+                 of-year) used in the file names of the 8-day fire products? . . . . . . . . . . 59
+   8.7   Global Monthly Fire Location Product . . . . . . . . . . . . . . . . . . . . . . . . 60
+         8.7.1 Can I use the MCD14ML fire location product to make my own gridded fire
+                 data set? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60
+         8.7.2 How many lines are in each MCD14ML product file? . . . . . . . . . . . . 60
+         8.7.3 Are non-vegetation-fire hot spots filtered out of the fire location product? . 60
+         8.7.4 The MCD14ML ASCII product files have fixed-width, space-delimited fields.
+                 Is there an easy way to convert these to comma-separated values (CSV) files? 60
+         8.7.5 How can I compute the scan angle given the sample number in the MCD14ML
+                 product? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60
+   8.8   Hierarchical Data Format (HDF) . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+         8.8.1 What are HDF files? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+         8.8.2 How do I read HDF4 files? . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+         8.8.3 Can’t I just skip over the HDF header and read the data directly? . . . . . . 61
+         8.8.4 How can I list the contents of HDF4 files? . . . . . . . . . . . . . . . . . . 61
+         8.8.5 How can I display images in HDF4 files? . . . . . . . . . . . . . . . . . . 61
+
+9 References                                                                                      62
+
+10 Relevant Web and FTP Sites                                                                     63
+
+
+
+
+                                                 6
+List of Tables
+  1    Collection 6.1 versus Collection 6 joint pixel-class frequencies. . . . . . . . . . . .       8
+  2    MODIS fire product availability. . . . . . . . . . . . . . . . . . . . . . . . . . . .       17
+  3    MOD14/MYD14 fire mask pixel classes. . . . . . . . . . . . . . . . . . . . . . . .           22
+  4    Summary of Level-2 fire product pixel-level QA bits. . . . . . . . . . . . . . . . .         23
+  5    Collection 6 Level 2 fire product SDSs comprising the “fire pixel table”. . . . . . .        24
+  6    MODIS Level 2 fire product metadata stored as standard global HDF attributes. . .            25
+  7    QA values in the Collection 6 MODIS Level 3 tiled active fire products. . . . . . .          27
+  8    MOD14A1 and MYD14A1 fire product metadata stored as standard global HDF
+       attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    29
+  9    Summary of data layers in the CMG fire products. . . . . . . . . . . . . . . . . . .         37
+  10   Summary of columns in the MCD14ML fire location product. . . . . . . . . . . .               39
+  11   Fire-pixel confidence classes associated with the confidence level C computed for
+       each fire pixel. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   51
+  12   Sizes of grid cells in Level 3 tiled MODIS sinusoidal grid. . . . . . . . . . . . . .        55
+  13   Calendar dates (month/day) corresponding to the day-of-year. . . . . . . . . . . . .         59
+
+
+
+
+                                                 7
+1 Introduction
+This document contains the most current information about the Collection-6 and Collection-6.1
+Terra and Aqua Moderate Resolution Imaging Spectroradiometer (MODIS) fire products. It is in-
+tended to provide the end user with practical information regarding their use and misuse, and to
+explain some of the more obscure and potentially confusing aspects of the fire products and MODIS
+products in general.
+
+
+2 Summary of Algorithm and Product Changes
+2.1   Collection 6.1
+Initially driven by calibration issues that impacted the MODIS atmosphere products, a Collection
+6.1 “mini-reprocessing” was initiated in 2018 and later expanded to include the MODIS land prod-
+ucts. For the land-product suite the changes under Collection 6.1 are largely confined to the MODIS
+Level-1B calibrated radiance products (e.g., MOD021KM) from which the various land products
+are derived.
+     The MODIS active fire products are among those for which no algorithm or product changes
+were made for Collection 6.1, and as such the Collection-6 and Collection-6.1 active fire products
+are sufficiently consistent to the extent that they may be freely intermixed. The slight differences
+that occur are specifically the result of updated calibration applied to MODIS bands 1 (red) and 2
+(NIR) in the Collection-6.1 Level-1B radiance product. The thermal bands used by the fire detection
+algorithm were not impacted under Collection 6.1, thus the retrieved fire radiative power (FRP)
+remains unchanged from Collection 6.
+     The Collection 6 versus Collection 6.1 joint frequency table for a representative one-day sample
+(Figure 1) of the MOD14 and MYD14 fire products shows that only a small proportion of swath
+pixels were assigned to a different class under Collection 6.1, with the vast majority of the discrepant
+cases associated with the cloud class due to the altered calibration of channels 1 and 2 (the internal
+cloud masking procedure uses both channels). In total, 18 pixels of 17610 (0.1%) assigned to one
+of the fire classes under Collection 6 were assigned to a different class under Collection 6.1.
+
+Table 1: Collection 6.1 (C6.1) versus Collection 6 (C6) joint pixel-class frequencies for a one-day
+representative sample of Level-2 MOD14 (Terra) and MYD14 (Aqua) swath product files from
+8 July 2009. Additional information about the product classes is provided in Section 5.1.1.
+                                                           C6 Class
+ C6.1 Class                 0            3             4             5       6      7       8       9
+ 0 no data             110263            0             0             0       0      0       0       0
+ 3 water                    0    558254499         32266         11773       0      0       0       2
+ 4 cloud                    0       125071     787310014         42175     107      0       0       0
+ 5 non-fire land            0        11912          9752     238045182      21      1      11       2
+ 6 unknown                  0          150             0             4    6097      0       0       0
+ 7 fire (low conf.)         0            0             0             0       0    822       1       0
+ 8 fire (nom. conf.)        0            0             0             4       0      0   12104       1
+ 9 fire (high conf.)        0            0             0             0       0      0       0    4666
+
+    Of perhaps more interest to most users will be the net change in the number of fire pixels taken
+as a whole, irrespective of the particular class value of 7, 8, or 9. To this end we show in Figure 1
+
+
+                                                   8
+a histogram of the net difference in the numbers of detected fire pixels at the 5-minute “granule”
+(product file) level for a one-month representative global sample (corresponding to 17,825 product
+files) of the Terra MOD14 and Aqua MYD14 Level-2 active fire products from January 2020. For
+this sample the largest absolute difference in the number of fire pixels detected between Collections
+6 and 6.1 for any granule was three. Overall, 99.64% of all product files had no difference in the
+number of fire pixels. For the month as a whole, the total number of fire pixels reported globally in
+the Collection-6 and Collection 6.1 fire products was 404057 and 404052, respectively, representing
+a relative change of 0.001%.
+
+
+                                  10000
+
+
+
+
+             Number of Granules
+                                  1000
+
+
+                                  100
+
+
+                                  10
+
+
+                                  1
+
+                                          −3   −2        −1          0         1          2   3
+
+                                                    C6.1 − C6 Difference in Fire Pixels
+
+Figure 1: Histogram of differences in Collection-6.1 versus Collection-6 number of fire pixels for
+a global, one-month sample (corresponding to 17,825 product files, or “granules”) of the Terra
+MOD14 and Aqua MYD14 Level-2 active fire products from January 2020.
+
+
+2.2   Collection 6
+The current Collection-6 MODIS active fire products have been available since 2015 and incorpo-
+rated the following improvements:
+
+  1. Processing was extended to oceans and other large water bodies to detect offshore gas flaring.
+  2. Reduced incidence of false alarms caused by small forest clearings.
+  3. Improved detection of small fires.
+  4. Expanded sun-glint rejection.
+  5. Slightly improved cloud masking.
+  6. Slight adjustment of detection confidence calculation.
+  7. FRP retrieval now performed using Wooster et al. (2003) approach.
+  8. Expanded fire pixel table in Level-2 product.
+  9. Additional granule-level metadata in Level-2 product.
+ 10. Simplified layer date information in 1-km Level-3 daily fire product.
+ 11. Simplified QA layer in 1-km Level-3 8-day and daily fire products.
+ 12. 0.25◦ CMG products.
+ 13. Improved elimination of static hot-spot sources from CMG products.
+ 14. New hot-spot type attribute and day/night flag in MCD14ML fire location product.
+
+
+
+                                                                 9
+3 Overview of the MODIS Active Fire Products
+Here we provide a general overview of the MODIS active fire products. More detailed descriptions
+of these products and example ingest code can be found in Section 5.
+
+3.1   Terminology
+Before proceeding with a description of the MODIS fire products, we briefly define the terms gran-
+ule, tile, and collection, and climate modelling grid in the context of these products.
+
+3.1.1 Granules
+A granule is an unprojected segment of the MODIS orbital swath containing about 5 minutes of
+data. MODIS Level 0, Level 1, and Level 2 products are granule-based.
+
+3.1.2 Tiles
+MODIS Level 2G, Level 3, and Level 4 products are defined on a global 250-m, 500-m, or 1-km
+sinusoidal grid (the particular spatial resolution is product-dependent). Because these grids are un-
+manageably large in their entirety (43200 × 21600 pixels at 1 km, and 172800 × 86400 pixels at
+250 m), they are divided into fixed tiles approximately 10◦ × 10◦ in size. Each tile is assigned a
+horizontal (H) and vertical (V) coordinate, ranging from 0 to 35 and 0 to 17, respectively (Figure 2).
+The tile in the upper left (i.e. northernmost and westernmost) corner is numbered (0,0).
+
+
+
+
+                                  Figure 2: MODIS tiling scheme.
+
+
+
+
+                                                 10
+3.1.3 Climate Modeling Grid (CMG)
+MODIS Level 3 and Level 4 products can also be defined on a coarser-resolution climate modelling
+grid (CMG). The objective is to provide the MODIS land products at consistent low resolution spa-
+tial and temporal scales suitable for global modeling. In practice, there is a fair amount of variation
+in the spatial and temporal gridding conventions used among the MODIS land CMG products.
+
+3.1.4 Collections
+Reprocessing of the entire MODIS data archive is periodically performed to incorporate better cali-
+bration, algorithm refinements, and improved upstream data into all MODIS products. The updated
+MODIS data archive resulting from each reprocessing is referred to as a collection. Later collections
+supersede all earlier collections.
+    For the Terra MODIS, Collection 1 consisted of the first products generated following launch.
+Terra MODIS data were reprocessed for the first time in June 2001 to produce Collection 3. (Note
+that this first reprocessing was numbered Collection 3 rather than, as one would expect, Collec-
+tion 2.) Collection 3 was also the first version produced for the Aqua MODIS products. Collec-
+tion 4 reprocessing began in December 2002 and was terminated in December 2006. Production of
+the Collection 5 products commenced in mid-2006. Production of the “Tier-1” Collection 6 MODIS
+products, which includes the active fire products, commenced in February 2015 and will continue
+through 31 December 2021. Production of the MODIS product suite will at that point continue via
+the Collection 6.1 “mini-reprocessing” that was initiated for the land products in late 2020.
+
+3.2     Level 2 Fire Products: MOD14 (Terra) and MYD14 (Aqua)
+This is the most basic fire product in which active fires and other thermal anomalies, such as volca-
+noes, are identified. The Level 2 product is defined in the MODIS orbit geometry covering an area
+of approximately 2340 × 2030 km in the along-scan and along-track directions, respectively. It is
+used to generate all of the higher-level fire products, and contains the following components:
+
+      • An active fire mask that flags fires and other relevant pixels (Figure 3);
+
+      • a pixel-level quality assurance (QA) image that includes 19 bits of QA information about each
+        pixel;
+
+      • a fire-pixel table which provides 27 separate pieces of radiometric and internal-algorithm
+        information about each fire pixel detected within a granule;
+
+      • extensive mandatory and product-specific metadata;
+
+      • a grid-related data layer to simplify production of the Climate Modeling Grid (CMG) fire
+        product (Section 3.6).
+
+    Product-specific metadata within the Level 2 fire product includes the number of cloud, water,
+non-fire, fire, unknown, and other pixels occurring within a granule to simplify identification of
+granules containing fire activity.
+
+
+
+
+                                                    11
+                                               Figure 3: Example MOD14 (Terra MODIS) swath-
+                                               level fire mask for granule acquired 5 September
+                                               2002 at 07:20 UTC, with water shown in blue,
+                                               clouds in purple, non-fire land pixels in grey, and
+                                               fire pixels in white. The along-track direction points
+                                               toward the bottom of the page. The large land mass
+                                               on the right is Madagascar.
+
+
+
+
+3.3   Level 2G Daytime and Nighttime Fire Products: MOD14GD/MOD14GN (Terra)
+      and MYD14GD/MYD14GN (Aqua)
+The Level 2 active fire products sensed over daytime and nighttime periods are binned without
+resampling into an intermediate data format referred to as Level 2G. The Level 2G format provides
+a convenient geocoded data structure for storing granules and enables the flexibility for subsequent
+temporal compositing and reprojection. The Level 2G fire products are a temporary, intermediate
+data source used solely for producing the Level 3 fire products and are consequently not available
+from the permanent MODIS data archive.
+
+3.4   Level 3 8-Day Daily Composite Fire Products: MOD14A1 (Terra) and MYD14A1
+      (Aqua)
+The MODIS daily Level 3 fire product is tile based, with each product file spanning one of the 460
+MODIS tiles, 326 of which contain land pixels. The product is a 1-km gridded composite of fire
+pixels detected in each grid cell over each daily (24-hour) compositing period. For convenience,
+eight days of data are packaged into a single file.
+    Figure 4 shows the Terra fire mask for day 7 (4 September 2001) of the 29 August–5 September
+2001 daily Level 3 fire product. The tile is located in Northern Australia (h31v10).
+
+
+
+
+                                                12
+                                                     Figure 4: Example of 4 September 2001 Col-
+                                                     lection 6 MOD14A1 daily fire mask for tile
+                                                     h31v10, located in Northern Australia. Wa-
+                                                     ter is shown in blue, clouds in violet, non-fire
+                                                     land grid cells in grey, and fire grid cells in
+                                                     white. Grid cells lacking data are shown in
+                                                     black.
+
+
+
+
+3.5   Level 3 8-Day Summary Fire Products: MOD14A2 (Terra) and MYD14A2 (Aqua)
+The MODIS daily Level 3 8-day summary fire product is tile-based, with each product file spanning
+one of the 460 MODIS tiles, of which 326 contain land pixels. The product is a 1-km gridded
+composite of fire pixels detected in each grid cell during the 8-day compositing period.
+     Figure 5 shows the 8-day summary fire mask from the 8-day Level 3 Terra fire product spanning
+29 August–5 September 2001. As in the previous example, the tile is located in Northern Australia
+(h31v10). The 8-day composite is the maximum value of the individual Level 2 pixel classes that
+fell into each 1-km grid cell over the entire 8-day compositing period.
+
+
+
+
+                                                     Figure 5: Example of 8-day MOD14A2
+                                                     summary fire mask for MODIS tile h31v10
+                                                     spanning 29 August–5 September 2001. The
+                                                     color scale is the same as that of Figure 4.
+
+
+
+
+                                               13
+3.6   Climate Modeling Grid Fire Products (MOD14CMQ, MYD14CMQ, etc.)
+The CMG fire products are gridded statistical summaries of fire pixel information intended for use
+in regional and global modeling. The products are now generated at 0.25◦ spatial resolution for time
+periods of one calendar month (MOD14CMQ and MYD14CMQ) and eight days (MOD14C8Q and
+MYD14C8Q). An example of the corrected fire pixel count layer of the product is shown in Figure 6.
+
+
+
+
+Figure 6: Example of the corrected fire pixel count data layer from the January 2001 Terra MODIS
+monthly CMG fire product.
+
+
+3.7   Global Monthly Fire Location Product (MCD14ML)
+For some applications it is necessary to have the geographic coordinates of individual fire pixels.
+New for Collection 5 is the global monthly fire location product (MCD14ML), which contains this
+information for all Terra and Aqua MODIS fire pixels in a single monthly ASCII file.
+
+
+
+
+                                                14
+3.8   Near Real-Time MODIS Imagery and Fire Products
+NASA’s Land Atmosphere Near Real-time Capability for EOS (LANCE) system produces near-real
+time global imagery including true- and false-color corrected reflectance superimposed with fire lo-
+cations (Figure 7), Normalized Difference Vegetation Index (NDVI), and land surface temperature.
+Near-real time locations of Terra and Aqua MODIS fire pixels are also available as text files.
+
+
+
+
+Figure 7: LANCE true color imagery of fires and smoke in southeast Australia (10 December 2006,
+03:45 UTC).
+
+
+
+
+                                                15
+3.9    LDOPE Global Browse Imagery
+The MODIS Land Data Operational Product Evaluation (LDOPE) provides interactive daily global
+browse imagery of many MODIS land products from the MODIS Land Global Browse Images web
+site1 in near-real time (Figure 8). For most products (including the fire products) the browse im-
+agery is generated using only the daytime overpasses. The site allows you to arbitrarily zoom into
+any region of the globe and examine features of interest in more detail.
+
+
+
+
+Figure 8: Example Collection-6 Aqua MODIS active fire global browse image for 28 December
+2002 showing all daytime overpasses. Fire pixels are shown in red, cloud pixels are shown in light
+blue, and areas lacking data are shown in white. Browse image courtesy of the LDOPE.
+
+
+
+
+  1
+      https://landweb.modaps.eosdis.nasa.gov/cgi-bin/QS/new/pages.cgi?name=browse&sensor=MODIS
+
+
+                                               16
+4 Obtaining the MODIS Active Fire Products
+All MODIS products are available to users free of charge through several different sources (Table 2).
+Not all products are available from each source.
+
+                            Table 2: MODIS fire product availability.
+ Product                                           Source
+ Level-2 and Level-3 fire products:                LAADS (Section 4.1) and LP-DAAC
+          MOD14, MYD14                             (Section 4.2)
+          MOD14A1, MYD14A1
+          MOD14A2, MYD14A2
+
+ CMG fire products:                                   University of Maryland (Section 4.3)
+        MOD14CMQ, MYD14CMQ
+        MOD14C8Q, MYD14C8Q
+
+ Global fire location product:                        University of Maryland (Section 4.3)
+          MCD14ML
+
+ Near real-time fire and corrected reflectance im-    NASA LANCE (Section 4.4)
+ agery.
+
+ Geographic subsets of near real-time active fire     NASA FIRMS (Section 4.5)
+ locations in various GIS-compatible formats.
+
+
+
+4.1   LAADS
+The MODIS Level 1, atmosphere, and land products may be obtained from the Level 1 and Atmo-
+sphere Archive and Distribution System (LAADS), available here:
+
+                    https://ladsweb.modaps.eosdis.nasa.gov/
+
+4.2   LP-DAAC
+Most of the MODIS land products may be obtained from the Land Processes Distributed Active
+Archive Center (LP-DAAC), available here:
+
+                                 https://lpdaac.usgs.gov/
+
+
+
+
+                                                 17
+4.3     University of Maryland SFTP Server
+The active-fire MCD14ML and CMG products are available from the University of Maryland fuoco
+SFTP (formerly FTP) server. Connect using the following information:
+
+Server: fuoco.geog.umd.edu
+Login name: fire
+Password: burnt
+
+Note: As a consequence of our mandatory transition from FTP to SFTP2 , most users will not be
+able to download product files using their regular web browser without first installing a third-party
+browser extension.
+
+For downloading product files you can use the command-line sftp and lftp clients, or freely
+available GUI file transfer software such as FileZilla (https://filezilla-project.org)
+and Cyberduck (https://cyberduck.io/). SFTP-capable commercial software is also avail-
+able and includes the examples listed below.
+
+For Windows:
+
+       • SmartFTP (https://www.smartftp.com/)
+
+       • WinSCP (https://winscp.net)
+
+For MacOS:
+
+       • ForkLift (https://binarynights.com/)
+
+       • Commander One (https://mac.eltima.com/file-manager.html)
+
+       • Transmit (https://panic.com/transmit/)
+
+       • Viper FTP (https://viperftp.com/)
+
+       • Flow (http://fivedetails.com/)
+
+
+
+
+   2
+    In our case the change in protocol was not driven by a need for encryption – here such a requirement would be
+pointless given that 1) the data are intended to be freely available and 2) we openly share the password – but instead to
+avoid various port-level server vulnerabilities associated with FTP.
+
+
+                                                          18
+Once connected, enter the data subdirectory to access the following directory tree:
+
+.
+|-- GFED
+|   |-- GFED3
+|   |    ‘-- monthly
+|   |        ‘-- hdf
+|   ‘-- GFED4
+|        |-- daily
+|        |   ‘-- 2000, 2001, ..., 2015
+|        ‘-- monthly
+|-- MODIS
+|   ‘-- C6
+|        |-- docs
+|        |-- MCD14ML
+|        |-- MCD64A1
+|        |   |-- HDF
+|        |   |    ‘-- h00v08, h00v09, ..., h35v10
+|        |   |-- SHP
+|        |   |    ‘-- Win01, Win02, ..., Win24
+|        |   |        ‘-- 2000, 2001, 2002, ...
+|        |   ‘-- TIFF
+|        |        ‘-- Win01, Win02, ..., Win24
+|        |            ‘-- 2000, 2001, 2002, ...
+|        |-- MCD64CMQ
+|        ‘-- Mx14CMQ
+|-- VIIRS
+|   ‘-- C1
+|        |-- VNP14IMG
+|        ‘-- VNP14IMGML
+‘-- VIRS
+    ‘-- monthly
+
+4.3.1 MODIS CMG Active-Fire Products
+The current MODIS monthly CMG fire products are located in the directory MODIS/C6/Mx14CMQ.
+
+4.3.2 MODIS Monthly Fire Location Product
+The current MCD14ML product is located in the directory MODIS/C6/MCD14ML.
+
+4.3.3 Documentation
+The most recent version of the Active Fire Product User’s Guide for each Collection is archived in
+the directory MODIS/C6/docs.
+
+
+
+
+                                               19
+4.3.4 Example sftp command line session
+$ sftp fire@fuoco.geog.umd.edu
+Password:
+Connected to fuoco.geog.umd.edu.
+sftp> cd data
+sftp> ls
+GFED   MODIS VIIRS VIRS
+sftp> cd MODIS/C6/MCD14ML
+sftp> ls MCD14ML.2017*
+MCD14ML.201701.006.03.txt.gz
+MCD14ML.201702.006.03.txt.gz
+MCD14ML.201703.006.03.txt.gz
+MCD14ML.201704.006.03.txt.gz
+MCD14ML.201705.006.03.txt.gz
+MCD14ML.201706.006.03.txt.gz
+MCD14ML.201707.006.03.txt.gz
+MCD14ML.201708.006.03.txt.gz
+MCD14ML.201709.006.03.txt.gz
+MCD14ML.201710.006.03.txt.gz
+MCD14ML.201711.006.03.txt.gz
+MCD14ML.201712.006.03.txt.gz
+sftp> progress
+Progress meter disabled
+sftp> get -p MCD14ML.2017*
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201701.006.03.txt.gz to
+        MCD14ML.201701.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201702.006.03.txt.gz to
+        MCD14ML.201702.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201703.006.03.txt.gz to
+        MCD14ML.201703.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201704.006.03.txt.gz to
+        MCD14ML.201704.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201705.006.03.txt.gz to
+        MCD14ML.201705.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201706.006.03.txt.gz to
+        MCD14ML.201706.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201707.006.03.txt.gz to
+        MCD14ML.201707.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201708.006.03.txt.gz to
+        MCD14ML.201708.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201709.006.03.txt.gz to
+        MCD14ML.201709.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201710.006.03.txt.gz to
+        MCD14ML.201710.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201711.006.03.txt.gz to
+        MCD14ML.201711.006.03.txt.gz
+Fetching /data/MODIS/C6/MCD14ML/MCD14ML.201712.006.03.txt.gz to
+        MCD14ML.201712.006.03.txt.gz
+sftp> bye
+
+
+
+
+                                          20
+4.3.5 VIRS Monthly Fire Product
+Although unrelated to MODIS, the SFTP server also hosts an archive of the 0.5◦ Tropical Rain-
+fall Measuring Mission (TRMM) Visible and Infrared Scanner (VIRS) monthly fire product in the
+directory VIRS/monthly. See the documentation in the directory VIRS for details.
+
+4.4   NASA LANCE
+Near real-time fire and corrected reflectance imagery are available from NASA’s Land, Atmosphere
+Near real-time Capability for EOS (LANCE) system, located here:
+
+                          https://earthdata.nasa.gov/lance
+
+Note: In general, the near real-time MODIS products should not be used for time series analyses or
+long-term studies.
+
+4.5   NASA FIRMS
+Near real-time MODIS fire locations are available in a variety of formats (ASCII, shapefile, KML,
+or WMS) from NASA’s Fire Information for Resource Management System (FIRMS):
+
+      https://earthdata.nasa.gov/data/near-real-time-data/firms
+
+Note: In general, the near real-time MODIS fire locations should not be used for time series analyses
+or long-term studies; for such purposes the standard MCD14ML product is more appropriate. By
+special request, FIRMS will distribute spatial subsets of MODIS fire locations extracted from the
+standard MCD14ML product via the Archive Download Tool.
+
+
+
+
+                                                 21
+5 Detailed Product Descriptions
+5.1   MOD14 and MYD14
+MOD14/MYD14 is the most basic fire product in which active fires and other thermal anomalies,
+such as volcanoes, are identified. The Level 2 product is defined in the MODIS orbit geometry
+covering an area of approximately 2340 by 2030 km in the across- and along-track directions, re-
+spectively. It is used to generate all of the higher-level fire products.
+
+5.1.1 Fire Mask
+The fire mask is the principle component of the Level 2 MODIS fire product, and is stored as an
+8-bit unsigned integer Scientific Data Set (SDS) named “fire mask”. In it, individual 1-km pixels
+are assigned one of nine classes. The meaning of each class is listed in Table 3.
+
+                         Table 3: MOD14/MYD14 fire mask pixel classes.
+ Class   Meaning
+   0     not processed (missing input data)
+   1     not processed (obsolete; not used since Collection 1)
+   2     not processed (other reason)
+   3     non-fire water pixel
+   4     cloud (land or water)
+   5     non-fire land pixel
+   6     unknown (land or water)
+   7     fire (low confidence, land or water)
+   8     fire (nominal confidence, land or water)
+   9     fire (high confidence, land or water)
+
+
+5.1.2 Collection 6 Water Processing
+For Collection 6, oceans and other large water bodies are now processed to detect offshore gas
+flaring. As such, the cloud, unknown, and fire pixel classes can now occur over water. While it
+was safe to use the fire mask as a rudimentary land/water mask prior to Collection 6, users must
+now appeal to bits 0–1 of the pixel-level algorithm QA layer (Section 5.1.4) to unambiguously
+discriminate land from water pixels.
+
+5.1.3 Detection Confidence
+A detection confidence intended to help users gauge the quality of individual fire pixels is included
+in the Level 2 fire product. This confidence estimate, which ranges between 0% and 100%, is used to
+assign one of the three fire classes (low-confidence fire, nominal-confidence fire, or high-confidence
+fire) to all fire pixels within the fire mask.
+     In some applications errors of commission (or false alarms) are particularly undesirable, and
+for these applications one might be willing to trade a lower detection rate to gain a lower false alarm
+rate. Conversely, for other applications missing any fire might be especially undesirable, and one
+might then be willing to tolerate a higher false alarm rate to ensure that fewer true fires are missed.
+
+
+                                                  22
+Users requiring fewer false alarms may wish to retain only nominal- and high-confidence fire pixels,
+and treat low-confidence fire pixels as clear, non-fire, land pixels. Users requiring maximum fire
+detectability who are able to tolerate a higher incidence of false alarms should consider all three
+classes of fire pixels.
+
+5.1.4 Algorithm Quality Assessment Bits
+Pixel-level QA is stored in a 32-bit unsigned integer SDS named “algorithm QA”, with individual
+fields stored in specific bits (Table 4). For details, please see the MODIS Level 2 Fire Product file
+specification.
+
+                  Table 4: Summary of Level-2 fire product pixel-level QA bits.
+
+    Bit(s)   Meaning
+     0-1     land/water state (00 = water, 01 = coast, 10 = land, 11 = unused)
+      2      3.9 µm high-gain flag (0 = band 21, 1 = band 22)
+      3      atmospheric correction performed (0 = no, 1 = yes)
+      4      day/night algorithm (0 = night, 1 = day)
+      5      potential fire pixel (0 = false, 1 = true)
+      6      spare (set to 0)
+    7-10     background window size parameter
+    11-16    individual detection test flags (0 = fail, 1 = pass)
+    17-19    spare (set to 0)
+     20      adjacent cloud pixel (0 = no, 1 = yes)
+     21      adjacent water pixel (0 = no, 1 = yes)
+    22-23    sun glint level (0–3)
+    24-28    individual rejection test flags (0 = false, 1 = true)
+    29-31    spare (set to 0)
+
+
+
+
+                                                 23
+5.1.5 Fire Pixel Table
+The fire pixel table is simply a collection of SDSs containing relevant information about individual
+fire pixels detected within a granule. Due to HDF file format and library limitations, the Fire Pixel
+Table is stored as 27 separate SDSs. A brief summary of these SDSs is provided in Table 3.
+
+Table 5: Collection 6 Level 2 fire product SDSs comprising the “fire pixel table”. MAD = “mean
+absolute deviation”.
+
+   SDS Name            Data Type     Units     Description
+   FP line             int16           -       Granule line of fire pixel.
+   FP sample           int16           -       Granule sample of fire pixel.
+   FP latitude         float32      degrees    Latitude at center of fire pixel.
+   FP longitude        float32      degrees    Longitude at center of fire pixel.
+   FP R2               float32         -       Near-IR (band 2) reflectance of fire pixel (daytime
+                                               only).
+   FP T21              float32         K       Channel 21/22 brightness temperature of fire
+                                               pixel.
+   FP T31              float32         K       Channel 31 brightness temperature of fire pixel.
+   FP MeanT21          float32         K       Background channel 21/22 brightness tempera-
+                                               ture.
+   FP MeanT31          float32        K        Background channel 31 brightness temperature.
+   FP MeanDT           float32        K        Background brightness temperature difference.
+   FP MAD T21          float32        K
+   FP MAD T31          float32        K
+   FP MAD DT           float32        K
+   FP power            float32       MW        Fire radiative power.
+   FP AdjCloud         uint8           -       Number of adjacent cloud pixels.
+   FP AdjWater         uint8           -       Number of adjacent water pixels.
+   FP WinSize          uint8           -       Background window size.
+   FP NumValid         int16           -       Number of valid background pixels.
+   FP confidence       uint8          %        Detection confidence estimate.
+   FP land             uint8           -       Land flag (0 = water pixel, 1 = land pixel).
+   FP MeanR2           float32         -       Background channel 2 reflectance.
+   FP MAD R2           float32         -       Background channel 2 reflectance MAD.
+   FP ViewZenAng       float32      degrees    View zenith angle.
+   FP SolZenAng        float32      degrees    Solar zenith angle.
+   FP RelAzAng         float32      degrees    Relative azimuth angle.
+   FP CMG row          int16           -       CMG row.
+   FP CMG col          int16           -       CMG column.
+
+
+
+
+                                                 24
+5.1.6 Metadata
+Every MODIS product carries with it ECS-mandated metadata stored in the HDF global attributes
+CoreMetadata.0 and ArchiveMetadata.0. Each attribute is an enormous string of ASCII characters
+encoding many separate metadata fields in Parameter Value Language (PVL). Among other infor-
+mation, the ArchiveMetadata.0 attribute usually contains product-specific metadata included at the
+discretion of the PI. However, since the PVL is awkward to read and tedious to parse, we have stored
+many of the product-specific metadata fields as standard HDF global attributes. These are summa-
+rized in Table 6. Descriptions of the product-specific metadata stored in the ECS ArchiveMetadata.0
+attribute may be found in the MOD14/MYD14 Fire Product file specification (see Section 10).
+
+     Table 6: MODIS Level 2 fire product metadata stored as standard global HDF attributes.
+
+   Attribute Name             Description
+   FirePix                    Number of fire pixels detected in granule.
+   MissingPix                 Number of pixels in granule lacking valid data for processing.
+   LandPix                    Number of land pixels in granule.
+   WaterPix                   Number of water pixels in granule.
+   CoastPix                   Number of coast pixels in granule.
+   WaterAdjacentFirePix       Number of fire pixels that are adjacent to one or more water pixels.
+   CloudAdjacentFirePix       Number of fire pixels that are adjacent to one or more cloud pixels.
+   UnknownLandPix             Number of land pixels assigned a class of unknown.
+   UnknownWaterPix            Number of water pixels assigned a class of unknown.
+   LandCloudPix               Number of land pixels obscured by cloud in granule.
+   WaterCloudPix              Number of water pixels obscured by cloud in granule.
+   GlintPix                   Number of pixels in granule contaminated with sun glint.
+   GlintRejectedPix           Number of tentative fire pixels that were rejected due to apparent
+                              sun glint contamination.
+   CoastRejectedPix           Number of tentative fire pixels that were rejected due to apparent
+                              water contamination of the contextual neighborhood.
+   HotSurfRejectedPix         Number of tentative fire pixels that were rejected as apparent hot
+                              desert surfaces.
+   ClearingRejectedPix        Number of tentative fire pixels rejected as apparent forest clear-
+                              ings.
+   CoastRejectedWaterPix      Number of tentative fire pixels rejected due to apparent land con-
+                              tamination of contextual background.
+   DayPix                     Number of daytime pixels in granule.
+   NightPix                   Number of nighttime pixels in granule.
+   Satellite                  Name of satellite (“Terra” or “Aqua”).
+   ProcessVersionNumber       Production code version string (e.g. “6.2.3”).
+   MOD021KM input file        File name of MOD021KM (Terra) or MYD021KM (Aqua)
+                              Level 1B radiance input granule.
+   MOD03 input file           File name of MOD03 (Terra) or MYD03 (Aqua) geolocation input
+                              granule.
+
+
+
+
+                                                 25
+5.1.7 Example Code
+Example 1: IDL code for reading the “fire mask” SDS in the MODIS Level 2 fire product.
+
+mod14_file = ’MOD14.A2002177.1830.005.2008192223417.hdf’
+
+; open the HDF file for reading
+sd_id = HDF_SD_START(mod14_file, /READ)
+
+; find the SDS index to the MOD14 fire mask
+index = HDF_SD_NAMETOINDEX(sd_id, ’fire mask’)
+
+; select and read the entire fire mask SDS
+sds_id = HDF_SD_SELECT(sd_id, index)
+HDF_SD_GETDATA, sds_id, fire_mask
+
+; finished with SDS
+HDF_SD_ENDACCESS, sds_id
+
+; finished with HDF file
+HDF_SD_END, sd_id
+
+
+
+
+                                             26
+5.2     MOD14A1 and MYD14A1
+The MOD14A1 and MYD14A1 daily Level 3 fire products are tile-based, with each product file
+spanning one of the 460 MODIS tiles, of which 326 contain land pixels. The product is a 1-km
+gridded composite of fire pixels detected in each grid cell over each daily (24-hour) compositing
+period. For convenience, eight days of data are packaged into a single file.
+
+5.2.1 Fire Mask
+The fire mask is stored as an 8 (or less) × 1200 × 1200, 8-bit unsigned integer SDS named “Fire-
+Mask”. (For historical reasons this layer was named “most confident detected fire” prior to Collec-
+tion 5.) The SDS contains eight successive daily fire masks for a specific MODIS tile. Each of these
+daily masks is essentially a maximum value composite3 of the Level 2 fire product pixel classes
+(Table 3) for those swaths overlapping the MODIS tile during that day. Product files containing less
+than eight days of data will occasionally be encountered during time periods of missing data and
+should be handled in ingest software.
+
+5.2.2 QA
+Each of the daily fire masks has a corresponding simple QA layer. Each layer is a 1200 × 1200
+8-bit unsigned integer array. Only seven unique QA values are possible, with the meanings shown
+in Table 7. Note that for missing-data grid cells (bit pattern 11 in bits 0-1), bit 2 will always be clear.
+
+           Table 7: QA values in the Collection 6 MODIS Level 3 tiled active fire products.
+
+      Bit(s)   Meaning
+       0-1     land/water state (00 = water, 01 = coast, 10 = land, 11 = missing data)
+        2      day/night observation (0 = night, 1 = day)
+
+
+
+
+5.2.3 Maximum FRP
+The maximum fire radiative power of all fire pixels falling within each grid cell is provided on a
+daily basis in the “MaxFRP” SDS. Here the FRP values have been scaled by a factor of 10 and
+stored as a 32-bit signed integer. Multiply these scaled values by 0.1 to retrieve the maximum FRP
+in MW.
+
+5.2.4 Scan Sample
+For all grid cells assigned one of the fire pixel classes (values 7, 8, or 9), the position of the fire pixel
+within the scan is recorded on a daily basis in a 1200 × 1200 16-bit unsigned integer SDS named
+“sample”. Sample values have a range of 0 to 1353. All grid cells assigned one of the non-fire
+classes in the “FireMask” SDS will be filled with a sample value of 0.
+   3
+     Due to the introduction of water processing in Collection 6, the original maximum value compositing scheme had to
+be modified slightly to prevent cloud-obscured water grid cells from having precedence over cloud-free water grid cells.
+
+
+
+
+                                                          27
+5.2.5 Metadata
+As with the Level 2 fire products, the MOD14A1 and MYD14A1 products contain global
+metadata stored in the ECS CoreMetadata.0 and ArchiveMetadata.0 global attributes. Also
+like the Level 2 products, a subset of these metadata are written as standard HDF
+global attributes for convenience (see Table 8). Here are example values for the product
+file “MOD14A1.A2002297.h31v10.006.2015058030918.hdf”, listed using ncdump (see Sec-
+tion 8.8.4):
+
+     :FirePix = 482, 319, 329, 386, 660, 739, 1096, 477 ;
+     :CloudPix = 76933, 83531, 61942, 67212, 36943, 6980, 46727,
+                 15949 ;
+     :UnknownPix = 450, 168, 113, 96, 711, 190, 192, 225 ;
+     :MissingPix = 53920, 155798, 4, 163180, 0, 163250, 0, 149596 ;
+     :Dates = "2002-10-24 2002-10-25 2002-10-26 2002-10-27
+               2002-10-28 2002-10-29 2002-10-30 2002-10-31" ;
+     :MaxT21 = 425.2746f ;
+     :ProcessVersionNumber = "6.0.1" ;
+     :StartDate = "2002-10-24" ;
+     :EndDate = "2002-10-31" ;
+     :HorizontalTileNumber = 31s ;
+     :VerticalTileNumber = 10s ;
+
+Notice that the first four fields (FirePix, CloudPix, UnknownPix, and MissingPix) are
+one-dimensional arrays (or vectors) nominally having eight elements. Each element corresponds to
+a single day in the 8-day time period covered by the product. Note that the Scientific Data Sets in
+the product file (“FireMask”, “MaxFRP”, etc.) will contain fewer than eight planes when there are
+no valid MODIS observations during one or more days spanned by the product. In such cases, the
+vector metadata fields will have fewer than eight elements.
+
+
+
+
+                                                28
+Table 8: MOD14A1 and MYD14A1 fire product metadata stored as standard global HDF attributes.
+
+   Attribute Name          Description
+   FirePix                 Number of 1-km tile cells containing fires (8-element array).
+   CloudPix                Number of 1-km tile cells assigned a class of cloud after composit-
+                           ing (8-element array).
+   UnknownPix              Number of 1-km tile cells assigned a class of unknown after com-
+                           positing (8-element array).
+   MissingPix              Number of 1-km tile cells lacking valid data (8-element array).
+   Dates                   Date of each plane in three-dimensional fire mask array.
+   MaxT21                  Maximum band 21 brightness temperature (K) of all fire pixels in
+                           tile.
+   ProcessVersionNumber    Production code version string (e.g. “6.0.1”).
+   StartDate               Start date of 8-day time period spanned by product (YYYY-MM-
+                           DD).
+   EndDate                 End date of 8-day time period spanned by product (YYYY-MM-
+                           DD).
+   HorizontalTileNumber    Horizontal tile coordinate (H).
+   VerticalTileNumber      Vertical tile coordinate (V).
+
+
+
+
+                                             29
+5.2.6 Level 3 Tile Navigation
+Navigation of the tiled MODIS products in the sinusoidal projection can be performed using the for-
+ward and inverse mapping transformations described here. We’ll first need to define a few constants:
+
+R = 6371007.181 m, the radius of the idealized sphere representing the Earth;
+
+T = 1111950 m, the height and width of each MODIS tile in the projection plane;
+
+xmin = -20015109 m, the western limit of the projection plane;
+
+ymax = 10007555 m, the northern limit of the projection plane;
+
+w = T /1200 = 926.62543305 m, the actual size of a “1-km” MODIS sinusoidal grid cell.
+
+
+Forward Mapping
+Denote the latitude and longitude of the location (in radians) as φ and λ, respectively. First compute
+the position of the point on the global sinusoidal grid:
+
+                                           x = Rλ cos φ                                           (1)
+                                           y = Rφ.                                                (2)
+
+Next compute the horizontal (H) and vertical (V ) tile coordinates, where 0 ≤ H ≤ 35 and 0 ≤
+V ≤ 17 (Section 3.1.2):
+                                                x − xmin
+                                                          
+                                       H =                                                        (3)
+                                                   T
+                                                ymax − y
+                                                        
+                                       V    =              ,                                      (4)
+                                                   T
+
+where ⌊⌋ is the floor function. Finally, compute the row (i) and column (j) coordinates of the grid
+cell within the MODIS tile:
+                                        (ymax − y) mod T
+                                                                
+                                   i =                                                            (5)
+                                               w
+                                        (x − xmin ) mod T
+                                                         
+                                  j =                       .                                     (6)
+                                               w
+Note that for the 1-km MOD14A1 and MYD14A1 products (indeed, all 1-km MODIS products on
+the sinusoidal grid) 0 ≤ i ≤ 1199 and 0 ≤ j ≤ 1199.
+
+
+
+
+                                                 30
+Inverse Mapping
+Here we are given the row (i) and column (j) in MODIS tile H, V . First compute the position of
+the center of the grid cell on the global sinusoidal grid:
+
+                                 x = (j + 0.5)w + HT + xmin                                  (7)
+                                 y = ymax − (i + 0.5)w − V T                                 (8)
+
+Next compute the latitude φ and longitude λ at the center of the grid cell (in radians):
+                                                  y
+                                          φ =                                                (9)
+                                                  R
+                                                     x
+                                          λ =             .                                (10)
+                                                  R cos φ
+
+Applicability to 250-m and 500-m MODIS Products
+With the following minor changes the above formulas are also applicable to the higher resolution
+250-m and 500-m MODIS tiled sinusoidal products.
+
+250-m grid: Set w = T /4800 = 231.65635826 m, the actual size of a “250-m” MODIS sinusoidal
+grid cell. For 250-m grid cells 0 ≤ i ≤ 4799 and 0 ≤ j ≤ 4799.
+
+500-m grid: Set w = T /2400 = 463.31271653 m, the actual size of a “500-m” MODIS sinusoidal
+grid cell. For 500-m grid cells 0 ≤ i ≤ 2399 and 0 ≤ j ≤ 2399.
+
+
+5.2.7 Example Code
+Example 2: MATLAB code to read the Level 3 MODIS daily fire mask, using the MATLAB routine
+hdfread. This is probably the easiest way to read individual HDF SDSs in MATLAB.
+
+mod14a1_file = ’MOD14A1.A2008281.h31v10.005.2008292070548.hdf’
+
+% read entire "FireMask" SDS in one shot
+fire_mask = hdfread(mod14a1_file, ’FireMask’);
+
+% display fire mask for the first day in MOD14A1/MYD14A1
+% note how image is transposed so that North appears on top
+imagesc(fire_mask(:,:,1)’);
+
+
+
+
+                                                 31
+Example 3: IDL code to read some of the global attributes and SDSs in the Level 3 daily fire
+product.
+
+mod14a1_file = ’MOD14A1.A2007241.h08v05.005.2007251120334.hdf’
+
+sd_id = HDF_SD_START(mod14a1_file, /READ)
+
+; read "FirePix" and "MaxT21" attributes
+attr_index = HDF_SD_ATTRFIND(sd_id, ’FirePix’)
+HDF_SD_ATTRINFO, sd_id, attr_index, DATA=FirePix
+attr_index = HDF_SD_ATTRFIND(sd_id, ’MaxT21’)
+HDF_SD_ATTRINFO, sd_id, attr_index, DATA=MaxT21
+
+index = HDF_SD_NAMETOINDEX(sd_id, ’FireMask’)
+sds_id = HDF_SD_SELECT(sd_id, index)
+HDF_SD_GETDATA, sds_id, FireMask
+HDF_SD_ENDACCESS, sds_id
+
+index = HDF_SD_NAMETOINDEX(sd_id, ’MaxFRP’)
+sds_id = HDF_SD_SELECT(sd_id, index)
+HDF_SD_GETDATA, sds_id, MaxFRP
+HDF_SD_ENDACCESS, sds_id
+
+HDF_SD_END, sd_id
+
+help, FirePix
+print, FirePix, format = ’(8I8)’
+print, MaxT21, format = ’("MaxT21:",F6.1," K")’
+help, FireMask, MaxFRP
+
+The code produces the following output:
+
+FIREPIX         LONG                 = Array[8]
+       18     48               19         1         18          11       100          32
+MaxT21: 468.1 K
+FIREMASK        BYTE                 = Array[1200, 1200, 8]
+MAXFRP          LONG                 = Array[1200, 1200, 8]
+
+
+
+
+                                            32
+5.3   MOD14A2 and MYD14A2
+The MOD14A2 (Terra) and MYD14A2 (Aqua) daily Level 3 8-day summary fire products are tile-
+based, with each product file spanning one of the 460 MODIS tiles, 326 of which contain land
+pixels. The product is a 1-km gridded composite of fire pixels detected in each grid cell over each
+8-day compositing period.
+
+5.3.1 Fire Mask
+The fire mask is stored as a 1200 × 1200 8-bit unsigned integer SDS named “FireMask”. (For
+historical reasons this layer was named “most confident detected fire” prior to Collection 5.) This
+summary fire mask is essentially a maximum value composite of the Level 2 fire product pixel
+classes (Table 3) for those swaths overlapping the MODIS tile during the eight-day compositing
+period.
+
+5.3.2 QA
+The QA layer contains pixel-level quality assessment information stored in a 1200 × 1200 8-bit
+unsigned integer image. The possible QA values are the same as those for the MOD14A1 and
+MYD14A1 products (see Table 7).
+
+5.3.3 Level 3 Tile Navigation
+Forward and inverse mapping of the MODIS sinusoidal tile grid used for the MOD14A2 and
+MYD14A2 products is the same as for the MOD14A1 and MYD14A1 products. See Section 5.2.6
+for details.
+
+5.3.4 Example Code
+Example 4: MATLAB code to read the Level 3 MODIS 8-day fire mask, using the MATLAB routine
+hdfread. This is probably the easiest way to read individual HDF SDSs in MATLAB.
+
+mod14a2_file = ’MYD14A2.A2004193.h08v08.005.2007207151726.hdf’
+
+% read entire "FireMask" SDS in one shot
+fire_mask = hdfread(mod14a2_file, ’FireMask’);
+
+% display fire mask (transposed so that North appears on top)
+imagesc(fire_mask’);
+
+
+
+
+                                                33
+Example 5: Longer version of MATLAB code to read the Level 3 MODIS 8-day fire mask. This is
+probably the better approach to use if multiple subsets of an SDS will be read in sequence since the
+HDF file will be opened and closed only once. (The shorter approach using hdfread requires that
+the file be opened and closed for each read.)
+
+mod14a2_file = ’MYD14A2.A2004193.h08v08.005.2007207151726.hdf’
+
+sd_id = hdfsd(’start’, mod14a2_file, ’DFACC_RDONLY’);
+
+sds_index = hdfsd(’nametoindex’, sd_id, ’FireMask’);
+sds_id = hdfsd(’select’, sd_id, sds_index);
+
+% prepare to read entire SDS (always 1200 x 1200 pixels in size)
+start = [0,0];
+edges = [1200,1200];
+
+[fire_mask, status] = hdfsd(’readdata’, sds_id, start, [], edges);
+status = hdfsd(’endaccess’, sds_id);
+
+status = hdfsd(’end’, sd_id);
+
+
+% display fire mask (transposed so that North appears on top)
+imagesc(fire_mask’);
+
+
+
+
+                                                34
+Example 6: C code for reading Level 3 MODIS 8-day fire mask using HDF library functions.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "mfhdf.h"
+
+#define ROWS 1200
+#define COLS 1200
+
+main(int argc, char **argv)
+{
+        int32 sd_id, sds_index, sds_id;
+        int32 rank, data_type, nattr, dim_sizes[MAX_VAR_DIMS];
+        int32 start[2], int32 edges[2];
+
+          char *infile;
+          int i, j;
+          long nfire;
+          uint8 fire_mask[ROWS][COLS];
+
+
+          infile = "MOD14A2.A2008265.h31v10.005.2008275132911.hdf";
+
+          if ((sd_id = SDstart(infile, DFACC_READ)) == FAIL) exit(1);
+
+          start[0] = start[1] = 0;
+          edges[0] = ROWS;
+          edges[1] = COLS;
+
+          if ((sds_index = SDnametoindex(sd_id, "FireMask")) == FAIL) exit(2);
+          if ((sds_id = SDselect(sd_id, sds_index)) == FAIL) exit(3);
+          if (SDgetinfo(sds_id, (char *) NULL, &rank, dim_sizes, &data_type,
+                  &nattr) == FAIL) exit(4);
+
+          /* check rank and data type */
+          if (rank != 2) exit(5);
+          if (data_type != DFNT_UINT8) exit(6);
+
+          if (SDreaddata(sds_id, start, NULL, edges,
+                  (void *) fire_mask) == FAIL) exit(7);
+
+          if (SDendaccess(sds_id) == FAIL) exit(8);
+          if (SDend(sd_id) == FAIL) exit(9);
+
+
+          /* simple example: count grid cells containing fires */
+          nfire = 0;
+          for (i = 0; i < ROWS; i++) {
+                  for (j = 0; j < COLS; j++)
+                          if (fire_mask[i][j] >= 7) nfire++;
+                  }
+
+          printf("%d grid cells containing fires.\n", nfire);
+
+          exit(0);
+}
+
+
+
+
+                                             35
+5.4     CMG Fire Products (MOD14CMQ, MYD14CMQ, etc.)
+The CMG fire products are gridded statistical summaries of fire pixel information intended for use in
+regional and global modeling, and other large scale studies. For Collection 6, the products are gener-
+ated at 0.25◦ spatial resolution for time periods of one calendar month (MOD14CMQ/MYD14CMQ)
+and eight days (MOD14C8Q/MYD14C8Q).
+    At present the CMG products are distributed from the University of Maryland via secure FTP
+(see Section 4.3).
+
+5.4.1 CMG Naming Convention
+Monthly CMG fire products. The file names of the monthly CMG product files have the structure
+    M?D14CM?.YYYYMM.CCC.VV.hdf, where M?D14CM? is a prefix4 encoding the satellite
+    and product spatial resolution (see Figure 9), YYYY is the four-digit product year, MM is the
+    two-digit calendar month, CCC denotes the Collection (see Section 3.1.4), VV denotes the
+    product version within a Collection.
+
+Eight-day CMG fire products. The file names of the 8-day CMG product files have the structure
+     M?D14C8?.YYYYDDD.CCC.VV.hdf, where M?D14C8? is a prefix encoding the satellite
+     and product spatial resolution (see Figure 9), YYYY is the four-digit product year, DDD is the
+     two-digit calendar month, CCC denotes the Collection (see Section 3.1.4), VV denotes the
+     product version within a Collection.
+
+
+
+                                                     Satellite
+                                           ‘O’ = Terra
+                                           ‘Y’ = Aqua
+                                           ‘C’ = combined Terra/Aqua
+
+
+
+
+                                               M?D14C??
+
+                               Temporal Resolution             Spatial Resolution
+                               ‘M’ = monthly                   ‘H’ = 0.5˚
+                               ‘8’ = 8 days                    ‘Q’ = 0.25˚
+
+
+
+                 Figure 9: MODIS CMG fire product naming prefix (ESDT) convention.
+
+  4
+      In MODIS-speak this prefix is usually referred to as an Earth Science Data Type (ESDT).
+
+
+
+
+                                                          36
+5.4.2 Data Layers
+The CMG fire products contain eight separate data layers summarized in Table 9. For the 0.25◦ prod-
+ucts each layer is a 1440 × 720 numeric array.
+
+                    Table 9: Summary of data layers in the CMG fire products.
+
+  Layer Name              Data Type    Units   Description
+  CorrFirePix             int16        -       Corrected number of fire pixels.
+  CloudCorrFirePix        int16        -       Corrected number of fire pixels, with an addi-
+                                               tional correction for cloud cover.
+  MeanCloudFraction       int8         -       Mean cloud fraction.
+  RawFirePix              int16        -       Uncorrected count of fire pixels.
+  CloudPix                int32        -       Number of cloud pixels.
+  TotalPix                int32        -       Total number of pixels.
+  MeanFRP                 float32      MW      Mean fire radiative power.
+  NumPixFRP               int16        -       Number of fire pixels used to compute mean FRP.
+
+
+
+
+5.4.3 Global Metadata
+Global metadata are stored as global attributes in the HDF product files.
+
+5.4.4 Climate Modeling Grid Navigation
+Forward navigation. Given the latitude and longitude (in degrees) of a point on the Earth’s surface,
+the image coordinates (x,y) of the 0.25◦ CMG grid cell containing this point are computed as fol-
+lows:
+
+y = floor((90.0 - latitude) / 0.25)
+
+x = floor((longitude + 180.0) / 0.25),
+
+where floor is the floor function, e.g., floor(2.2) = 2. These equations yield image coordinates
+satisfying the inequalities 0 ≤ x ≤ 1439, 0 ≤ y ≤ 719, which are appropriate for programming
+languages using zero-based array indexing such as C and IDL; for languages using one-based array
+indexing (e.g. Fortran, MATLAB) add 1.
+
+Inverse navigation. Given coordinates (x,y) of a particular grid cell in the 0.25◦ CMG fire products,
+the latitude and longitude (in degrees) of the center of the grid cell may be computed as follows:
+
+latitude = 89.875 - 0.25 × y
+
+longitude = -179.875 + 0.25 × x
+
+
+
+
+                                                 37
+Here, x and y are again zero-based image coordinates; for one-based image coordinates first subtract
+1 from both x and y.
+
+5.4.5 Example Code
+Example 7: IDL code for reading the cloud-corrected fire pixel layer within the Collection 6 MODIS
+CMG monthly and 8-day fire products (HDF4 format).
+
+; read "CloudCorrFirePix" array in CMG product (HDF4 format)
+cmg_file = ’MYD14CMQ.200412.006.01.hdf’
+
+sd_id = HDF_SD_START(cmg_file, /READ)
+index = HDF_SD_NAMETOINDEX(sd_id, ’CloudCorrFirePix’)
+sds_id = HDF_SD_SELECT(sd_id, index)
+HDF_SD_GETDATA, sds_id, CloudCorrFirePix
+HDF_SD_ENDACCESS, sds_id
+HDF_SD_END, sd_id
+
+
+
+
+                                                38
+5.5     Global Monthly Fire Location Product (MCD14ML)
+The monthly fire location product contains the geographic location, date, and some additional infor-
+mation for each fire pixel detected by the Terra and Aqua MODIS sensors on a monthly basis. For
+convenience, the product is distributed as a plain ASCII (text) file with fixed-width fields delimited
+with spaces. The first line of each file is a header containing the abbreviated names of each column
+(field). As an example, here are the first ten lines of the December 2008 product file:
+
+YYYYMMDD HHMM sat lat lon T21 T31 sample FRP conf type dn
+20081201 0051 T -12.0288 143.0191 321.6 289.6 681      11.5                                   53    0 D
+20081201 0051 T -12.0301 143.0282 317.8 287.9 682       7.8                                   42    0 D
+20081201 0051 T -12.0391 143.0269 356.8 289.1 682      67.4                                    0    0 D
+20081201 0051 T -12.0481 143.0255 346.6 286.7 682      46.2                                    0    0 D
+20081201 0051 T -12.0552 141.9690 320.8 291.4 571      11.3                                   38    0 D
+20081201 0051 T -12.9809 143.4871 330.7 301.2 752      16.8                                   80    0 D
+20081201 0051 T -12.9999 143.4275 339.1 300.0 746      31.6                                   88    0 D
+20081201 0051 T -13.0012 143.4368 327.6 300.5 747      14.0                                   76    0 D
+20081201 0051 T -13.0079 143.4203 345.0 298.5 746      42.8                                   92    0 D
+
+      A brief description of each data column is provided in Table 10.
+
+                Table 10: Summary of columns in the MCD14ML fire location product.
+
+       Column     Name              Units     Description
+          1       YYYYMMDD          -         UTC year (YYYY), month (MM), and day (DD).
+          2       HHMM              -         UTC hour (HH) and minute (MM).
+          3       sat               -         Satellite: Terra (T) or Aqua (A).
+          4       lat               degrees   Latitude at center of fire pixel.
+          5       lon               degrees   Longitude at center of fire pixel.
+          6       T21               K         Band 21 brightness temperature of fire pixel.
+          7       T31               K         Band 31 brightness temperature of fire pixel.
+          8       sample            -         Sample number (range 0-1353).
+          9       FRP               MW        Fire radiative power (FRP).
+         10       conf              %         Detection confidence (range 0-100).
+         11       type              -         Inferred hot spot type:
+                                                 0 = presumed vegetation fire
+                                                 1 = active volcano
+                                                 2 = other static land source
+                                                 3 = offshore
+          12      dn                -         Day/night algorithm flag: day (D) or night (N).
+
+
+Hot-spot types 0–2 are reserved exclusively for land pixels; hot spots detected over water (presum-
+ably offshore gas flares) will always be assigned a type of 3. The “other static land source” category
+(type 2) includes static hot spots that were repeatedly detected for 16 or more days in any calendar
+year, as well as hot spots that were detected in an any urban area (identified with the Collection-6
+MODIS MCD12Q1 land cover product).
+
+
+                                                  39
+5.5.1 Naming Convention
+The names of the MCD14ML product files have the structure MCD14ML.YYYYMM.CCC.VV.txt,
+where YYYY is the four-digit product year, MM is the two-digit calendar month, CCC denotes the Col-
+lection (see Section 3.1.4), and VV denotes the product version (currently “03”) within a Collection.
+
+5.5.2 Versions
+Beginning with version 2 the MCD14ML product has an additional digit of precision in the latitude
+and longitude fields, and a new column indicating the day/night detection algorithm state of each
+fire pixel. The MCD14ML file format remains identical for version 3 but incorporates significantly
+improved typing of hot spots.
+
+Version 2 and later:
+YYYYMMDD HHMM sat lat lon T21 T31 sample FRP conf type dn
+20081201 0051 T -12.0288 143.0191 321.6 289.6 681      11.5                          53     0 D
+
+Version 1:
+YYYYMMDD HHMM sat lat lon T21 T31 sample FRP conf type
+20081201 0051 T -12.029 143.019 321.8 289.6 681      15.1                          0    1
+
+
+
+
+                                                 40
+5.5.3 Example Code
+Example 8: IDL code for reading a single monthly fire location product file while still compressed
+(note the COMPRESS keyword when the file is opened).
+
+infile = ’MCD14ML.200904.006.02.txt.gz’
+
+header = ’’
+year = 0
+month = 0B
+day = 0B
+hour = 0B & minute = 0B
+sat = ’’
+lat = 0.0 & lon = 0.0
+T21 = 0.0 & T31 = 0.0
+sample = 0
+FRP = 0.0
+confidence = 0B
+type = 0B
+dnstr = ’’
+
+fmt = ’(I4.4,2I2,1X,2I2,1X,A1,F9.4,F10.4,2F6.1,I5,F8.1,I4,I3,1X,A1)’
+
+openr, 2, infile, /COMPRESS
+
+; skip header
+readf, 2, header
+
+while ˜EOF(2) do begin
+        readf, 2, year, month, day, hour, minute, sat, $
+                lat, lon, T21, T31, sample, FRP, confidence, type, $
+                dnstr, FORMAT = fmt
+
+           ; do something with values here
+endwhile
+
+close, 2
+
+
+
+
+                                               41
+Example 9: R/S-Plus code for reading a single monthly fire location product file and plotting sepa-
+rate histograms of band 21 brightness temperature for Terra and Aqua fire pixels.
+
+# comment.char argument is not necessary but makes the read.table()
+# call somewhat faster
+z <- read.table("MCD14ML.200711.006.02.txt.gz", header=TRUE,
+        comment.char="")
+
+# two plots on page
+par(mfrow=c(2,1))
+
+xstr <- "Band 21 Brightness Temperature"
+
+# Terra fire pixels
+hist(z$T21[z$sat == "T"], xlab = xstr)
+
+# Aqua fire pixels
+hist(z$T21[z$sat == "A"], xlab = xstr)
+
+
+
+
+                                                42
+6 Validation of the MODIS Active Fire Products
+In this section we provide a brief overview of the validation status of the MODIS active fire prod-
+ucts. A more detailed overview may be found in the active fire section of the MODIS Land Team
+Validation web site5 .
+
+6.1    Validation Based on ASTER Imagery
+Validation of the Terra MODIS active fire product has primarily been performed using coincident,
+high resolution fire masks derived from Advanced Spaceborne Thermal Emission and Reflection
+Radiometer (ASTER) imagery. See Morisette et al. (2005a,b), Csiszar et al. (2006), and Schroeder
+et al. (2008) for details. A very brief (though now somewhat obsolete) discussion of the general
+validation procedure, with some early results, can be found in Justice et al. (2002). For information
+about the methodology for producing the ASTER fire masks, see Giglio et al. (2008).
+    More recent work described has achieved Stage 3 validation of the Level 2 Terra MODIS fire
+product using 2500 ASTER scenes distributed globally and acquired from 2001 through 2006 (Fig-
+ure 10). See Giglio et al. (2016) for details.
+
+
+
+
+Figure 10: Spatial coverage and distribution of ASTER scenes (red patches) used in the Stage 3
+validation of MOD14.
+
+
+6.2    Other Validation
+Independent validation of the Collection 5 Terra and Aqua MODIS active fire products without
+ASTER has been performed by de Klerk (2008) and Hawbaker et al. (2008). These approaches
+have at least two advantages over ASTER-based methods: 1) They can be applied to both MODIS
+sensors (not just the Terra MODIS), and 2) they are not restricted to the near-nadir portion of the
+MODIS swath.
+
+  5
+      http://landval.gsfc.nasa.gov/ProductStatus.php?ProductID=MOD14
+
+
+                                                 43
+7 Caveats and Known Problems
+7.1     Caveats
+7.1.1 Fire Pixel Locations vs. Gridded Fire Products
+We urge caution in using fire pixel locations in lieu of the 1-km gridded MODIS fire products. The
+former includes no information about cloud cover or missing data and, depending on the sort of
+analysis that is being performed, it is sometimes possible to derive misleading (or even incorrect)
+results by not accounting for these other types of pixels. It is also possible to grossly misuse fire
+pixel locations, even for regions and time periods in which cloud cover and missing observations
+are negligible. Some caveats to keep in mind when using MODIS fire pixel locations:
+
+      • The fire pixel location files allow users to temporally and spatially bin fire counts arbitrarily.
+        However, severe temporal and spatial biases may arise in any MODIS fire time series analysis
+        employing time intervals shorter than about eight days.
+
+      • Known fires for which no entries occur in the fire-pixel location files are not necessarily
+        missed by the detection algorithm. Cloud obscuration, a lack of coverage, or a misclassifica-
+        tion in the land/sea mask may instead be responsible, but with only the information provided
+        in the fire location files this will be impossible to determine.
+
+7.2     Collection 6 Known Problems
+7.2.1 Pre-November 2000 Data Quality
+Prior to November 2000, the Terra MODIS instrument suffered from several hardware problems
+that adversely affected all of the MODIS fire products. In particular, some detectors were rendered
+dead or otherwise unusable in an effort to reduce unexpected crosstalk between many of the 500 m
+and 1 km bands. The dead detectors are known to introduce at least three specific artifacts in the
+pre-November 2000 fire products: striping, undetected small fires, and undetected large fires. In
+some very rare instances severe miscalibration of band-21 in the first weeks of the MODIS data
+archive (February and March 2000) will cause entire scan lines to be identified as fire.
+
+7.2.2 Detection Confidence
+A detection confidence intended to help users gauge the quality of individual fire pixels is included
+in the Level 2 fire product. This confidence estimate, which ranges between 0% and 100%, is
+used to assign one of the three fire classes (low-confidence fire, nominal-confidence fire, or high-
+confidence fire) to all fire pixels within the fire mask. In the Collection 4 fire product this confidence
+estimate did not adequately identify highly questionable, low confidence fire pixels. Such pixels,
+which by design should have a confidence close to 0%, were too often assigned much higher con-
+fidence estimates of 50% or higher. While an adjustment implemented in the Collection 5 code
+partially mitigated this problem, some highly questionable fire pixels are still classified as nominal-
+confidence fires. A second minor adjustment was implemented for Collection 6 to help correct this
+problem.
+
+
+
+
+                                                    44
+7.2.3 Flagging of Static Sources
+Some non-fire static hot-spot sources are unflagged as such in the type field of the MCD14ML prod-
+uct. Significant improvements were implemented for the version-3 product to reduce the frequency
+of these unflagged sources.
+
+7.2.4 August 2020 Aqua Outage
+A failure of the Aqua formatter-multiplexer unit (FMU) on 16 August 2020 led to the loss of regular
+science data telemetry for a period of about two weeks. During this time the MODIS instrument
+remained otherwise functional, and an effort was made to generate the standard Aqua science prod-
+ucts from Direct Broadcast Aqua MODIS data collected by Direct Readout ground stations around
+the world. A representative example of the limited Direct Broadcast coverage obtained during the
+outage is shown in in Figure 11.
+
+
+
+
+Figure 11: Representative example of Direct Broadcast coverage available during the 16 August –
+2 September 2020 Aqua FMU outage period. Fire pixels are shown in red, clear land pixels are
+shown in green, cloud pixels are shown in light blue, and areas lacking data are shown in white.
+Browse image courtesy of the LDOPE.
+
+
+
+
+                                                45
+7.3   Collection 5 Known Problems
+The frequency of certain problems known to affect the Collection 5 MODIS fire products was re-
+duced for Collection 6. Two such problems are described here.
+
+7.3.1 False Alarms in Small Forest Clearings
+Extensive validation of the Collection-5 Level-2 Terra MODIS fire product by Schroeder et al. (2008)
+found that small clearings within rainforest were a source of persistent false alarms in the Amazon.
+An example is shown in Figure 12. For Collection 6, the frequency of this type false alarm was
+reduced using an additional rejection test.
+
+
+
+
+Figure 12: Example false alarm (red square with cross) in the Collection 5 product from 23
+May 2002 (14:03 UTC) in an Amazonian rainforest clearing, with approximate edges of 1-km
+MODIS pixels (black grid) superimposed on a high resolution ASTER image. Source: Schroeder
+et al. (2008).
+
+
+
+
+                                                46
+7.3.2 False Alarms During Calibration Maneuvers
+A bug in the Collection-5 Level 1B calibrated-radiance production code occasionally produced
+spurious radiance values in the thermal bands during lunar roll calibration maneuvers. This in turn
+produced spurious stripes of fire pixels across the entire swath in up to ∼20 scans during these
+periods. The bug caused similar striping in several other MODIS products, in particular the cloud
+mask.
+    While most of the affected Level 2 granules were deleted from the Collection 5 archive, a small
+number were missed during quality assurance and subsequently propagated “arcs” of fire pixels into
+the Collection 5 CMG and MCD14ML fire products. An example for the Aqua MODIS is shown
+in Figure 13. The bug was fixed in late 2009, and the corrected Level 1B production code is now
+being used for the Collection 6 reprocessing.
+
+
+
+
+Figure 13: Example of a spurious arc of false fire pixels (red dots) in the Collection-5 8 December
+2008 Aqua daily global browse imagery caused by spurious mid-infrared radiance values in the
+Level 1B input data during a lunar calibration maneuver at 22:35 UTC. Cloud pixels are shown in
+light blue, and areas lacking data are shown in white. Browse image courtesy of the LDOPE.
+
+
+
+
+                                                47
+8 Frequently Asked Questions
+8.1   Terra and Aqua Satellites
+8.1.1 Where can I find general information about the Terra and Aqua satellites?
+See NASA’s Terra and Aqua web sites for a start:
+
+                                http://terra.nasa.gov/
+                                 http://aqua.nasa.gov/
+
+8.1.2 When were the Terra and Aqua satellites launched?
+18 December 1999 and 4 May 2002, respectively.
+
+8.1.3 How can I determine overpass times of the Terra and Aqua satellites for a particular
+      location?
+Both historical and predicted orbit tracks for Terra and Aqua are available from the University of
+Wisconsin-Madison Space Science and Engineering Center (SSEC)6 .
+
+8.2   General MODIS Questions
+8.2.1 Where can I find Algorithm Technical Basis Documents (ATBDs) for the MODIS land
+      products?
+ATBDs for all of the MODIS land products are available from MODARCH7 . Note that some are
+not up to date and predate the launch of both the Terra and Aqua satellites.
+
+8.2.2 Do the MODIS sensors have direct broadcast capability?
+Yes, and there is a large community of MODIS direct broadcast data users. More information is
+available from the NASA Direct Readout Laboratory8 .
+
+8.3   General Fire Product Questions
+8.3.1 How are the fires and other thermal anomalies identified in the MODIS fire products
+      detected?
+Fire detection is performed using a contextual algorithm (Giglio et al., 2003; Giglio et al., 2016)
+that exploits the strong emission of mid-infrared radiation from fires (Dozier, 1981; Matson and
+Dozier, 1981). The algorithm examines each pixel of the MODIS swath, and ultimately assigns to
+each one of the following classes: missing data, cloud, water, non-fire, fire, or unknown.
+    Pixels lacking valid data are immediately classified as missing data and excluded from further
+consideration. Cloud and water pixels are identified using cloud and water masks, and are assigned
+the classes cloud and water, respectively. Processing continues on the remaining clear land pixels.
+  6
+    http://www.ssec.wisc.edu/datacenter/
+  7
+    http://modarch.gsfc.nasa.gov/data/atbd/
+  8
+    http://directreadout.sci.gsfc.nasa.gov/
+
+
+
+
+                                                48
+A preliminary classification is used to eliminate obvious non-fire pixels. For those potential fire pix-
+els that remain, an attempt is made to use the neighboring pixels to estimate the radiometric signal
+of the potential fire pixel in the absence of fire. Valid neighboring pixels in a window centered on
+the potential fire pixel are identified and are used to estimate a background value. If the background
+characterization was successful, a series of contextual threshold tests are used to perform a relative
+fire detection. These look for the characteristic signature of an active fire in which both 4 µm bright-
+ness temperature and the 4 and 11 µm brightness temperature difference depart substantially from
+that of the non-fire background. Relative thresholds are adjusted based on the natural variability of
+the background. Additional specialized tests are used to eliminate false detections caused by sun
+glint, desert boundaries, errors in the water mask, and small forest clearings. Candidate fire pixels
+that are not rejected in the course of applying these tests are assigned a class of fire. Pixels for which
+the background characterization could not be performed, i.e. those having an insufficient number of
+valid pixels, are assigned a class of unknown.
+     See Giglio et al. (2016) for a detailed description of the Collection 6 detection algorithm.
+
+8.3.2 What is the smallest fire size that can be detected with MODIS? What about the
+      largest?
+MODIS can routinely detect both flaming and smoldering fires ∼1000 m2 in size. Under very good
+observing conditions (e.g. near nadir, little or no smoke, relatively homogeneous land surface, etc.)
+flaming fires one tenth this size can be detected. Under pristine (and extremely rare) observing
+conditions even smaller flaming fires ∼50 m2 can be detected.
+    Unlike most contextual fire detection algorithms designed for satellite sensors that were never
+intended for fire monitoring (e.g. AVHRR, VIRS, ATSR), there is no upper limit to the largest
+and/or hottest fire that can be detected with MODIS.
+
+8.3.3 Why didn’t MODIS detect a particular fire?
+This can happen for any number of reasons. The fire may have started and ended in between satellite
+overpasses. The fire may be too small or too cool to be detected in the 1 km2 MODIS footprint.
+Cloud cover, heavy smoke, or tree canopy may completely obscure a fire. Occasionally the MODIS
+instruments are inoperable for extended periods of time (e.g. the Terra MODIS in September 2000)
+and can of course observe nothing during these times.
+
+8.3.4 How well can MODIS detect understory burns?
+The likelihood of detection beneath a tree canopy is unknown but probably very low. Understory
+fires are usually small, which already makes MODIS less likely to detect them, but with the addition
+of a tree canopy to obstruct the view of a fire, detection becomes very unlikely.
+
+8.3.5 Can MODIS detect fires in unexposed coal seams?
+In general, no. The detection algorithm is not tuned to look for the subtle temperature changes in
+the overlying soil that is characteristic of such fires.
+
+8.3.6 How do I obtain the MODIS fire products?
+See Section 4.
+
+                                                   49
+8.3.7 What validation of the MODIS active fire products has been performed?
+Validation of the Terra MODIS active fire product has primarily been performed using coincident,
+high resolution fire masks derived from Advanced Spaceborne Thermal Emission and Reflection
+Radiometer (ASTER) imagery. See Section 6.
+
+8.3.8 I don’t want to bother with strange file formats and/or an unfamiliar ordering interface
+      and/or very large data files. Can’t you just give me the locations of fire pixels in plain
+      ASCII files and I’ll bin them myself?
+You can use the MCD14ML monthly fire location product, or obtain MODIS fire pixel locations
+via the Web Fire Mapper, but this doesn’t necessarily mean that fire pixel locations are the most
+appropriate source of fire-related information. The fire pixel location files include no information
+about cloud cover or missing data, and depending on the sort of analysis you are performing, it
+is sometimes possible to derive misleading (or even incorrect) results by effectively ignoring these
+other types of pixels. In many cases it is more appropriate to use one of the 1-km Level 3 or CMG
+fire products. See Section 7.1.1 for more information about this issue.
+
+8.3.9 I want to estimate burned area using active fire data. What effective area burned
+      should I assume for each fire pixel?
+Pulling this off to an acceptable degree of accuracy is generally not possible due to nontrivial spa-
+tial and temporal sampling issues. For some applications, however, acceptable accuracy can be
+achieved, although the effective area burned per fire pixel is not simply a constant, but rather varies
+with respect to several different vegetation- and fire-related variables. See Giglio et al. (2006b) for
+more information.
+
+8.3.10 Why are some of the MODIS fire products not available prior to November 2000?
+Although the Terra MODIS first began acquiring data in February 2000, crosstalk and calibration
+remained problematic until early November 2000 (see Section 7.2.1). Among other problems, this
+compromises the integrity and consistency of the earliest MODIS fire products, in particular the
+CMG fire products which are almost always used for time series analyses. For this reason we do not
+distribute those products (specifically, the CMG and fire-location products) which were rendered
+particularly inconsistent during the pre-November 2000 time period.
+
+8.3.11 Why then are the Level 2 swath and Level 3 tiled fire products available before Novem-
+       ber 2000?
+Because these products are not totally useless despite the early calibration problems. In addition,
+these products are less often used for time series analysis, where a lack of consistency is likely to
+be more problematic.
+
+8.4   Level 2 Fire Products
+8.4.1 Why do the Level 2 product files vary in size?
+Level 2 granules can contain slightly different numbers of scans. More importantly, internal HDF
+compression is used to reduce the size of the files.
+
+                                                  50
+8.4.2 How should the different fire detection confidence classes be used?
+Three classes of fire pixels (low confidence, nominal confidence, high confidence) are provided in
+the fire masks of the MODIS Level 2 and Level 3 fire products. Users requiring fewer false alarms
+may wish to consider only nominal- and high-confidence fire pixels, and treat low-confidence fire
+pixels as clear, non-fire, land pixels. Users requiring maximum fire detectability, who are able to
+tolerate a higher incidence of false alarms, should consider all three classes of fire pixels.
+
+8.4.3 How are the confidence values in the “FP confidence” SDS related to the confidence
+      classes assigned to fire pixels?
+The confidence class assigned to a fire pixel (low, nominal, or high) is determined by thresholding
+the confidence value (C) calculated for the fire pixel. These thresholds are listed in Table 11.
+
+Table 11: Fire-pixel confidence classes associated with the confidence level C computed for each
+fire pixel.
+
+                                   Range               Confidence Class
+                               0% ≤ C < 30%            low
+                              30% ≤ C < 80%            nominal
+                              80% ≤ C ≤ 100%           high
+
+
+
+8.4.4 How can I take data from the fire-pixel-table SDSs (i.e., the one-dimensional SDSs with
+      the prefix “FP ”) and place the values in the proper locations of a two-dimensional
+      array that matches the swath-based “fire mask” and “algorithm QA” SDSs?
+   1. Open a MOD14/MYD14 Level 2 granule for reading using your favorite programming lan-
+      guage.
+   2. Determine the number of fire pixels in the granule. The easiest way to do this is to read
+      the global HDF attribute “FirePix”. (If you are a masochist you can read and parse the ECS
+      CoreMetadata.0 string for the product specific attribute FIREPIXELS instead.) If the num-
+      ber of fire pixels is zero, all of the “FP ” SDSs will have length zero, and there’s nothing left
+      to process, so close the file and go on to whatever else you’d like to do.
+   3. Find the number of lines in the granule. Call this number nlines. In the product this
+      quantity corresponds to the dimension number of scan lines. Since it is difficult to
+      determine the value of a named dimension directly with the HDF library, you must in-
+      stead determine the dimensions of an SDS for which the named dimension applies. You
+      can use either the “fire mask” or “algorithm QA” SDSs for this as they both have dimen-
+      sions number of scan lines by pixels per scan line. The HDF library function
+      SDgetinfo returns this information (in IDL use HDF SD GETINFO). You can determine the
+      number of samples as well (pixels per scan line), if you like, but the value of this
+      dimension will always be 1354.
+   4. Read the the “FP line” and “FP sample” SDSs in their entirety. These arrays contain pixel co-
+      ordinates within the granule for all of the quantities in the other “FP ” SDSs. Hereafter we’ll
+
+                                                  51
+      assume these have been read and stored in internal arrays named FP line and FP sample,
+      respectively.
+
+   5. Create a 2-D array to hold whatever “FP ” quantity it is that you’d like to use. Assuming you
+      want the band 21/22 brightness temperature (“FP T21”), then in IDL you could do this:
+
+      T21 = fltarr(nlines, 1354)
+
+   6. Read the entire “FP ” SDS that you’d like to use. In the above example this is “FP T21”.
+      Following our earlier convention, we’ll assume this SDS is read into an internal array named
+      FP T21.
+
+   7. Populate pixels in the T21 array by indexing it with FP line and FP sample. In IDL you
+      would do this in one shot:
+
+      T21 = FP_T21[FP_line, FP_sample]
+
+      In non-vector-based languages you’d have to write an explicit loop. In C, for example, do
+      this:
+
+      for (i = 0; i < num_fire_pixels; i++)
+           T21[FP_line[i]][FP_sample[i]] = FP_T21[i];
+
+      Note that the coordinates in “FP line” and “FP sample” are zero-based. In a language like
+      Fortran (with the first array element numbered 1) you’d have to add 1 to all values in FP line
+      and FP sample.
+
+   8. Do whatever you want with the 2-D T21 array – it can now be indexed just like the fire mask
+      and QA SDSs would be if you had read them from the file. Note, though, that the newly
+      created T21 array will only contain data in those pixels where fires were detected. This is
+      true for 2-D arrays created from any of the other “FP ” SDSs as well.
+
+   9. Go back to step 4 for the remaining “FP ” quantities you want to use.
+
+ 10. Close the HDF file.
+
+8.4.5 Why are the values of the fire radiative power (FRP) in the Collection 4 Level 2 product
+      inconsistent with those in the Collection 5 Level 2 product?
+The “FP power” SDS in the Collection 4 Level 2 product actually contained radiative power per
+unit area, despite the fact that the units attribute of this SDS is assigned a value of “megawatts”
+(this is an error). These values had to be multiplied by the appropriate pixel area (at the surface of
+the Earth) to obtain the FRP, like this:
+
+     FRP (MW) = power values stored in the Collection 4 Level 2 product × pixel area (km2 )
+
+Note that the area of a MODIS pixel varies with its position in the MODIS scan; see the next ques-
+tion for details. Note also that starting with Collection 5 the Level 2 products have this multiplication
+performed during processing and therefore contain the correct FRP.
+
+
+                                                   52
+8.4.6 What is the area of a MODIS pixel at the Earth’s surface?
+The area of a MODIS pixel is nominally 1 km2 but grows away from nadir. To find the approximate
+pixel area, calculate the along-scan and along-track pixel dimensions (∆S and ∆T , respectively).
+The pixel area is then the product ∆S × ∆T . General formulas for the pixel dimensions (in km)
+can be found in Ichoku and Kaufman (2005) and are reproduced here:
+                                                                      
+                                                       cos θ
+                            ∆S = Re s  q                           − 1                           (11)
+                                                (Re /r)2 − sin2 θ
+                                                   q                       
+                            ∆T    = rs cos θ −          (Re /r)2 − sin2 θ       ,                  (12)
+
+where Re = 6378.137 km (Earth radius), r = Re +h, h = 705 km (satellite altitude), s = 0.0014184397,
+and θ is the scan angle. The scan angle (in radians) can be calculated from the granule sample SDS
+(“FP sample”) included in the Level 2 fire product as follows:
+
+                                     θ = s × (sample − 676.5)                                      (13)
+Note that the errors in the above approximations are smaller than the error entailed by treating the
+pixel as having sharp edges.
+
+8.4.7 Can I use cloud pixels identified in the Level 2 fire product as a general-purpose cloud
+      mask for other applications?
+Cloud pixels are identified in the Level 2 fire products using simple, fixed brightness-temperature
+and reflectance thresholds. While adequate for identifying optically thick cloud cover, this scheme
+often fails to identify cloud edges and thin cirrus. It is also likely to misclassify snow and sometimes
+desert as cloud. While adequate for the fire detection algorithm, which can tolerate these limitations
+but cannot tolerate fires being mislabeled as cloud, these characteristics probably render the internal
+cloud mask inadequate for most other applications.
+
+
+
+
+                                                  53
+8.5   Level 3 Tiled Fire Products
+8.5.1 Why do coastlines in the tile-based Level 3 products looked so warped?
+The tile-based Level 3 products are defined on a global sinusoidal grid which preserves areas but
+greatly distorts the shape of land masses at longitudes far from the prime meridian.
+
+8.5.2 Is there an existing tool I can use to reproject the tiled MODIS products into a different
+      projection?
+The MODIS Reprojection Tool (MRT) can reproject the tiled MODIS products into many different
+projections; see Section 10.
+
+8.5.3 Why do some MOD14A1 and MYD14A1 product files have fewer than eight daily data
+      layers?
+Days for which no MODIS data was acquired at all will not have a “plane” in the three-dimensional
+Scientific Data Sets included in the MOD14A1 and MYD14A1 products.
+
+8.5.4 How can I determine the date associated with each daily composite in the MOD14A1
+      and MYD14A1 products when fewer than eight days of data are present?
+There are two ways to do this. Let the number of days of valid data (nominally 8) in the product be
+Ndays .
+
+Method 1: Using the product-specific Dates global attribute.
+
+   The Dates attribute (a string) will contain the date for each plane of the three-dimensional
+SDS, with each of the Ndays dates encoded as 10-character substring (format YYYY-MM-DD),
+separated by a space. Here’s an example for the normal case of Ndays = 8:
+"2002-10-24 2002-10-25 2002-10-26 2002-10-27 2002-10-28 2002-10-29 2002-10-30 2002-10-31"
+
+Method 2: Using the ECS ArchiveMetadata.0 global attribute.
+
+    You may alternatively search the ArchiveMetadata.0 global attribute for the DAYSOFYEAR
+entry. This field will contain exactly Ndays dates, with each date corresponding to the date of each
+plane in the three-dimensional Scientific Data Sets. For example, a time period having no days of
+100% missing data will contain eight dates in the DAYSOFYEAR entry, like this:
+
+      "   OBJECT                             = DAYSOFYEAR\n",
+      "     NUM_VAL                          = 1\n",
+      "     VALUE                            = \"2009-08-29, 2009-08-30, 2009-08-31,
+                                               2009-09-01, 2009-09-02, 2009-09-03,
+                                               2009-09-04, 2009-09-05\"\n",
+      "   END_OBJECT                         = DAYSOFYEAR\n",
+
+And here’s an example when only six days of data are present:
+
+
+
+
+                                                54
+       "   OBJECT                           = DAYSOFYEAR\n",
+       "     NUM_VAL                        = 1\n",
+       "     VALUE                          = \"2001-06-10, 2001-06-11, 2001-06-12,
+                                              2001-06-13, 2001-06-14,
+                                              2001-06-15\"\n",
+       "   END_OBJECT                       = DAYSOFYEAR\n",
+
+8.5.5 How do I calculate the latitude and longitude of a grid cell in the Level 3 products?
+You can use the online MODLAND Tile Calculator9 , or perform the calculation as described in
+Section 5.2.6.
+
+8.5.6 How do I calculate the tile and grid cell coordinates of a specific geographic location
+      (latitude and longitude)?
+You can use the online MODLAND Tile Calculator8 , or perform the calculation as described in
+Section 5.2.6.
+
+8.5.7 What size are the grid cells of Level 3 MODIS sinusoidal grid?
+The Level 3 MODIS products generated on the MODIS sinusoidal grid are colloquially referred to
+as having “1 km”, ”500 m”, and “250 m” grid cells, but the actual cell sizes are shown in Table 12.
+
+               Table 12: Sizes of grid cells in Level 3 tiled MODIS sinusoidal grid.
+
+                                Colloquial Size    Actual Size (m)
+                                    “1 km”         926.62543305
+                                   “500 m”         463.31271653
+                                   “250 m”         231.65635826
+
+
+
+
+  9
+      http://landweb.nascom.nasa.gov/cgi-bin/developer/tilemap.cgi
+
+
+                                                  55
+8.6   Level 3 CMG Fire Products
+8.6.1 I need to reduce the resolution of the 0.25◦ CMG fire product to grid cells that are a
+      multiple of 0.25◦ in size. How do I go about doing this?
+For all pixel-count data layers simply sum the values of the 0.25◦ grid cells that lie within the larger
+grid cells. Be sure to handle grid cells flagged with the missing data value of -1. At the very
+least this entails excluding the negative missing data values from the resulting sum, but, depending
+upon the application, it may be more appropriate to flag the coarser grid cell as lacking valid data
+entirely. When coarsening the mean fire radiative power layer (MeanPower) you should weight
+the individual 0.25◦ mean FRP values by the corrected fire pixel counts (CorrFirePix), handling
+(by at least excluding) missing FRP values of 0 in the process. A few examples are shown in the
+following figures:
+
+
+                    0.25˚ CorrFirePix                           0.5˚ CorrFirePix
+
+                     100           200
+
+                                                                       1000
+
+                      300          400
+
+
+
+
+Rebinning corrected fire pixel counts from 0.25◦ grid cells (left) to a 0.5◦ grid cell (right). The result
+is simply the sum of the pixel counts of the four 0.25◦ grid cells (100 + 200 + 300 + 400 = 1000
+fire pixels) nested within the 0.5◦ grid cell.
+
+
+
+
+                                                   56
+                   0.25˚ CorrFirePix                          0.5˚ CorrFirePix
+
+                      -1           -1
+
+                                                                       -1
+
+                     300         400
+
+
+
+
+Rebinning corrected fire pixel counts from 0.25◦ grid cells (left) to a 0.5◦ grid cell (right) when
+missing data values of -1 are present. In this case we flag the entire 0.5◦ grid cell as lacking valid
+data which is appropriate when, for example, we are going to compare independent gridded fire
+products that won’t generally have missing data values in exactly the same grid cells. For other
+applications it would be sufficient to simply exclude the missing values from the sum, yielding a
+result of 300 + 400 = 700 fire pixels in the 0.5◦ grid cell.
+
+
+
+               0.25˚ MeanPower (MW)                       0.5˚ MeanPower (MW)
+
+                     10           20
+
+                                                                      30
+
+                     30           40
+
+
+
+
+Rebinning the mean FRP from 0.25◦ grid cells (left) to a 0.5◦ grid cell (right). The result is the
+average of the FRP in the four 0.25◦ grid cells nested within the 0.5◦ grid cell, weighted by their
+individual corrected fire pixel counts. Using the corrected fire pixel counts from the first example
+(above) this yields:
+    10 MW×100 + 20 MW×200 + 30 MW×300 + 40 MW×400
+                  100 + 200 + 300 + 400           = 30 MW
+
+
+
+
+                                                 57
+8.6.2 Why don’t you distribute a daily CMG fire product?
+Because a MODIS product at daily temporal resolution will be plagued by extremely large sampling
+bias errors. At most latitudes a single MODIS instrument simply does not sample the Earth’s surface
+adequately in time periods shorter than about 8 days to “average out” most of the sampling bias.
+
+8.6.3 Why don’t you distribute the CMG fire products as plain binary (or ASCII) files?
+1) The number of files one must deal with balloons since most users request that individual data
+layers be written to separate files; 2) it is difficult to include useful metadata without writing separate
+header files, increasing the total number of files to handle even further; 3) it is possible for data and
+its accompanying metadata to become separated; and 4) production, ingest, and analysis software is
+much more likely to break when changes are made to the product.
+
+8.6.4 Does the last 8-day CMG product for each calendar year include data from the first
+      few days of the following calendar year?
+Yes. The last 8-day CMG product for each calendar year, which begins on day 361, includes the
+first three days (two days for leap years) of the following calendar year. For example, the 8-day
+Aqua MODIS CMG product MYD14C8Q.2004361.006.01.hdf is produced using observa-
+tions from days 361–366 of 2004 and days 1–2 of 2005.
+
+8.6.5 Where can I find details about the different corrections performed on some of the data
+      layers in the CMG fire products?
+See Giglio et al. (2006a).
+
+8.6.6 Are non-fire hot spots filtered out of the MODIS CMG fire products?
+Yes, inferred non-vegetation-fire hot spots are excluded during production of the CMG fire prod-
+ucts (Figure 14). For Collection 6, the static and/or otherwise non-vegetation hot-spot database is
+updated annually since the Terra MODIS data record now spans more than 20 years in duration.
+
+
+
+
+    Figure 14: Locations of static hot spots excluded from the Collection 5 CMG fire products.
+
+
+
+                                                    58
+8.6.7 Is there an easy way to convert a calendar date into the ordinal dates (day-of-year)
+      used in the file names of the 8-day fire products?
+Yes. Try the Unix (or Linux) cal command (with the -j switch), or use Table 13.
+
+
+Table 13: Calendar dates (month/day) corresponding to the day-of-year (DOY) beginning each 8-
+day time period for which the 8-day fire products are generated. Dates for non-leap years and leap
+years are shown separately.
+
+                         Non-Leap        Leap              Non-Leap      Leap
+                  DOY      Date          Date        DOY      Date       Date
+                    1      01/01        01/01        185     07/04      07/03
+                    9      01/09        01/09        193     07/12      07/11
+                   17      01/17        01/17        201     07/20      07/19
+                   25      01/25        01/25        209     07/28      07/27
+                   33      02/02        02/02        217     08/05      08/04
+                   41      02/10        02/10        225     08/13      08/12
+                   49      02/18        02/18        233     08/21      08/20
+                   57      02/26        02/26        241     08/29      08/28
+                   65      03/06        03/05        249     09/06      09/05
+                   73      03/14        03/13        257     09/14      09/13
+                   81      03/22        03/21        265     09/22      09/21
+                   89      03/30        03/29        273     09/30      09/29
+                   97      04/07        04/06        281     10/08      10/07
+                  105      04/15        04/14        289     10/16      10/15
+                  113      04/23        04/22        297     10/24      10/23
+                  121      05/01        04/30        305     11/01      10/31
+                  129      05/09        05/08        313     11/09      11/08
+                  137      05/17        05/16        321     11/17      11/16
+                  145      05/25        05/24        329     11/25      11/24
+                  153      06/02        06/01        337     12/03      12/02
+                  161      06/10        06/09        345     12/11      12/10
+                  169      06/18        06/17        353     12/19      12/18
+                  177      06/26        06/25        361     12/27      12/26
+
+
+
+
+                                                59
+8.7   Global Monthly Fire Location Product
+8.7.1 Can I use the MCD14ML fire location product to make my own gridded fire data set?
+Yes, but please see the caveats in Section 7.1.1 first. If done carelessly you may end up with severe
+temporal and spatial biases in your gridded data.
+
+8.7.2 How many lines are in each MCD14ML product file?
+This size of each product file depends on the number of fire pixels detected each month but typically
+varies between 200,000 and 500,000 lines.
+
+8.7.3 Are non-vegetation-fire hot spots filtered out of the fire location product?
+No. Unlike the CMG fire product, static, persistent or otherwise non-vegetation-fire hot spots are
+not removed from the MCD14ML product. However, you can use the type attribute in the product
+to identify such fire pixels.
+
+8.7.4 The MCD14ML ASCII product files have fixed-width, space-delimited fields. Is there
+      an easy way to convert these to comma-separated values (CSV) files?
+Yes. In Unix, Linux, or Mac OS-X you can use the tr command to do this. Here’s an example:
+
+tr -s ’ ’ , < MCD14ML.200805.006.01.txt > MCD14ML.200805.006.01.csv
+
+8.7.5 How can I compute the scan angle given the sample number in the MCD14ML prod-
+      uct?
+The scan angle θ (in radians) can be calculated from the value in the sample column as follows:
+
+                                    θ = s × (sample − 676.5),                                   (14)
+
+where s = 0.0014184397. (See section 8.4.6 if you are also interested in the approximate size of the
+pixel at the Earth’s surface.)
+
+
+
+
+                                                 60
+8.8    Hierarchical Data Format (HDF)
+8.8.1 What are HDF files?
+The Hierarchical Data Format (HDF), developed at the National Center for Supercomputing, is one
+of various file formats used to portably archive and distribute scientific data. HDF files are more or
+less “self-describing” in that they can include extensive metadata about the data stored within the
+file. Note that there are two incompatible flavors of HDF in use: HDF4, the format in which all
+MODIS products are stored, and HDF5, which is actually a completely different file format that is
+not backwards-compatible with HDF4. See the NCSA HDF web site for more information10 .
+
+8.8.2 How do I read HDF4 files?
+If you are writing your own software in a “traditional” programming language such as C or Fortran,
+you will need obtain the HDF4 library from NCSA11 . Some commercial software packages, how-
+ever, including MATLAB, IDL, and ENVI, have the HDF library built-in, in which case you will
+not need to install the library.
+
+8.8.3 Can’t I just skip over the HDF header and read the data directly?
+Put any thought of reading or writing HDF files without the HDF library out of your head. HDF
+was intended to be not so much a physical file format, but instead an “application interface”. As
+such, the format is fairly complicated (and has in fact changed over time) and it would be very time
+consuming (and risky) to roll your own HDF ingest code. The physical file format is nothing like
+the typical header-followed-by-data common to many other formats, and it is not easy to simply
+skip over the metadata fragments in an HDF file.
+
+8.8.4 How can I list the contents of HDF4 files?
+The NCSA HDF4 Library includes a utility named ncdump which will do this. Be sure to use the
+switch -h otherwise you will be inundated with ASCII dumps of all numeric arrays in the file.
+
+8.8.5 How can I display images in HDF4 files?
+Commercial software packages that can display the data layers in most MODIS products (which are
+generally stored as HDF4 “Scientific Data Sets”) include ENVI12 and ERDAS Imagine13 .
+Freely available display software includes HDFView14 and the older HDFLook15 (pre-compiled
+binaries only).
+
+
+
+
+  10
+     http://hdf.ncsa.uiuc.edu/
+  11
+     http://hdf.ncsa.uiuc.edu/hdf4.html
+  12
+     http://www.ittvis.com/ProductServices/ENVI.aspx
+  13
+     http://www.erdas.com/
+  14
+     http://www.hdfgroup.org/hdf-java-html/hdfview/
+  15
+     http://www-loa.univ-lille1.fr/Hdflook/hdflook gb.html
+
+
+                                                 61
+9 References
+Csiszar, I., Morisette, J. T., and Giglio, L., 2006, Validation of active fire detection from moderate
+resolution satellite sensors: the MODIS example in Northern Eurasia. IEEE Transactions on Geo-
+sciences and Remote Sensing, 44:1757-1764, doi:10.1109/TGRS.2006.875941.
+
+Giglio, L., Csiszar, I., and Justice, C. O., 2006a, Global distribution and seasonality of active fires as
+observed with the Terra and Aqua MODIS sensors. Journal of Geophysical Research, 111:G02016,
+doi:10.1029/2005JG000142.
+
+Giglio, L., Csiszar, I., Restás, Á., Morisette, J. T., Schroeder, W., Morton, D., and Justice, C. O.,
+2008, Active fire detection and characterization with the Advanced Spaceborne Thermal Emission
+and Reflection Radiometer (ASTER). Remote Sensing of Environment, 112:3055-3063.
+
+Giglio, L., Descloitres, J., Justice, C. O., and Kaufman, Y. J., 2003, An enhanced contextual fire
+detection algorithm for MODIS. Remote Sensing of Environment, 87:273-282.
+
+Giglio, L., and Kendall, J., 2003, TRMM VIRS Monthly Fire Product User’s Guide, Revision B.
+(ftp://lake.nascom.nasa.gov/data/TRMM/VIRS Fire/docs/VIRS Fire Users Guide B.pdf).
+
+Giglio, L., Schroeder, W., and Justice, C. O., 2016, The collection 6 MODIS active fire detection
+algorithm and fire products. Remote Sensing of Environment, 178:31-41.
+
+Giglio, L., van der Werf, G. R., Randerson, J. T., Collatz, G. J., and Kasibhatla, P., 2006b, Global es-
+timation of burned area using MODIS active fire observations. Atmospheric Chemistry and Physics,
+6:957-974.
+
+Ichoku, C., and Kaufman, Y. J., 2005, A method to derive smoke emission rates from MODIS fire
+radiative energy measurements. IEEE Transactions on Geoscience and Remote Sensing, 43:2636-
+2649.
+
+Justice, C. O., Giglio, L., Korontzi, S., Owens, J., Morisette, J., Roy, D., Descloitres, J., Alleaume,
+S., Petitcolin, F., and Kaufman, Y. J., 2002, The MODIS fire products. Remote Sensing of Environ-
+ment, 83:244-262.
+
+Kaufman, Y. J., Ichoku, C., Giglio, L., Korontzi, S., Chu, D. A., Hao, W. M., Li, R.-R., and Jus-
+tice, C. O., 2003, Fires and smoke observed from the Earth Observing System MODIS instrument
+– products, validation, and operational use. International Journal of Remote Sensing, 24:1765-1781.
+
+Kaufman, Y. J., Justice, C. O., Flynn, L. P., Kendall, J. D., Prins, E. M., Giglio, L., Ward, D. E.,
+Menzel, W. P., and Setzer, A. W., 1998, Potential global fire monitoring from EOS-MODIS. Journal
+of Geophysical Research, 103:32215-32238.
+
+Hawbaker, T. J., Radeloff, V. C., Syphard, D., Zhu, Z., and Stewart, S., 2008, Detection rates of the
+MODIS active fire product in the United States. Remote Sensing of Environment, 112:2656-2664.
+
+
+
+
+                                                   62
+de Klerk, H., 2008, A pragmatic assessment of the usefulness of the MODIS (Terra and Aqua) 1-km
+active fire (MOD14A2 and MYD14A2) products for mapping fires in the fynbos biome. Interna-
+tional Journal of Wildland Fire, 17:166-178.
+
+Morisette, J. T., Giglio, L., Csiszar, I., and Justice, C. O., 2005a, Validation of the MODIS Ac-
+tive fire product over Southern Africa with ASTER data. International Journal of Remote Sensing,
+26:4239-4264.
+
+Morisette, J. T., Giglio, L., Csiszar, I., Setzer, A., Schroeder, W., Morton, D., and Justice, C. O.,
+2005b, Validation of MODIS active fire detection products derived from two algorithms. Earth In-
+teractions, 9(9):1-25.
+
+Roy, D. P., Borak, J. S., Devadiga, S., Wolfe, R. E., Zheng, M., and Descloitres, J., 2002, The
+MODIS Land product quality assessment approach. Remote Sensing of Environment, 83:62-76.
+
+Schroeder, W., Prins, E., Giglio, L., Csiszar, I., Schmidt, C., Morisette, J. T., and Morton, D., 2008,
+Validation of GOES and MODIS active fire detection products using ASTER and ETM+ data. Re-
+mote Sensing of Environment, 112:2711-2726.
+
+Wooster, M. J., Zhukov, B., and Oertel, D., 2003, Fire radiative energy for quantitative study of
+biomass burning: derivation from the BIRD experimental satellite and comparison to MODIS fire
+products, Remote Sensing of Environment, 86:83-107.
+
+
+10     Relevant Web and FTP Sites
+     • MODIS Fire and Thermal Anomalies: General information about the MODIS Fire (Ther-
+       mal Anomalies) and Burned Area products.
+       http://modis-fire.umd.edu/
+
+     • MODIS File Specifications: Detailed file descriptions of all MODIS land products.
+       ftp://modular.nascom.nasa.gov/pub/LatestFilespecs/collection5
+
+     • MODIS Land Team Validation: Information concerning the validation status of all MODIS
+       land products.
+       http://landval.gsfc.nasa.gov/
+
+     • MODIS LDOPE Tools: A collection of programs, written by members of the Land Data Op-
+       erational Product Evaluation (LDOPE) group, to assist in the analysis and quality assessment
+       of MODIS Land (MODLAND) products.
+       https://lpdaac.usgs.gov/tools/ldope tools
+
+     • MODIS Reprojection Tool (MRT), Release 4.1: Software for reprojecting tiled MODIS
+       Level 3 products into many different projections.
+       https://lpdaac.usgs.gov/tools/modis reprojection tool
+
+     • MODLAND Tile Calculator: Online tool for performing forward and inverse mapping of
+       MODIS sinusoidal tiles.
+       http://landweb.nascom.nasa.gov/cgi-bin/developer/tilemap.cgi
+
+
+                                                  63
+• LANCE FIRMS Web Fire Mapper: The Fire Information for Resource Management Sys-
+  tem (FIRMS) Web Fire Mapper generates custom maps of active fires detected by the Terra
+  and Aqua MODIS instruments. Users can also active fire locations in ESRI shape file and
+  ARC/INFO formats.
+  http://firms.modaps.eosdis.nasa.gov/firemap/
+
+• LANCE Rapid Response System: Access to near-real time Terra and Aqua MODIS re-
+  flectance, fire, vegetation index, and land surface temperature imagery. Includes a multi-year
+  archive.
+  http://earthdata.nasa.gov/data/near-real-time-data/rapid-response
+
+• NASA Earthdata Search: The current primary distribution site for most MODIS products.
+  Formerly Reverb, and before that the Warehouse Inventory Search Tool (WIST), and before
+  that the EOS Data Gateway (EDG).
+  https://search.earthdata.nasa.gov/
+
+• MODIS Land Product Quality Assessment: Product quality-assessment (QA) related in-
+  formation, including a very complete archive of known land-product issues with descriptions
+  and examples.
+  http://landweb.nascom.nasa.gov/cgi-bin/QA WWW/newPage.cgi
+
+• NASA Direct Readout Laboratory: Free information and software to acquire, process, and
+  analyze MODIS Direct Broadcast data.
+  http://directreadout.sci.gsfc.nasa.gov/
+
+• SSEC Terra and Aqua Orbit Tracks: Orbit tracks for various polar orbiting satellites, in-
+  cluding Terra and Aqua, from the University of Wisconsin-Madison Space Science and Engi-
+  neering Center (SSEC).
+  https://www.ssec.wisc.edu/datacenter/orbit tracks.html
+
+
+
+
+                                            64
+

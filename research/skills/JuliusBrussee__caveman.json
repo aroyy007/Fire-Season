@@ -1,0 +1,32 @@
+{
+  "repo": "JuliusBrussee/caveman",
+  "sha": "542442bab314973709f95b85b1ac0b3f6f5b5dc6",
+  "license": "NOASSERTION",
+  "branch": "main",
+  "skills": [
+    "plugins/caveman/skills/cavecrew/SKILL.md",
+    "plugins/caveman/skills/caveman-compress/SKILL.md",
+    "plugins/caveman/skills/caveman-stats/SKILL.md",
+    "plugins/caveman/skills/caveman/SKILL.md",
+    "skills/cavecrew/SKILL.md",
+    "skills/caveman-commit/SKILL.md",
+    "skills/caveman-compress/SKILL.md",
+    "skills/caveman-discover/SKILL.md",
+    "skills/caveman-evidence-review/SKILL.md",
+    "skills/caveman-explore/SKILL.md",
+    "skills/caveman-help/SKILL.md",
+    "skills/caveman-learn/SKILL.md",
+    "skills/caveman-manage/SKILL.md",
+    "skills/caveman-optimize/SKILL.md",
+    "skills/caveman-review/SKILL.md",
+    "skills/caveman-setup/SKILL.md",
+    "skills/caveman-stats/SKILL.md",
+    "skills/caveman/SKILL.md",
+    "skills/investigate-first/SKILL.md",
+    "skills/lean-build/SKILL.md",
+    "skills/migration/SKILL.md",
+    "skills/safe-refactor/SKILL.md",
+    "skills/surgical-patch/SKILL.md",
+    "skills/verify-and-stop/SKILL.md"
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://one-last-launch.github.io/fire-season/schemas/evidence-receipt.schema.json",
+  "title": "Fire Season Evidence Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "artifact_id",
+    "published_at",
+    "region",
+    "analysis",
+    "sources",
+    "exclusions",
+    "calibration",
+    "environment",
+    "limitations",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^rcpt_[a-z0-9][a-z0-9_-]+$"
+    },
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^art_[a-z0-9][a-z0-9_-]+$"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "region": {
+      "$ref": "#/$defs/region"
+    },
+    "analysis": {
+      "$ref": "#/$defs/analysis"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/exclusion"
+      }
+    },
+    "calibration": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/calibration"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "environment": {
+      "$ref": "#/$defs/environment"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/file"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region_id", "revision", "name", "role", "geometry_sha256"],
+      "properties": {
+        "region_id": {
+          "type": "string",
+          "pattern": "^region_[a-z0-9][a-z0-9_-]+_r[1-9][0-9]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": ["science_pilot", "local_impact_case", "transfer_test_region"]
+        },
+        "geometry_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date",
+        "metric_id",
+        "reference_product_id",
+        "source_manifest_id",
+        "source_manifest_sha256",
+        "grid_version",
+        "quality_policy_version",
+        "minimum_monthly_support_fraction"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "metric_id": {
+          "const": "detected_active_land_cell_days_per_1000_valid_land_cell_days"
+        },
+        "reference_product_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_manifest_id": {
+          "type": "string",
+          "pattern": "^src_[0-9a-f]{12}$"
+        },
+        "source_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "grid_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quality_policy_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minimum_monthly_support_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product_id",
+        "short_name",
+        "version",
+        "platform",
+        "source_url",
+        "product_guide_url",
+        "provider_objects"
+      ],
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "short_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "product_guide_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "provider_objects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/providerObject"
+          }
+        }
+      }
+    },
+    "providerObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_object_id",
+        "source_url",
+        "observed_start",
+        "observed_end",
+        "retrieved_at",
+        "size_bytes",
+        "sha256"
+      ],
+      "properties": {
+        "provider_object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "observed_start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observed_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "provider_checksum": {
+          "type": ["string", "null"]
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["product_id", "reason", "cell_days"],
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "enum": ["low_confidence_excluded", "cloud", "unknown", "unprocessed", "water_or_non_land", "outside_region"]
+        },
+        "cell_days": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calibration_id",
+        "status",
+        "source_product_id",
+        "reference_product_id",
+        "training_manifest_sha256",
+        "split_manifest_sha256",
+        "model_sha256",
+        "code_revision",
+        "evaluation"
+      ],
+      "properties": {
+        "calibration_id": {
+          "type": "string",
+          "pattern": "^cal_[a-z0-9][a-z0-9_.-]+$"
+        },
+        "status": {
+          "enum": ["released", "withdrawn"]
+        },
+        "source_product_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_product_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "training_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "split_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "model_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "code_revision": {
+          "type": "string",
+          "minLength": 7
+        },
+        "evaluation": {
+          "$ref": "#/$defs/evaluation"
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "training_seasons",
+        "heldout_seasons",
+        "positive_block_months",
+        "identity_mae",
+        "seasonal_baseline_mae",
+        "candidate_mae",
+        "mae_improvement_fraction",
+        "regional_bias",
+        "peak_month_error",
+        "nominal_interval_level",
+        "empirical_interval_coverage",
+        "transfer_test_status",
+        "release_gate_status"
+      ],
+      "properties": {
+        "training_seasons": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "heldout_seasons": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "positive_block_months": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "identity_mae": {
+          "type": "number",
+          "minimum": 0
+        },
+        "seasonal_baseline_mae": {
+          "type": "number",
+          "minimum": 0
+        },
+        "candidate_mae": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mae_improvement_fraction": {
+          "type": "number"
+        },
+        "regional_bias": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "peak_month_error": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 11
+        },
+        "nominal_interval_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "empirical_interval_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "transfer_test_status": {
+          "enum": ["pass", "fail", "insufficient_support"]
+        },
+        "release_gate_status": {
+          "enum": ["pass", "fail"]
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python_version", "dependency_lock_sha256", "pipeline_revision", "operating_system"],
+      "properties": {
+        "python_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependency_lock_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "pipeline_revision": {
+          "type": "string",
+          "minLength": 7
+        },
+        "operating_system": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "media_type", "size_bytes", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\.\\.).+$"
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

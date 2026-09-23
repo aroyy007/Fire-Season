@@ -1,0 +1,3 @@
+# Evaluated harmonization is the product
+
+Fire Season will treat evaluated cross-sensor harmonization as its core product rather than a fire map, forecast, or AI assistant. A calibration must pass the declared baseline, timing, uncertainty, and scope gates before it can produce Comparable Activity; otherwise the comparison is unavailable. No user-facing assistant is committed to the Competition MVP. If one is added after every core gate passes, it may only explain stored evidence and cannot calculate scientific values or become the primary interaction. This sacrifices feature breadth and seamless-looking output in favor of scientific credibility and direct challenge relevance.
