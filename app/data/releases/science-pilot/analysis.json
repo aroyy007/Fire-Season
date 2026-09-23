@@ -15,6 +15,12 @@
       "size_bytes": 24830
     },
     {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "5354ea5aa387476ee49907dc3323d6ea20dd58bd59c4b4b884c2cac57d78feb5",
+      "size_bytes": 194
+    },
+    {
       "media_type": "application/geo+json",
       "path": "region.geojson",
       "sha256": "5b98838129b62e8ae8909d01ac64aad9e89cf969ce3a3f1f9a15991df1eaa63f",
@@ -23,8 +29,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "19f0d565054d1a5ec7e65861d1f9c7a9b845024de434b6ffe50cd360bec73712",
-      "size_bytes": 1817
+      "sha256": "9bc9be1c2b976a864609248d5a254a5e60b398110e0f5a1a8ca539fcada5d24a",
+      "size_bytes": 2341
     }
   ],
   "generated_at": "2026-09-24T00:00:00Z",
@@ -5686,14 +5692,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -3.2712,
-        "percentile": 30.0,
+        "difference_per_1000": -3.9667,
+        "percentile": 22.22,
         "rank": 8,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5733,14 +5739,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -1.018,
-        "percentile": 50.0,
+        "difference_per_1000": -1.3703,
+        "percentile": 44.44,
         "rank": 6,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5780,14 +5786,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -1.8919,
-        "percentile": 40.0,
+        "difference_per_1000": -2.2969,
+        "percentile": 33.33,
         "rank": 7,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5827,14 +5833,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 1.075,
-        "percentile": 60.0,
-        "rank": 5,
+        "difference_per_1000": 1.197,
+        "percentile": 66.67,
+        "rank": 4,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5874,14 +5880,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 10.9983,
+        "difference_per_1000": 10.9198,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5921,14 +5927,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 3.8115,
-        "percentile": 90.0,
+        "difference_per_1000": 3.4528,
+        "percentile": 88.89,
         "rank": 2,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -5968,14 +5974,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 7.5702,
+        "difference_per_1000": 7.7349,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6015,14 +6021,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -3.3254,
-        "percentile": 20.0,
-        "rank": 9,
+        "difference_per_1000": -3.4219,
+        "percentile": 22.22,
+        "rank": 8,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6062,14 +6068,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -4.7607,
-        "percentile": 20.0,
-        "rank": 9,
+        "difference_per_1000": -4.4618,
+        "percentile": 22.22,
+        "rank": 8,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6109,14 +6115,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 3.9344,
+        "difference_per_1000": 4.3285,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6156,14 +6162,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -3.7681,
-        "percentile": 30.0,
+        "difference_per_1000": -4.404,
+        "percentile": 22.22,
         "rank": 8,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6203,14 +6209,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2022,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -0.7547,
-        "percentile": 40.0,
-        "rank": 7,
+        "difference_per_1000": -0.1488,
+        "percentile": 44.44,
+        "rank": 6,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 10
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6250,14 +6256,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 0.0231,
-        "percentile": 54.55,
+        "difference_per_1000": -0.9698,
+        "percentile": 44.44,
         "rank": 6,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6297,14 +6303,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -1.047,
-        "percentile": 45.45,
-        "rank": 7,
+        "difference_per_1000": -1.4919,
+        "percentile": 44.44,
+        "rank": 6,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6344,14 +6350,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -1.2185,
-        "percentile": 45.45,
+        "difference_per_1000": -1.7955,
+        "percentile": 33.33,
         "rank": 7,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6391,14 +6397,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 2.2337,
-        "percentile": 81.82,
+        "difference_per_1000": 2.4534,
+        "percentile": 77.78,
         "rank": 3,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6438,14 +6444,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 12.176,
+        "difference_per_1000": 13.0974,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6485,14 +6491,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -4.9095,
-        "percentile": 18.18,
-        "rank": 10,
+        "difference_per_1000": -4.9217,
+        "percentile": 22.22,
+        "rank": 8,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6532,14 +6538,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 7.0457,
+        "difference_per_1000": 7.8986,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6579,14 +6585,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 6.0166,
-        "percentile": 90.91,
+        "difference_per_1000": 5.6178,
+        "percentile": 88.89,
         "rank": 2,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6626,14 +6632,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 2.1544,
-        "percentile": 72.73,
-        "rank": 4,
+        "difference_per_1000": 2.0205,
+        "percentile": 77.78,
+        "rank": 3,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6673,14 +6679,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 6.9149,
+        "difference_per_1000": 7.6667,
         "percentile": 100.0,
         "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6720,14 +6726,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -4.3628,
-        "percentile": 18.18,
-        "rank": 10,
+        "difference_per_1000": -5.3413,
+        "percentile": 11.11,
+        "rank": 9,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,
@@ -6767,14 +6773,14 @@
     },
     {
       "anomaly": {
-        "baseline_end_year": 2023,
+        "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": 4.7726,
-        "percentile": 90.91,
-        "rank": 2,
+        "difference_per_1000": 5.3099,
+        "percentile": 100.0,
+        "rank": 1,
         "reason": null,
         "status": "available",
-        "usable_baseline_years": 11
+        "usable_baseline_years": 9
       },
       "comparison": {
         "calibration_id": null,

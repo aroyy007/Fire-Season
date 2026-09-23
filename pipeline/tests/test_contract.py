@@ -50,6 +50,18 @@ class AnalysisArtifactContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_analysis_artifact(artifact)
 
+    def test_support_fraction_must_match_counts(self):
+        artifact, _ = self.release
+        artifact["months"][0]["native_records"][0]["support_fraction"] = 0.5
+        with self.assertRaises(ValueError):
+            validate_analysis_artifact(artifact)
+
+    def test_months_must_be_chronological(self):
+        artifact, _ = self.release
+        artifact["months"][0], artifact["months"][1] = artifact["months"][1], artifact["months"][0]
+        with self.assertRaises(ValueError):
+            validate_analysis_artifact(artifact)
+
     def test_artifact_is_json_serializable(self):
         artifact, receipt = self.release
         json.dumps(artifact)

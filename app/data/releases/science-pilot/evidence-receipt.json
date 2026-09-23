@@ -23,8 +23,8 @@
     {
       "media_type": "application/json",
       "path": "analysis.json",
-      "sha256": "e5db0e3a4b097d786846bd28e63896dbaeefe25eb6d4103966056f65a5ff46dc",
-      "size_bytes": 224394
+      "sha256": "e540c7f69c99e33e0e6711ab14e3b6f842e8daa6371f4adb6cba970cd0d8990b",
+      "size_bytes": 224574
     },
     {
       "media_type": "text/csv",
@@ -39,6 +39,12 @@
       "size_bytes": 24830
     },
     {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "5354ea5aa387476ee49907dc3323d6ea20dd58bd59c4b4b884c2cac57d78feb5",
+      "size_bytes": 194
+    },
+    {
       "media_type": "application/geo+json",
       "path": "region.geojson",
       "sha256": "5b98838129b62e8ae8909d01ac64aad9e89cf969ce3a3f1f9a15991df1eaa63f",
@@ -47,8 +53,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "19f0d565054d1a5ec7e65861d1f9c7a9b845024de434b6ffe50cd360bec73712",
-      "size_bytes": 1817
+      "sha256": "9bc9be1c2b976a864609248d5a254a5e60b398110e0f5a1a8ca539fcada5d24a",
+      "size_bytes": 2341
     }
   ],
   "limitations": [

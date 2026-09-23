@@ -73,6 +73,18 @@ def _file_list(files: Any, field: str) -> None:
         _sha(item.get("sha256"), f"{field}.{path}.sha256")
 
 
+def validate_release_manifest(manifest: Mapping[str, Any]) -> None:
+    """Validate the checksum inventory used for atomic publication."""
+    for key in ("schema_version", "artifact_id", "manifest_created_at", "files"):
+        _require(key in manifest, f"manifest is missing {key}")
+    _require(manifest["schema_version"] == "1.0.0", "unsupported manifest schema")
+    _require(isinstance(manifest["artifact_id"], str) and manifest["artifact_id"].startswith("art_"), "invalid manifest artifact ID")
+    _datetime(manifest["manifest_created_at"], "manifest_created_at")
+    _file_list(manifest["files"], "manifest.files")
+    paths = {entry["path"] for entry in manifest["files"]}
+    _require("analysis.json" in paths and "evidence-receipt.json" in paths, "manifest must include analysis and receipt")
+
+
 def _validate_source(source: Mapping[str, Any]) -> None:
     for key in ("product_id", "short_name", "version", "platform", "stream", "source_url", "product_guide_url"):
         _require(source.get(key), f"source.{key} is required")
@@ -89,6 +101,8 @@ def _validate_native(record: Mapping[str, Any]) -> None:
     _integer(record["valid_cell_days"], "valid_cell_days")
     _require(record["valid_cell_days"] <= record["eligible_land_cell_days"], "valid cells exceed eligible cells")
     _number(record["support_fraction"], "support_fraction", minimum=0, maximum=1)
+    expected_support = round(record["valid_cell_days"] / record["eligible_land_cell_days"], 6)
+    _require(record["support_fraction"] == expected_support, "support fraction does not match counts")
     if status == "no_observation":
         _require(record["detected_cell_days"] is None, "no observation cannot have detections")
         _require(record["valid_cell_days"] == 0, "no observation must have zero valid cells")
@@ -143,10 +157,13 @@ def validate_analysis_artifact(artifact: Mapping[str, Any]) -> None:
     _require(artifact["reference_product_id"], "reference product is required")
     _require(isinstance(artifact["sources"], list) and len(artifact["sources"]) >= 2, "at least two sources are required")
     source_ids = set()
+    science_source_ids = set()
     for source in artifact["sources"]:
         _validate_source(source)
         _require(source["product_id"] not in source_ids, "duplicate source product")
         source_ids.add(source["product_id"])
+        if source["stream"] == "science_mask":
+            science_source_ids.add(source["product_id"])
     policy = artifact["quality_policy"]
     _require(policy.get("version") and policy.get("low_confidence_fire_policy") in {"excluded", "included"}, "quality policy is incomplete")
     _number(policy.get("minimum_monthly_support_fraction"), "minimum_monthly_support_fraction", minimum=0, maximum=1)
@@ -158,13 +175,21 @@ def validate_analysis_artifact(artifact: Mapping[str, Any]) -> None:
     for month in artifact["months"]:
         key = month.get("month")
         _require(isinstance(key, str) and len(key) == 7 and key[4] == "-", "month key is invalid")
+        _date(f"{key}-01", "month key")
         _require(key not in month_keys, "duplicate month")
+        if month_keys:
+            _require(key > month_keys[-1], "months must be chronological")
         month_keys.append(key)
         records = month.get("native_records")
         _require(isinstance(records, list) and records, "month needs native records")
         for record in records:
             _require(record["product_id"] in source_ids, "native record refers to unknown product")
+            _require(record["product_id"] in science_source_ids, "native record must resolve to a science-mask source")
             _validate_native(record)
+            if record["observation_status"] == "available":
+                _require(record["support_fraction"] >= policy["minimum_monthly_support_fraction"], "available record is below support policy")
+            if record["observation_status"] == "insufficient_support":
+                _require(record["support_fraction"] < policy["minimum_monthly_support_fraction"], "insufficient-support record meets support policy")
         _validate_comparison(month["comparison"])
         comparison_available = comparison_available or month["comparison"]["status"] == "available"
     if artifact["release_status"] == "native_only":

@@ -37,8 +37,8 @@ The PRD, TRD, application flow, and backend schema were rewritten from the appro
 
 | Check | Result |
 |---|---|
-| Contract tests | Passed 6 tests with `python3 -m unittest discover -s pipeline/tests -v`. This covers fixture invariants, unavailable-result rejection, release-manifest hashes, and static no-remote-dependency checks. |
+| Contract tests | Passed 8 tests with `python3 -m unittest discover -s pipeline/tests -v`. This covers fixture invariants, unavailable-result rejection, count/rate/support arithmetic, chronological ordering, release-manifest hashes, and static no-remote-dependency checks. |
 | JavaScript syntax | Passed `node --check app/app.js`. |
 | Generated bundles | Passed both Science Pilot and Local Impact Case builds; analysis, receipt, payload, and manifest checksums match. |
-| Browser smoke test | Passed in Chrome against a local static server: region switch, Comparable Activity unavailable state, Evidence Receipt panel, fixture boundary copy, and no browser console errors. Download controls are wired to Blob exports; browser download-event capture is not available in the smoke harness. |
+| Browser smoke test | Passed in Chrome against a local static server: region switch, Comparable Activity unavailable state, selected-month count labels, provider/checksum receipt details, fixture boundary copy, focus return, and no browser console errors. Download controls are wired to Blob exports; browser download-event capture is not available in the smoke harness. |
 | Scientific validation | Still pending. The current app is explicitly a contract fixture and makes no historical-data or calibration claim. |

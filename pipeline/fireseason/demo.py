@@ -37,6 +37,8 @@ PRODUCTS = (
         "product_guide_url": "https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf",
     },
 )
+BASELINE_START_YEAR = 2013
+BASELINE_END_YEAR = 2021
 
 
 def _stable_seed(text: str) -> int:
@@ -85,7 +87,7 @@ def _month_record(year: int, month: int, region_key: str, records_by_month: dict
     records_by_month[key] = records
     aqua = records[0]
     baseline = []
-    for prior_year in range(2013, year):
+    for prior_year in range(BASELINE_START_YEAR, min(year, BASELINE_END_YEAR + 1)):
         prior = records_by_month.get(f"{prior_year:04d}-{month:02d}")
         if prior and prior[0]["rate_per_1000"] is not None:
             baseline.append(prior[0]["rate_per_1000"])
@@ -95,8 +97,8 @@ def _month_record(year: int, month: int, region_key: str, records_by_month: dict
         rank = 1 + sum(value > aqua["rate_per_1000"] for value in baseline)
         anomaly = {
             "status": "available",
-            "baseline_start_year": 2013,
-            "baseline_end_year": year - 1,
+            "baseline_start_year": BASELINE_START_YEAR,
+            "baseline_end_year": min(year - 1, BASELINE_END_YEAR),
             "usable_baseline_years": baseline_count,
             "rank": rank,
             "percentile": round(100 * (len(baseline) - rank + 1) / len(baseline), 2),
@@ -106,8 +108,8 @@ def _month_record(year: int, month: int, region_key: str, records_by_month: dict
     else:
         anomaly = {
             "status": "indeterminate",
-            "baseline_start_year": 2013,
-            "baseline_end_year": year - 1 if year > 2013 else None,
+            "baseline_start_year": BASELINE_START_YEAR,
+            "baseline_end_year": min(year - 1, BASELINE_END_YEAR) if year > BASELINE_START_YEAR else None,
             "usable_baseline_years": baseline_count,
             "rank": None,
             "percentile": None,

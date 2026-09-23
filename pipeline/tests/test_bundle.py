@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "pipeline"))
 
-from fireseason.contract import validate_analysis_artifact, validate_evidence_receipt
+from fireseason.contract import validate_analysis_artifact, validate_evidence_receipt, validate_release_manifest
 
 
 RELEASES = ROOT / "app" / "data" / "releases"
@@ -33,6 +33,7 @@ class GeneratedBundleTests(unittest.TestCase):
                 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
                 validate_analysis_artifact(analysis)
                 validate_evidence_receipt(receipt)
+                validate_release_manifest(manifest)
 
                 for entry in manifest["files"]:
                     path = region_dir / entry["path"]

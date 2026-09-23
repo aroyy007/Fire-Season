@@ -58,6 +58,28 @@
     return `${Math.round(Number(value) * 100)}%`;
   }
 
+  function formatCount(value) {
+    return value == null ? "—" : Number(value).toLocaleString("en-US");
+  }
+
+  function typicalMonths() {
+    const totals = Array.from({ length: 12 }, () => ({ total: 0, count: 0 }));
+    artifact().months.forEach((month) => {
+      const record = referenceRecord(month);
+      if (record.rate_per_1000 != null) {
+        const index = Number(month.month.slice(5, 7)) - 1;
+        totals[index].total += Number(record.rate_per_1000);
+        totals[index].count += 1;
+      }
+    });
+    return totals
+      .map((entry, index) => ({ index, average: entry.count ? entry.total / entry.count : -1 }))
+      .sort((left, right) => right.average - left.average)
+      .slice(0, 3)
+      .filter((entry) => entry.average >= 0)
+      .map((entry) => FULL_MONTHS[entry.index]);
+  }
+
   function formatDateLabel(monthKey) {
     const [year, month] = monthKey.split("-");
     return `${FULL_MONTHS[Number(month) - 1]} ${year}`;
@@ -152,6 +174,7 @@
               ${yearList().map((year) => renderYearRow(year)).join("")}
             </div>
           </div>
+          ${renderMobileCalendar()}
           <div class="legend" aria-label="Calendar legend">
             <span class="legend-item"><span class="legend-swatch activity-low"></span> lower detected rate</span>
             <span class="legend-item"><span class="legend-swatch activity-high"></span> higher detected rate</span>
@@ -195,13 +218,20 @@
     return `<div class="year-label" role="rowheader">${year}</div>${cells}`;
   }
 
+  function renderMobileCalendar() {
+    const selectedYear = state.selectedMonth.slice(0, 4);
+    const yearOptions = yearList().map((year) => `<option value="${year}" ${year === selectedYear ? "selected" : ""}>${year}</option>`).join("");
+    const months = artifact().months.filter((month) => month.month.startsWith(`${selectedYear}-`));
+    return `<div class="mobile-calendar" aria-label="${escapeHtml(artifact().region.name)} selected year list"><div class="mobile-year-picker"><label for="mobile-year">Selected year</label><select id="mobile-year" data-action="mobile-year">${yearOptions}</select></div><div class="mobile-month-list" role="list">${months.map((month) => `<button class="mobile-month ${cellState(month)} ${state.selectedMonth === month.month ? "is-selected" : ""}" data-action="month" data-month="${month.month}" role="listitem" aria-label="${escapeHtml(cellLabel(month))}"><span>${formatDateLabel(month.month)}</span><strong>${formatRate(cellValue(month))}</strong><small>${escapeHtml(cellLabel(month).split(";").slice(1).join(";").trim())}</small></button>`).join("")}</div></div>`;
+  }
+
   function renderEvidencePanel(month) {
     const comparison = month.comparison;
     const anomaly = month.anomaly;
     return `<article class="evidence-panel panel" aria-labelledby="evidence-title">
       <div class="panel-heading"><div><p class="section-label">Selected month</p><h2 id="evidence-title" tabindex="-1">${formatDateLabel(month.month)}</h2></div><span class="status-pill ${comparison.status === "available" ? "pill-ok" : "pill-muted"}">${comparison.status === "available" ? "comparison available" : "comparison unavailable"}</span></div>
       <div class="native-list">
-        ${month.native_records.map((record) => `<div class="native-row"><div><strong>${escapeHtml(productLabel(record.product_id))}</strong><span>${escapeHtml(record.observation_status.replaceAll("_", " "))}</span></div><div class="native-number"><strong>${formatRate(record.rate_per_1000)}</strong><span>per 1,000</span></div><div class="support-meter"><span style="width:${Math.round(record.support_fraction * 100)}%"></span><small>${formatPercent(record.support_fraction)} support</small></div></div>`).join("")}
+        ${month.native_records.map((record) => `<div class="native-row"><div><strong>${escapeHtml(productLabel(record.product_id))}</strong><span>${escapeHtml(record.observation_status.replaceAll("_", " "))}</span><small class="record-counts">eligible ${formatCount(record.eligible_land_cell_days)} · valid ${formatCount(record.valid_cell_days)} · detected ${formatCount(record.detected_cell_days)}</small></div><div class="native-number"><strong>${formatRate(record.rate_per_1000)}</strong><span>per 1,000</span></div><div class="support-meter"><span style="width:${Math.round(record.support_fraction * 100)}%"></span><small>${formatPercent(record.support_fraction)} support</small></div></div>`).join("")}
       </div>
       <div class="comparison-callout ${comparison.status === "available" ? "callout-ok" : "callout-muted"}"><div><span class="callout-label">Comparable Activity</span><strong>${comparison.status === "available" ? `${formatRate(comparison.estimate_per_1000)} per 1,000` : "Unavailable"}</strong></div><p>${escapeHtml(comparison.reason || `90% interval ${formatRate(comparison.lower_90)}–${formatRate(comparison.upper_90)}.`)}</p></div>
       <div class="detail-grid">
@@ -224,7 +254,10 @@
 
   function renderReceiptPanel() {
     const current = receipt();
-    return `<section class="receipt-panel panel" id="receipt-panel" aria-labelledby="receipt-title"><div class="panel-heading"><div><p class="section-label">Provenance</p><h2 id="receipt-title">Evidence Receipt</h2></div><button class="close-button" data-action="receipt" aria-label="Close evidence receipt">×</button></div><dl class="receipt-grid"><div><dt>Receipt ID</dt><dd>${escapeHtml(current.receipt_id)}</dd></div><div><dt>Artifact ID</dt><dd>${escapeHtml(current.artifact_id)}</dd></div><div><dt>Region revision</dt><dd>${escapeHtml(current.region.region_id)}</dd></div><div><dt>Period</dt><dd>${current.analysis.start_date} → ${current.analysis.end_date}</dd></div><div><dt>Source manifest</dt><dd>${escapeHtml(current.analysis.source_manifest_id)}</dd></div><div><dt>Quality policy</dt><dd>${escapeHtml(current.analysis.quality_policy_version)}</dd></div><div><dt>Calibration</dt><dd>None released</dd></div><div><dt>Environment</dt><dd>${escapeHtml(current.environment.pipeline_revision)}</dd></div></dl><div class="receipt-limitations"><h3>Limits recorded with this artifact</h3><ul>${current.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="panel-actions"><button class="outline-button" data-action="receipt-json">Download receipt JSON</button></div></section>`;
+    const sourceRows = current.sources.map((source) => `<li><strong>${escapeHtml(source.short_name)} ${escapeHtml(source.version)}</strong> · ${escapeHtml(source.platform)} · ${source.provider_objects.map((object) => `${escapeHtml(object.provider_object_id)} (${escapeHtml(object.sha256)})`).join(", ")}</li>`).join("");
+    const fileRows = current.files.map((file) => `<li>${escapeHtml(file.path)} · ${escapeHtml(file.sha256)} · ${formatCount(file.size_bytes)} bytes</li>`).join("");
+    const exclusions = current.exclusions.length ? current.exclusions.map((item) => `<li>${escapeHtml(JSON.stringify(item))}</li>`).join("") : "<li>None declared.</li>";
+    return `<section class="receipt-panel panel" id="receipt-panel" aria-labelledby="receipt-title"><div class="panel-heading"><div><p class="section-label">Provenance</p><h2 id="receipt-title">Evidence Receipt</h2></div><button class="close-button" data-action="receipt" aria-label="Close evidence receipt">×</button></div><dl class="receipt-grid"><div><dt>Receipt ID</dt><dd>${escapeHtml(current.receipt_id)}</dd></div><div><dt>Artifact ID</dt><dd>${escapeHtml(current.artifact_id)}</dd></div><div><dt>Region revision</dt><dd>${escapeHtml(current.region.region_id)}</dd></div><div><dt>Period</dt><dd>${current.analysis.start_date} → ${current.analysis.end_date}</dd></div><div><dt>Source manifest</dt><dd>${escapeHtml(current.analysis.source_manifest_id)} · ${escapeHtml(current.analysis.source_manifest_sha256)}</dd></div><div><dt>Quality policy</dt><dd>${escapeHtml(current.analysis.quality_policy_version)}</dd></div><div><dt>Calibration</dt><dd>${current.calibration ? "Released" : "None released"}</dd></div><div><dt>Environment</dt><dd>${escapeHtml(current.environment.pipeline_revision)}</dd></div></dl><div class="receipt-limitations"><h3>Source provider objects</h3><ul>${sourceRows}</ul><h3>Exclusions</h3><ul>${exclusions}</ul><h3>Files and checksums</h3><ul>${fileRows}</ul><h3>Limits recorded with this artifact</h3><ul>${current.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="panel-actions"><button class="outline-button" data-action="receipt-json">Download receipt JSON</button></div></section>`;
   }
 
   function bindEvents() {
@@ -234,6 +267,11 @@
       state.selectedBlock = null;
       render();
     }));
+    app.querySelectorAll("[data-action='mobile-year']").forEach((element) => element.addEventListener("change", () => {
+      state.selectedMonth = `${element.value}-01`;
+      render();
+      app.querySelector(".mobile-month.is-selected")?.focus();
+    }));
     app.querySelectorAll("[data-action='view']").forEach((element) => element.addEventListener("click", () => {
       state.view = element.dataset.view;
       render();
@@ -241,6 +279,7 @@
     app.querySelectorAll("[data-action='month']").forEach((element) => {
       element.addEventListener("click", () => {
         state.selectedMonth = element.dataset.month;
+        state.mobileYear = element.dataset.month.slice(0, 4);
         state.selectedBlock = null;
         render();
         document.getElementById("evidence-title")?.focus();
@@ -305,9 +344,10 @@
     const nativeRows = month.native_records.map((record) => `<tr><td>${escapeHtml(productLabel(record.product_id))}</td><td>${formatRate(record.rate_per_1000)}</td><td>${formatPercent(record.support_fraction)}</td><td>${escapeHtml(record.observation_status.replaceAll("_", " "))}</td></tr>`).join("");
     const blocks = DATA.blocks[state.region].filter((block) => block.month === month.month);
     const blockRows = blocks.map((block) => `<tr><td>${escapeHtml(block.block_id)}</td><td>${formatRate(block.native_rate_per_1000)}</td><td>${formatPercent(block.support_fraction)}</td><td>${escapeHtml(block.investigation_priority)}</td></tr>`).join("");
+    const sourceRows = artifact().sources.map((source) => `<li>${escapeHtml(source.short_name)} ${escapeHtml(source.version)} · <a href="${escapeHtml(source.source_url)}">source</a></li>`).join("");
     const win = window.open("", "_blank");
     if (!win) return;
-    win.document.write(`<!doctype html><html><head><title>Monitoring Brief · ${formatDateLabel(month.month)}</title><style>body{font:14px system-ui;color:#182a30;max-width:820px;margin:40px auto;line-height:1.5}h1{font:32px Georgia}table{width:100%;border-collapse:collapse;margin:24px 0}td,th{border-bottom:1px solid #cbd5d2;padding:10px;text-align:left}.note{background:#eef4f0;padding:14px;border-left:4px solid #2c6674}</style></head><body><p>FIRE SEASON · MONITORING BRIEF</p><h1>${escapeHtml(formatDateLabel(month.month))}</h1><p>${escapeHtml(artifact().region.name)} · ${escapeHtml(artifact().region.role.replaceAll("_", " "))}</p><div class="note"><strong>Comparison status:</strong> ${escapeHtml(month.comparison.status.replaceAll("_", " "))}. ${escapeHtml(month.comparison.reason)}</div><h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Valid support</th><th>Observation state</th></tr></thead><tbody>${nativeRows}</tbody></table><h2>Activity Anomaly</h2><p>${escapeHtml(month.anomaly.reason || `${formatRate(month.anomaly.difference_per_1000)} per 1,000 versus the same-month baseline.`)}</p><h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>${blockRows}</tbody></table><h2>Limits</h2><ul>${artifact().limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul><p>Evidence Receipt: ${escapeHtml(receipt().receipt_id)}</p><script>window.onload=()=>window.print()</script></body></html>`);
+    win.document.write(`<!doctype html><html><head><title>Monitoring Brief · ${formatDateLabel(month.month)}</title><style>@page{size:A4;margin:14mm}body{font:14px system-ui;color:#182a30;max-width:820px;margin:40px auto;line-height:1.5}h1{font:32px Georgia}table{width:100%;border-collapse:collapse;margin:18px 0}td,th{border-bottom:1px solid #cbd5d2;padding:8px;text-align:left}.note{background:#eef4f0;padding:14px;border-left:4px solid #2c6674}</style></head><body><p>FIRE SEASON · MONITORING BRIEF</p><h1>${escapeHtml(formatDateLabel(month.month))}</h1><p>${escapeHtml(artifact().region.name)} · ${escapeHtml(artifact().region.role.replaceAll("_", " "))}</p><p>Analysis period: ${escapeHtml(artifact().period.start_date)} → ${escapeHtml(artifact().period.end_date)}<br>Typical higher-activity months: ${escapeHtml(typicalMonths().join(", ") || "Unavailable")}</p><div class="note"><strong>Comparison status:</strong> ${escapeHtml(month.comparison.status.replaceAll("_", " "))}. ${escapeHtml(month.comparison.reason)}<br><strong>Uncertainty:</strong> no interval is emitted until a calibration release passes evaluation gates.</div><h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Support</th><th>Eligible</th><th>Valid</th><th>Detected</th><th>State</th></tr></thead><tbody>${month.native_records.map((record) => `<tr><td>${escapeHtml(productLabel(record.product_id))}</td><td>${formatRate(record.rate_per_1000)}</td><td>${formatPercent(record.support_fraction)}</td><td>${formatCount(record.eligible_land_cell_days)}</td><td>${formatCount(record.valid_cell_days)}</td><td>${formatCount(record.detected_cell_days)}</td><td>${escapeHtml(record.observation_status.replaceAll("_", " "))}</td></tr>`).join("")}</tbody></table><h2>Activity Anomaly</h2><p>${escapeHtml(month.anomaly.reason || `${formatRate(month.anomaly.difference_per_1000)} per 1,000 versus the same-month baseline.`)}</p><h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>${blockRows}</tbody></table><h2>Limits and sources</h2><ul>${artifact().limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}${sourceRows}</ul><p>Evidence Receipt: ${escapeHtml(receipt().receipt_id)}</p><script>window.onload=()=>window.print()</script></body></html>`);
     win.document.close();
   }
 

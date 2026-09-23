@@ -4,14 +4,14 @@
     {
       "media_type": "application/json",
       "path": "analysis.json",
-      "sha256": "d70f54e88774f8fdc34aa3dc47f4c5977f2cc8ea8853625478ed715dbcd80ab1",
-      "size_bytes": 224420
+      "sha256": "d78d5ad0e7c0090a9df00e21eaaf1bc1b7d3ab813dc38818f0aaca62b14f0b41",
+      "size_bytes": 224593
     },
     {
       "media_type": "application/json",
       "path": "evidence-receipt.json",
-      "sha256": "9104c74f9bc774a756600e5ead4ca7c7fcc05fe8ed5cb64e4a75769e3bbf5e77",
-      "size_bytes": 4444
+      "sha256": "bb1ba330a4dcc1abd01ece3f7c94ef9e6b58d30e64ebe5e6a2d9dcb9a24b5745",
+      "size_bytes": 4638
     },
     {
       "media_type": "text/csv",
@@ -26,6 +26,12 @@
       "size_bytes": 24551
     },
     {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "5354ea5aa387476ee49907dc3323d6ea20dd58bd59c4b4b884c2cac57d78feb5",
+      "size_bytes": 194
+    },
+    {
       "media_type": "application/geo+json",
       "path": "region.geojson",
       "sha256": "6931a8d41329f2e99bc6cf132ff4b8ceef22cc81be82d77e43a78545d2aababe",
@@ -34,8 +40,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "6210a2feeabdfddf09a8eae71383952e428385a93cdd80546684cfe5b76091f9",
-      "size_bytes": 1835
+      "sha256": "b77576b28dfca37c78f3c1085e0cf088d0f55065620675a50d879ab195531e05",
+      "size_bytes": 2354
     }
   ],
   "manifest_created_at": "2026-09-24T00:00:00Z",

@@ -4,17 +4,20 @@
 from __future__ import annotations
 
 import csv
+import calendar
 import hashlib
 import html
 import json
+import os
 import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "pipeline"))
 
-from fireseason.contract import validate_analysis_artifact, validate_evidence_receipt
+from fireseason.contract import validate_analysis_artifact, validate_evidence_receipt, validate_release_manifest
 from fireseason.demo import build_demo_release
 
 
@@ -90,11 +93,28 @@ def block_rows(artifact: dict[str, object]) -> list[dict[str, object]]:
 def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object]) -> str:
     """Render the portable one-page brief from the same artifact fields as the app."""
     month = next(item for item in artifact["months"] if item["month"] == "2024-03")
+    monthly_totals = [{"total": 0.0, "count": 0} for _ in range(12)]
+    reference_id = artifact["reference_product_id"]
+    for item in artifact["months"]:
+        record = next(record for record in item["native_records"] if record["product_id"] == reference_id)
+        if record["rate_per_1000"] is not None:
+            index = int(item["month"][5:7]) - 1
+            monthly_totals[index]["total"] += record["rate_per_1000"]
+            monthly_totals[index]["count"] += 1
+    typical = sorted(
+        ((index, values["total"] / values["count"]) for index, values in enumerate(monthly_totals) if values["count"]),
+        key=lambda item: item[1],
+        reverse=True,
+    )[:3]
+    typical_label = ", ".join(calendar.month_name[index + 1] for index, _ in typical) or "Unavailable"
     native_rows = "".join(
-        "<tr><td>{}</td><td>{}</td><td>{:.0%}</td><td>{}</td></tr>".format(
+        "<tr><td>{}</td><td>{}</td><td>{:.0%}</td><td>{:,}</td><td>{:,}</td><td>{}</td><td>{}</td></tr>".format(
             html.escape(next(source["short_name"] for source in artifact["sources"] if source["product_id"] == record["product_id"])),
             "—" if record["rate_per_1000"] is None else f"{record['rate_per_1000']:.1f}",
             record["support_fraction"],
+            record["eligible_land_cell_days"],
+            record["valid_cell_days"],
+            f"{record['detected_cell_days']:,}" if record["detected_cell_days"] is not None else "—",
             html.escape(record["observation_status"].replace("_", " ")),
         )
         for record in month["native_records"]
@@ -111,6 +131,7 @@ def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object
         if row["month"] == month["month"]
     )
     limitations = "".join(f"<li>{html.escape(item)}</li>" for item in artifact["limitations"])
+    sources = "".join(f"<li>{html.escape(source['short_name'])} {html.escape(source['version'])} · {html.escape(source['source_url'])}</li>" for source in artifact["sources"])
     comparison = month["comparison"]
     anomaly = month["anomaly"]
     anomaly_text = anomaly["reason"] or f"{anomaly['difference_per_1000']:+.1f} per 1,000 versus the same-month baseline."
@@ -118,12 +139,12 @@ def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object
 <html lang='en'><head><meta charset='utf-8'><title>Fire Season Monitoring Brief · {month['month']}</title>
 <style>body{{font:14px system-ui,sans-serif;color:#182a30;max-width:820px;margin:32px auto;line-height:1.5}}h1{{font:32px Georgia,serif}}table{{width:100%;border-collapse:collapse;margin:18px 0}}td,th{{border-bottom:1px solid #cbd5d2;padding:8px;text-align:left}}.note{{background:#eef4f0;padding:12px;border-left:4px solid #2c6674}}</style></head>
 <body><p>FIRE SEASON · MONITORING BRIEF</p><h1>March 2024</h1>
-<p>{html.escape(artifact['region']['name'])} · {html.escape(artifact['region']['role'].replace('_', ' '))}</p>
-<div class='note'><strong>Comparison status:</strong> {html.escape(comparison['status'].replace('_', ' '))}. {html.escape(comparison['reason'])}</div>
-<h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Valid support</th><th>Observation state</th></tr></thead><tbody>{native_rows}</tbody></table>
+<p>{html.escape(artifact['region']['name'])} · {html.escape(artifact['region']['role'].replace('_', ' '))}<br>Analysis period: {html.escape(artifact['period']['start_date'])} → {html.escape(artifact['period']['end_date'])}<br>Typical higher-activity months: {html.escape(typical_label)}</p>
+<div class='note'><strong>Comparison status:</strong> {html.escape(comparison['status'].replace('_', ' '))}. {html.escape(comparison['reason'])}<br><strong>Uncertainty:</strong> no interval is emitted until a calibration release passes evaluation gates.</div>
+<h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Support</th><th>Eligible</th><th>Valid</th><th>Detected</th><th>State</th></tr></thead><tbody>{native_rows}</tbody></table>
 <h2>Activity Anomaly</h2><p>{html.escape(anomaly_text)}</p>
 <h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>{block_rows_html}</tbody></table>
-<h2>Limits</h2><ul>{limitations}</ul><p>Evidence Receipt: {html.escape(receipt['receipt_id'])}</p></body></html>
+<h2>Limits and sources</h2><ul>{limitations}{sources}</ul><p>Evidence Receipt: {html.escape(receipt['receipt_id'])}</p></body></html>
 """
 
 
@@ -138,10 +159,8 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> bytes:
 
 def build_region(region_key: str) -> dict[str, object]:
     artifact, receipt = build_demo_release(region_key)
-    region_dir = RELEASES / ("science-pilot" if region_key == "science" else "local-impact-case")
-    if region_dir.exists():
-        shutil.rmtree(region_dir)
-    region_dir.mkdir(parents=True)
+    target_dir = RELEASES / ("science-pilot" if region_key == "science" else "local-impact-case")
+    region_dir = Path(tempfile.mkdtemp(prefix=f".{target_dir.name}.", dir=RELEASES))
 
     geo_path = region_dir / "region.geojson"
     write_json(geo_path, region_geojson(region_key))
@@ -153,12 +172,23 @@ def build_region(region_key: str) -> dict[str, object]:
     write_csv(calendar_path, calendar_rows(artifact))
     block_path = region_dir / "block-month.csv"
     write_csv(block_path, block_rows(artifact))
+    evaluation_path = region_dir / "evaluation.json"
+    write_json(
+        evaluation_path,
+        {
+            "schema_version": "1.0.0",
+            "status": "not_evaluated",
+            "reason": "This contract fixture has no decoded paired historical masks or calibration candidate.",
+            "calibration_release": None,
+        },
+    )
 
     brief_path = region_dir / "monitoring-brief.html"
     brief_path.write_text(monitoring_brief_html(artifact, receipt), encoding="utf-8")
     payloads = [
         payload_record(calendar_path, "text/csv"),
         payload_record(block_path, "text/csv"),
+        payload_record(evaluation_path, "application/json"),
         payload_record(geo_path, "application/geo+json"),
         payload_record(brief_path, "text/html"),
     ]
@@ -185,14 +215,31 @@ def build_region(region_key: str) -> dict[str, object]:
             *payloads,
         ],
     }
+    validate_release_manifest(manifest)
     write_json(region_dir / "manifest.json", manifest)
-    return {"key": "science" if region_key == "science" else "local", "role": artifact["region"]["role"], "name": artifact["region"]["name"], "path": str(region_dir.relative_to(ROOT / "app"))}
+    backup_dir = target_dir.with_name(f".{target_dir.name}.previous")
+    if backup_dir.exists():
+        shutil.rmtree(backup_dir)
+    if target_dir.exists():
+        os.replace(target_dir, backup_dir)
+    try:
+        os.replace(region_dir, target_dir)
+    except Exception:
+        if backup_dir.exists() and not target_dir.exists():
+            os.replace(backup_dir, target_dir)
+        raise
+    if backup_dir.exists():
+        shutil.rmtree(backup_dir)
+    return {"key": "science" if region_key == "science" else "local", "role": artifact["region"]["role"], "name": artifact["region"]["name"], "path": str(target_dir.relative_to(ROOT / "app"))}
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    if RELEASES.exists():
-        RELEASES.mkdir(parents=True, exist_ok=True)
+    RELEASES.mkdir(parents=True, exist_ok=True)
+    for prefix in (".science-pilot.", ".local-impact-case."):
+        for stale in RELEASES.glob(f"{prefix}*"):
+            if stale.is_dir():
+                shutil.rmtree(stale)
     entries = [build_region("science"), build_region("local")]
     index = {
         "schema_version": "1.0.0",
