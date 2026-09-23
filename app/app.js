@@ -12,6 +12,7 @@
     selectedMonth: "2024-03",
     selectedBlock: null,
     receiptOpen: false,
+    receiptFocus: null,
   };
 
   const app = document.getElementById("app");
@@ -173,6 +174,13 @@
       </div>
     `;
     bindEvents();
+    if (!state.receiptOpen && state.receiptFocus) {
+      const returnTarget = state.receiptFocus === "panel"
+        ? app.querySelector(".panel-actions [data-action='receipt']")
+        : app.querySelector(".topbar [data-action='receipt']");
+      returnTarget?.focus();
+      state.receiptFocus = null;
+    }
   }
 
   function renderYearRow(year) {
@@ -244,6 +252,7 @@
       render();
     }));
     app.querySelectorAll("[data-action='receipt']").forEach((element) => element.addEventListener("click", () => {
+      state.receiptFocus = element.classList.contains("close-button") || element.closest(".panel-actions") ? "panel" : "top";
       state.receiptOpen = !state.receiptOpen;
       render();
       if (state.receiptOpen) document.getElementById("receipt-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -294,9 +303,11 @@
   function printBrief() {
     const month = monthRecord(state.selectedMonth);
     const nativeRows = month.native_records.map((record) => `<tr><td>${escapeHtml(productLabel(record.product_id))}</td><td>${formatRate(record.rate_per_1000)}</td><td>${formatPercent(record.support_fraction)}</td><td>${escapeHtml(record.observation_status.replaceAll("_", " "))}</td></tr>`).join("");
+    const blocks = DATA.blocks[state.region].filter((block) => block.month === month.month);
+    const blockRows = blocks.map((block) => `<tr><td>${escapeHtml(block.block_id)}</td><td>${formatRate(block.native_rate_per_1000)}</td><td>${formatPercent(block.support_fraction)}</td><td>${escapeHtml(block.investigation_priority)}</td></tr>`).join("");
     const win = window.open("", "_blank");
     if (!win) return;
-    win.document.write(`<!doctype html><html><head><title>Monitoring Brief · ${formatDateLabel(month.month)}</title><style>body{font:14px system-ui;color:#182a30;max-width:820px;margin:40px auto;line-height:1.5}h1{font:32px Georgia}table{width:100%;border-collapse:collapse;margin:24px 0}td,th{border-bottom:1px solid #cbd5d2;padding:10px;text-align:left}.note{background:#eef4f0;padding:14px;border-left:4px solid #2c6674}</style></head><body><p>FIRE SEASON · MONITORING BRIEF</p><h1>${escapeHtml(formatDateLabel(month.month))}</h1><p>${escapeHtml(artifact().region.name)} · ${escapeHtml(artifact().region.role.replaceAll("_", " "))}</p><div class="note"><strong>Comparison status:</strong> ${escapeHtml(month.comparison.status.replaceAll("_", " "))}. ${escapeHtml(month.comparison.reason)}</div><h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Valid support</th><th>Observation state</th></tr></thead><tbody>${nativeRows}</tbody></table><h2>Activity Anomaly</h2><p>${escapeHtml(month.anomaly.reason || `${formatRate(month.anomaly.difference_per_1000)} per 1,000 versus the same-month baseline.`)}</p><h2>Limits</h2><ul>${artifact().limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul><p>Evidence Receipt: ${escapeHtml(receipt().receipt_id)}</p><script>window.onload=()=>window.print()</script></body></html>`);
+    win.document.write(`<!doctype html><html><head><title>Monitoring Brief · ${formatDateLabel(month.month)}</title><style>body{font:14px system-ui;color:#182a30;max-width:820px;margin:40px auto;line-height:1.5}h1{font:32px Georgia}table{width:100%;border-collapse:collapse;margin:24px 0}td,th{border-bottom:1px solid #cbd5d2;padding:10px;text-align:left}.note{background:#eef4f0;padding:14px;border-left:4px solid #2c6674}</style></head><body><p>FIRE SEASON · MONITORING BRIEF</p><h1>${escapeHtml(formatDateLabel(month.month))}</h1><p>${escapeHtml(artifact().region.name)} · ${escapeHtml(artifact().region.role.replaceAll("_", " "))}</p><div class="note"><strong>Comparison status:</strong> ${escapeHtml(month.comparison.status.replaceAll("_", " "))}. ${escapeHtml(month.comparison.reason)}</div><h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Valid support</th><th>Observation state</th></tr></thead><tbody>${nativeRows}</tbody></table><h2>Activity Anomaly</h2><p>${escapeHtml(month.anomaly.reason || `${formatRate(month.anomaly.difference_per_1000)} per 1,000 versus the same-month baseline.`)}</p><h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>${blockRows}</tbody></table><h2>Limits</h2><ul>${artifact().limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul><p>Evidence Receipt: ${escapeHtml(receipt().receipt_id)}</p><script>window.onload=()=>window.print()</script></body></html>`);
     win.document.close();
   }
 

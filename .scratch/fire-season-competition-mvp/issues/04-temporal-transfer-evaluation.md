@@ -11,3 +11,5 @@
 - [ ] Held-out metrics and interval diagnostics are stored in an evaluation artifact.
 - [ ] The artifact marks the candidate experimental unless every required release gate is evaluated.
 - [ ] A failing gate produces an explicit Unavailable Comparison rather than a modeled value.
+
+**Implementation note:** No model is fitted in the fixture pass. The UI and contract preserve the Unavailable Comparison state until paired-mask and held-out evaluation gates are implemented.

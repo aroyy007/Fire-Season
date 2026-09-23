@@ -11,3 +11,5 @@
 - [ ] The sensor-era boundary and product identity are visible without a tooltip.
 - [ ] No observation, observed zero, and detected activity have distinct text and visual states.
 - [ ] The calendar remains usable at the narrow layout described in the app-flow specification.
+
+**Implementation note:** The static app renders the 2013–2024 fixture calendar with distinct native observation states and an explicit sensor-era boundary note. Historical raster ingestion is still pending.

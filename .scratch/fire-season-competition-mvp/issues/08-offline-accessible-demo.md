@@ -11,3 +11,5 @@
 - [ ] Browser and export values match the released Analysis Artifact.
 - [ ] Five representative testers attempt the three defined tasks and results are recorded.
 - [ ] Public static deployment and local fallback links work without login or paid service.
+
+**Implementation note:** The zero-dependency `app/` shell and generated `data.js` bundle run from a static server without runtime network calls or paid services. Five-person usability and public deployment checks remain open.

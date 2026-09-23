@@ -4,14 +4,14 @@
     {
       "media_type": "application/json",
       "path": "analysis.json",
-      "sha256": "6083f60c871f39ddcf0dc44a5dc2287a0729e6a49d9658f3d1db6da0edefd330",
-      "size_bytes": 224419
+      "sha256": "d70f54e88774f8fdc34aa3dc47f4c5977f2cc8ea8853625478ed715dbcd80ab1",
+      "size_bytes": 224420
     },
     {
       "media_type": "application/json",
       "path": "evidence-receipt.json",
-      "sha256": "a4072554d1d9aa4f66a6a6fa8cb90dec0b457add3b34723ff4ae949cce4c72eb",
-      "size_bytes": 4443
+      "sha256": "9104c74f9bc774a756600e5ead4ca7c7fcc05fe8ed5cb64e4a75769e3bbf5e77",
+      "size_bytes": 4444
     },
     {
       "media_type": "text/csv",
@@ -34,8 +34,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "ba968c982137ec4200df342988ea1cf5a14e7feeab29fd6094cf2e9cd8ed681e",
-      "size_bytes": 166
+      "sha256": "6210a2feeabdfddf09a8eae71383952e428385a93cdd80546684cfe5b76091f9",
+      "size_bytes": 1835
     }
   ],
   "manifest_created_at": "2026-09-24T00:00:00Z",

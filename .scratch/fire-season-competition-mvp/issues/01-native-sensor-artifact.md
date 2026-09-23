@@ -11,3 +11,5 @@
 - [ ] The published Analysis Artifact validates against the artifact contract and contains native monthly records.
 - [ ] A minimal browser view loads the artifact and displays the two Native Sensor Records with units and support.
 - [ ] A contract check catches missing provenance and invalid count/rate relationships.
+
+**Implementation note:** The dependency-free contract validator and deterministic paired-record fixture are in `pipeline/fireseason/contract.py` and `pipeline/fireseason/demo.py`. A real decoded NASA sample remains the science gate.

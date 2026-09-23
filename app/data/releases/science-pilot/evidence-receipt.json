@@ -23,8 +23,8 @@
     {
       "media_type": "application/json",
       "path": "analysis.json",
-      "sha256": "dbc81b44eed74e342da12c39b3b89702999f6174dfc60f2643c0ff35c0aa2d06",
-      "size_bytes": 224393
+      "sha256": "e5db0e3a4b097d786846bd28e63896dbaeefe25eb6d4103966056f65a5ff46dc",
+      "size_bytes": 224394
     },
     {
       "media_type": "text/csv",
@@ -47,8 +47,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "ba968c982137ec4200df342988ea1cf5a14e7feeab29fd6094cf2e9cd8ed681e",
-      "size_bytes": 166
+      "sha256": "19f0d565054d1a5ec7e65861d1f9c7a9b845024de434b6ffe50cd360bec73712",
+      "size_bytes": 1817
     }
   ],
   "limitations": [

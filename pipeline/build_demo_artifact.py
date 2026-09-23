@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import html
 import json
 import shutil
 import sys
@@ -86,6 +87,46 @@ def block_rows(artifact: dict[str, object]) -> list[dict[str, object]]:
     return rows
 
 
+def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object]) -> str:
+    """Render the portable one-page brief from the same artifact fields as the app."""
+    month = next(item for item in artifact["months"] if item["month"] == "2024-03")
+    native_rows = "".join(
+        "<tr><td>{}</td><td>{}</td><td>{:.0%}</td><td>{}</td></tr>".format(
+            html.escape(next(source["short_name"] for source in artifact["sources"] if source["product_id"] == record["product_id"])),
+            "—" if record["rate_per_1000"] is None else f"{record['rate_per_1000']:.1f}",
+            record["support_fraction"],
+            html.escape(record["observation_status"].replace("_", " ")),
+        )
+        for record in month["native_records"]
+    )
+    blocks = block_rows(artifact)
+    block_rows_html = "".join(
+        "<tr><td>{}</td><td>{}</td><td>{:.0%}</td><td>{}</td></tr>".format(
+            html.escape(row["block_id"]),
+            "—" if row["native_rate_per_1000"] is None else f"{row['native_rate_per_1000']:.1f}",
+            row["support_fraction"],
+            html.escape(row["investigation_priority"]),
+        )
+        for row in blocks
+        if row["month"] == month["month"]
+    )
+    limitations = "".join(f"<li>{html.escape(item)}</li>" for item in artifact["limitations"])
+    comparison = month["comparison"]
+    anomaly = month["anomaly"]
+    anomaly_text = anomaly["reason"] or f"{anomaly['difference_per_1000']:+.1f} per 1,000 versus the same-month baseline."
+    return f"""<!doctype html>
+<html lang='en'><head><meta charset='utf-8'><title>Fire Season Monitoring Brief · {month['month']}</title>
+<style>body{{font:14px system-ui,sans-serif;color:#182a30;max-width:820px;margin:32px auto;line-height:1.5}}h1{{font:32px Georgia,serif}}table{{width:100%;border-collapse:collapse;margin:18px 0}}td,th{{border-bottom:1px solid #cbd5d2;padding:8px;text-align:left}}.note{{background:#eef4f0;padding:12px;border-left:4px solid #2c6674}}</style></head>
+<body><p>FIRE SEASON · MONITORING BRIEF</p><h1>March 2024</h1>
+<p>{html.escape(artifact['region']['name'])} · {html.escape(artifact['region']['role'].replace('_', ' '))}</p>
+<div class='note'><strong>Comparison status:</strong> {html.escape(comparison['status'].replace('_', ' '))}. {html.escape(comparison['reason'])}</div>
+<h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Valid support</th><th>Observation state</th></tr></thead><tbody>{native_rows}</tbody></table>
+<h2>Activity Anomaly</h2><p>{html.escape(anomaly_text)}</p>
+<h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>{block_rows_html}</tbody></table>
+<h2>Limits</h2><ul>{limitations}</ul><p>Evidence Receipt: {html.escape(receipt['receipt_id'])}</p></body></html>
+"""
+
+
 def write_csv(path: Path, rows: list[dict[str, object]]) -> bytes:
     fields = list(rows[0]) if rows else []
     with path.open("w", encoding="utf-8", newline="") as handle:
@@ -114,11 +155,7 @@ def build_region(region_key: str) -> dict[str, object]:
     write_csv(block_path, block_rows(artifact))
 
     brief_path = region_dir / "monitoring-brief.html"
-    brief_path.write_text(
-        "<!doctype html><meta charset='utf-8'><title>Fire Season contract fixture</title>"
-        "<p>This Monitoring Brief is a contract fixture. No Calibration Release is present.</p>",
-        encoding="utf-8",
-    )
+    brief_path.write_text(monitoring_brief_html(artifact, receipt), encoding="utf-8")
     payloads = [
         payload_record(calendar_path, "text/csv"),
         payload_record(block_path, "text/csv"),

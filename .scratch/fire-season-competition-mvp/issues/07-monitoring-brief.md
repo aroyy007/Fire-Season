@@ -11,3 +11,5 @@
 - [ ] An unavailable comparison is stated plainly without inventing a value.
 - [ ] The brief fits one printable page at the supported paper sizes.
 - [ ] The receipt ID and source attribution are present.
+
+**Implementation note:** The app prints a brief from the selected artifact and the release bundle contains a matching HTML brief with native records, anomaly, block status, limits, and receipt ID. It remains marked as a contract fixture.

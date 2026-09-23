@@ -11,3 +11,5 @@
 - [ ] Investigation Priority is computed from released artifact rules and has a reason.
 - [ ] Unavailable support cannot receive a misleading review priority.
 - [ ] The table remains usable when the map is unavailable.
+
+**Implementation note:** The fixture app ships a map placeholder plus equivalent 10 km block table and explicitly marks priority unavailable. A released rule is still required before assigning a real priority.

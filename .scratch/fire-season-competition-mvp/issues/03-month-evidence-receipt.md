@@ -11,3 +11,5 @@
 - [ ] The Evidence Receipt identifies sources, checksums, policy, region, period, and limitations.
 - [ ] CSV export values match the selected artifact month exactly.
 - [ ] The selected month remains keyboard reachable and focus returns after the evidence panel closes.
+
+**Implementation note:** The fixture app includes selected-month evidence, receipt JSON, CSV export, keyboard calendar movement, and return focus. Values are generated from the same bundled Analysis Artifact.

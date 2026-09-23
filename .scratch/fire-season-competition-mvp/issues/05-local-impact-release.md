@@ -11,3 +11,5 @@
 - [ ] An eligible released calibration is the only path to a Comparable Activity value.
 - [ ] Unsupported local months and regions expose a reasoned Unavailable Comparison.
 - [ ] The UI makes the Science Pilot and Local Impact Case roles clear.
+
+**Implementation note:** Both curated regions are published as separate fixture bundles and selectable in the app. Comparable Activity stays withheld for both until a released calibration and local transfer evaluation exist.
