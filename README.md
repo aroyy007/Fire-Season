@@ -34,6 +34,8 @@ The [14-challenge comparison](research/challenges/challenge-comparison.md) inclu
 | [Repositories and models](docs/07-REPOSITORIES-AND-MODELS.md) | Relevant code, crop/EO model alternatives, licenses and reuse decisions. |
 | [Skills audit](docs/08-SKILLS-AUDIT.md) | Every requested skill resource and actual installation/use status. |
 | [Implementation status](docs/09-IMPLEMENTATION-STATUS.md) | Executable fixture, validation commands, and the remaining science gate. |
+| [LLM decision](docs/10-LLM-DECISION.md) | Why the judged MVP has no hosted LLM dependency and how a bounded local explainer could fit later. |
+| [Design system](docs/11-DESIGN-SYSTEM.md) | Palette, typography, heatmap encoding, evidence states, and anti-slop component rules. |
 
 ## Research and verification
 

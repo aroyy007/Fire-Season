@@ -8,4 +8,6 @@ Regenerate the bundle from the dependency-free Python pipeline with:
 python3 pipeline/build_demo_artifact.py
 ```
 
-The first real-data implementation must replace the fixture with a decoded paired MODIS–VIIRS Analysis Artifact and retain the same public contract.
+The shell includes a seasonal pulse summary, responsive year/month list, selectable 10 km block heatmap, equivalent block table, evidence receipt, CSV/JSON exports, and a printable Monitoring Brief. These are all artifact-driven; there is no LLM or runtime API in the browser.
+
+The first real-data implementation must replace the fixture with a decoded paired MODIS–VIIRS Analysis Artifact and retain the same public contract. A future Evidence Investigator may use a local model only to explain released fields; it must never calculate or invent scientific values.

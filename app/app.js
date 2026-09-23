@@ -181,6 +181,7 @@
             <span class="legend-item"><span class="legend-swatch hatch"></span> comparison unavailable / weak support</span>
             <span class="legend-item"><span class="legend-swatch zero-mark">0</span> observed zero</span>
           </div>
+          ${renderSignalStrip()}
         </section>
 
         <section class="evidence-grid" aria-label="Selected month evidence">
@@ -222,7 +223,16 @@
     const selectedYear = state.selectedMonth.slice(0, 4);
     const yearOptions = yearList().map((year) => `<option value="${year}" ${year === selectedYear ? "selected" : ""}>${year}</option>`).join("");
     const months = artifact().months.filter((month) => month.month.startsWith(`${selectedYear}-`));
-    return `<div class="mobile-calendar" aria-label="${escapeHtml(artifact().region.name)} selected year list"><div class="mobile-year-picker"><label for="mobile-year">Selected year</label><select id="mobile-year" data-action="mobile-year">${yearOptions}</select></div><div class="mobile-month-list" role="list">${months.map((month) => `<button class="mobile-month ${cellState(month)} ${state.selectedMonth === month.month ? "is-selected" : ""}" data-action="month" data-month="${month.month}" role="listitem" aria-label="${escapeHtml(cellLabel(month))}"><span>${formatDateLabel(month.month)}</span><strong>${formatRate(cellValue(month))}</strong><small>${escapeHtml(cellLabel(month).split(";").slice(1).join(";").trim())}</small></button>`).join("")}</div></div>`;
+    return `<div class="mobile-calendar" aria-label="${escapeHtml(artifact().region.name)} selected year list"><div class="mobile-year-picker"><label for="mobile-year">Selected year</label><select id="mobile-year" data-action="mobile-year">${yearOptions}</select></div><div class="mobile-month-list" role="list">${months.map((month) => `<div class="mobile-month-item" role="listitem"><button class="mobile-month ${cellState(month)} ${state.selectedMonth === month.month ? "is-selected" : ""}" data-action="month" data-month="${month.month}" aria-label="${escapeHtml(cellLabel(month))}"><span>${formatDateLabel(month.month)}</span><strong>${formatRate(cellValue(month))}</strong><small>${escapeHtml(cellLabel(month).split(";").slice(1).join(";").trim())}</small></button></div>`).join("")}</div></div>`;
+  }
+
+  function renderSignalStrip() {
+    const rates = artifact().months.map((month) => referenceRecord(month).rate_per_1000).filter((rate) => rate != null).map(Number);
+    const mean = rates.length ? rates.reduce((sum, rate) => sum + rate, 0) / rates.length : null;
+    const peak = rates.length ? Math.max(...rates) : null;
+    const support = artifact().months.reduce((sum, month) => sum + Number(referenceRecord(month).support_fraction), 0) / artifact().months.length;
+    const points = rates.length ? rates.map((rate, index) => `${Math.round((index / Math.max(1, rates.length - 1)) * 220)},${Math.round(44 - (rate / Math.max(peak || 1, 1)) * 34)}`).join(" ") : "0,44 220,44";
+    return `<div class="signal-strip" aria-label="Artifact signal summary"><div class="signal-chart"><div><span class="signal-label">Reference pulse</span><strong>${formatRate(mean)} <small>mean / 1,000</small></strong></div><svg viewBox="0 0 220 48" role="img" aria-label="Reference product seasonal pulse"><polyline points="${points}" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke"></polyline></svg></div><div class="signal-item"><span class="signal-label">Typical higher months</span><strong>${escapeHtml(typicalMonths().slice(0, 2).join(" · ") || "Unavailable")}</strong><small>${formatRate(peak)} peak detected rate</small></div><div class="signal-item"><span class="signal-label">Observation support</span><strong>${formatPercent(support)}</strong><small>mean valid land-cell support</small></div><div class="signal-item signal-status"><span class="signal-label">Release status</span><strong>Native only</strong><small>calibration withheld</small></div></div>`;
   }
 
   function renderEvidencePanel(month) {
@@ -244,9 +254,19 @@
 
   function renderContextPanel(month) {
     const blocks = DATA.blocks[state.region].filter((block) => block.month === month.month);
+    const blockValues = blocks.map((block) => Number(block.native_rate_per_1000)).filter((value) => Number.isFinite(value));
+    const blockMin = blockValues.length ? Math.min(...blockValues) : 0;
+    const blockMax = blockValues.length ? Math.max(...blockValues) : 1;
+    const selected = blocks.find((block) => block.block_id === state.selectedBlock);
+    const selectionNote = selected
+      ? `<p class="heatmap-selection"><strong>Selected ${escapeHtml(selected.block_id.split("_").slice(-2).join("·"))}</strong> · ${formatRate(selected.native_rate_per_1000)} per 1,000 · ${formatPercent(selected.support_fraction)} support · priority ${escapeHtml(selected.investigation_priority)}</p>`
+      : `<p class="heatmap-selection">Select a block to keep its native rate and support in view.</p>`;
     return `<article class="context-panel panel" aria-labelledby="context-title">
-      <div class="panel-heading"><div><p class="section-label">Geographic context</p><h2 id="context-title">10 km review blocks</h2></div><span class="context-tag">${escapeHtml(artifact().region.role.replaceAll("_", " "))}</span></div>
-      <div class="map-placeholder" role="img" aria-label="Context map placeholder showing the selected Curated Region. The equivalent block table follows."><svg viewBox="0 0 360 170" aria-hidden="true"><rect x="8" y="8" width="344" height="154" rx="3" fill="#e8efec"/><path d="M64 125 L112 52 L188 36 L292 66 L318 126 L216 146 Z" fill="#c8dcd3" stroke="#2c6674" stroke-width="2"/><path d="M74 115 L132 78 M122 132 L180 49 M176 141 L222 51 M229 133 L265 64" stroke="#eff5f1" stroke-width="5" opacity=".9"/><circle cx="188" cy="86" r="7" fill="#b94a2c"/><text x="18" y="28" fill="#52656b" font-size="11">local geometry fixture</text></svg></div>
+      <div class="panel-heading"><div><p class="section-label">Geographic context</p><h2 id="context-title">10 km activity heatmap</h2></div><span class="context-tag">${escapeHtml(artifact().region.role.replaceAll("_", " "))}</span></div>
+      <div class="heatmap-meta"><span>Native ${escapeHtml(productLabel(artifact().reference_product_id))}</span><span>${formatDateLabel(month.month)}</span></div>
+      <div class="block-heatmap" role="grid" aria-label="10 km block activity heatmap for ${formatDateLabel(month.month)}">${blocks.map((block) => { const rate = Number(block.native_rate_per_1000); const intensity = block.native_rate_per_1000 == null ? 0 : 12 + ((rate - blockMin) / Math.max(0.1, blockMax - blockMin)) * 88; const alpha = block.native_rate_per_1000 == null ? 0 : 0.2 + intensity / 100 * 0.62; const selected = state.selectedBlock === block.block_id; return `<button class="heat-cell ${block.native_rate_per_1000 == null ? "heat-empty" : ""} ${selected ? "is-selected" : ""}" style="--heat:${intensity.toFixed(1)}%;--heat-alpha:${alpha.toFixed(2)}" data-action="block" data-block="${escapeHtml(block.block_id)}" role="gridcell" aria-selected="${selected}" aria-label="${escapeHtml(block.block_id)}; native rate ${formatRate(block.native_rate_per_1000)} per 1,000; ${formatPercent(block.support_fraction)} support; priority ${escapeHtml(block.investigation_priority)}" title="${escapeHtml(block.block_id)} · ${formatRate(block.native_rate_per_1000)} per 1,000"><span class="heat-fill" aria-hidden="true"></span><strong>${formatRate(block.native_rate_per_1000)}</strong></button>`; }).join("")}</div>
+      <div class="heatmap-legend"><span><i class="heat-key low"></i>lower detected rate</span><span><i class="heat-key high"></i>higher detected rate</span><span><i class="heat-key empty"></i>no usable observation</span></div>
+      ${selectionNote}
       <div class="table-wrap"><table><caption class="sr-only">Review blocks for ${formatDateLabel(month.month)}</caption><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Priority</th></tr></thead><tbody>${blocks.map((block) => `<tr class="${state.selectedBlock === block.block_id ? "row-selected" : ""}"><td><button class="table-link" data-action="block" data-block="${escapeHtml(block.block_id)}">${escapeHtml(block.block_id.split("_").slice(-2).join("·"))}</button></td><td>${formatRate(block.native_rate_per_1000)}</td><td>${formatPercent(block.support_fraction)}</td><td><span class="priority ${block.investigation_priority}">${block.investigation_priority}</span></td></tr>`).join("")}</tbody></table></div>
       <p class="table-note">Investigation Priority is unavailable until a calibration release or a separately declared native rule exists.</p>
     </article>`;

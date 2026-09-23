@@ -4,26 +4,26 @@
     {
       "media_type": "application/json",
       "path": "analysis.json",
-      "sha256": "e540c7f69c99e33e0e6711ab14e3b6f842e8daa6371f4adb6cba970cd0d8990b",
-      "size_bytes": 224574
+      "sha256": "3235863852d3baca1db7a75dcbee17daff85e066db30f9c1ddba787cbb5f6de1",
+      "size_bytes": 224575
     },
     {
       "media_type": "application/json",
       "path": "evidence-receipt.json",
-      "sha256": "2b2bd59c3fc3ce8db1a1a910f78960232d7d900514bd8c92c4c4b41a2aceb396",
-      "size_bytes": 4627
+      "sha256": "c808ebed390c3d01dc7f1dc8f4d699b8ced376f6c931b3fd2812e837db9c2e64",
+      "size_bytes": 4628
     },
     {
       "media_type": "text/csv",
       "path": "calendar.csv",
-      "sha256": "dbe8341316f3b82521b4fefeb6d309c5575c64b0e1fa0f5b05d00e64771e58de",
-      "size_bytes": 43659
+      "sha256": "6a60d43da4955d84c8c35c8a43ca872625b5de55a27c7a734408476e855f1c24",
+      "size_bytes": 43370
     },
     {
       "media_type": "text/csv",
       "path": "block-month.csv",
-      "sha256": "9ea02a387a45343fcdb9b919394016384a9d78b76a6258499e6f29c2e05d6d2f",
-      "size_bytes": 24830
+      "sha256": "905d010cb17e316e677c242d2f300d2dbc0c36e4e6752bfdb8d57a1ecae0a3b7",
+      "size_bytes": 294861
     },
     {
       "media_type": "application/json",
@@ -40,8 +40,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "9bc9be1c2b976a864609248d5a254a5e60b398110e0f5a1a8ca539fcada5d24a",
-      "size_bytes": 2341
+      "sha256": "1393f51ca1b83fca64e9589b1bea1495b917192ff8f6764e17dc8c91bf9bc358",
+      "size_bytes": 3397
     }
   ],
   "manifest_created_at": "2026-09-24T00:00:00Z",

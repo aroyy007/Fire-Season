@@ -5,14 +5,14 @@
     {
       "media_type": "text/csv",
       "path": "calendar.csv",
-      "sha256": "f681030128533a1becde225eeb0fadbf472e08cdc80bb5ee62c6a08327849ec0",
-      "size_bytes": 43101
+      "sha256": "10bd7ac7d97ce57b355b4b1b6ca019fcf58a5fa56c05d4b8d360b54c247b7140",
+      "size_bytes": 42812
     },
     {
       "media_type": "text/csv",
       "path": "block-month.csv",
-      "sha256": "1d1f35bb490759e604d72783d125cc92b57c8bc15736412974fd4cc17c37dc41",
-      "size_bytes": 24551
+      "sha256": "147c85834495e357325ecfc77f05fc93460dfa6f612a605410d7bb290ed2c099",
+      "size_bytes": 291506
     },
     {
       "media_type": "application/json",
@@ -29,8 +29,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "b77576b28dfca37c78f3c1085e0cf088d0f55065620675a50d879ab195531e05",
-      "size_bytes": 2354
+      "sha256": "14c7cc7cb3d6fed1c8016d671cab792fb60a6151f1a6127bdd72468b19f4a061",
+      "size_bytes": 3410
     }
   ],
   "generated_at": "2026-09-24T00:00:00Z",

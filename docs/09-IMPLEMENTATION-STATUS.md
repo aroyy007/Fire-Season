@@ -7,7 +7,7 @@ This is the first executable pass of the Fire Season Competition MVP. It deliber
 - `pipeline/fireseason/contract.py` validates Analysis Artifacts and Evidence Receipts, including native-rate arithmetic and unavailable-comparison invariants.
 - `pipeline/fireseason/demo.py` creates deterministic contract fixtures for the Science Pilot and Local Impact Case. The values are illustrative and are marked as such in the UI.
 - `pipeline/build_demo_artifact.py` publishes both regions as portable release bundles with CSV, GeoJSON, HTML, JSON, and checksum manifests.
-- `app/` is a zero-dependency static browser shell. It supports native/comparable view states, selected-month evidence, receipt inspection, CSV/JSON export, printable Monitoring Brief output, keyboard calendar movement, a narrow-screen month list, and the unavailable state. This prototype intentionally avoids a React/Vite build step until a real paired sample justifies freezing the production frontend stack; the TRD remains the target implementation architecture.
+- `app/` is a zero-dependency static browser shell. It supports native/comparable view states, selected-month evidence, receipt inspection, CSV/JSON export, printable Monitoring Brief output, keyboard calendar movement, a narrow-screen month list, a seasonal pulse summary, and a selectable 10 km activity heatmap with a table alternative. This prototype intentionally avoids a React/Vite build step until a real paired sample justifies freezing the production frontend stack; the TRD remains the target implementation architecture.
 
 Run the fixture build and checks from the repository root:
 

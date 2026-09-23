@@ -2,6 +2,7 @@ import hashlib
 import json
 import sys
 import unittest
+import csv
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -43,6 +44,9 @@ class GeneratedBundleTests(unittest.TestCase):
 
                 self.assertEqual(manifest["artifact_id"], analysis["artifact_id"])
                 self.assertEqual(receipt["artifact_id"], analysis["artifact_id"])
+                with (region_dir / "block-month.csv").open(encoding="utf-8") as block_file:
+                    block_rows = list(csv.DictReader(block_file))
+                self.assertEqual(len(block_rows), len(analysis["months"]) * 12)
 
     def test_static_bundle_has_no_external_runtime_dependency_marker(self):
         app_js = (ROOT / "app" / "app.js").read_text(encoding="utf-8")

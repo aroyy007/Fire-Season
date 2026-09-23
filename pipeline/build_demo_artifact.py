@@ -76,17 +76,24 @@ def block_rows(artifact: dict[str, object]) -> list[dict[str, object]]:
     rows = []
     for month in artifact["months"]:
         record = month["native_records"][0]
-        rows.append({
-            "artifact_id": artifact["artifact_id"],
-            "region_id": artifact["region"]["region_id"],
-            "block_id": f"{artifact['region']['region_id']}_b01_01",
-            "month": month["month"],
-            "product_id": record["product_id"],
-            "native_rate_per_1000": record["rate_per_1000"],
-            "support_fraction": record["support_fraction"],
-            "comparison_status": month["comparison"]["status"],
-            "investigation_priority": month["investigation_priority"]["status"],
-        })
+        for row in range(1, 4):
+            for column in range(1, 5):
+                # A spatial display fixture: the final block values must come from
+                # aligned rasters and a declared rule, never from this offset.
+                offset = ((row * 7 + column * 11 + int(month["month"][5:7])) % 9) - 4
+                native_rate = None if record["rate_per_1000"] is None else round(max(0, record["rate_per_1000"] + offset * 0.7), 4)
+                support = round(max(0, min(1, record["support_fraction"] - (abs(offset) * 0.006))), 6)
+                rows.append({
+                    "artifact_id": artifact["artifact_id"],
+                    "region_id": artifact["region"]["region_id"],
+                    "block_id": f"{artifact['region']['region_id']}_b{row:02d}_{column:02d}",
+                    "month": month["month"],
+                    "product_id": record["product_id"],
+                    "native_rate_per_1000": native_rate,
+                    "support_fraction": support,
+                    "comparison_status": month["comparison"]["status"],
+                    "investigation_priority": month["investigation_priority"]["status"],
+                })
     return rows
 
 
@@ -151,7 +158,7 @@ def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object
 def write_csv(path: Path, rows: list[dict[str, object]]) -> bytes:
     fields = list(rows[0]) if rows else []
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     return path.read_bytes()
