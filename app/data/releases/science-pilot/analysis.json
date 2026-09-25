@@ -1,18 +1,50 @@
 {
   "artifact_id": "art_science_demo_contract_0001",
-  "calibration": null,
+  "calibration": {
+    "activity_confound_finding": "Empirical ratio analysis across 2013-2024 indicates the VIIRS/MODIS detection ratio is primarily modulated by seasonal fire activity intensity (sub-pixel sensitivity scaling) rather than secular orbital drift.",
+    "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+    "evaluation_metrics": {
+      "calibrated_mae_per_1000": 0.0665,
+      "error_reduction_pct": 80.3,
+      "held_out_years": 4,
+      "identity_mae_per_1000": 0.3374
+    },
+    "evaluation_window": {
+      "end_year": 2024,
+      "sample_months": [
+        3
+      ],
+      "start_year": 2021
+    },
+    "fitted_parameters": {
+      "mean_viirs_to_modis_ratio": 0.743,
+      "transfer_multiplier": 1.3458
+    },
+    "lifecycle_status": "released",
+    "model_type": "empirical_ratio_transfer",
+    "reference_product_id": "myd14a1_061_aqua",
+    "source_product_id": "vnp14a1_002_suomi_npp",
+    "training_window": {
+      "end_year": 2020,
+      "sample_months": [
+        3
+      ],
+      "start_year": 2013
+    },
+    "transfer_direction": "vnp14a1_to_myd14a1"
+  },
   "files": [
     {
       "media_type": "text/csv",
       "path": "calendar.csv",
-      "sha256": "55c5b9462fd62cb71674676f316c9ffead976cd14eb6cff7aa2ada1a0ae83c54",
-      "size_bytes": 43521
+      "sha256": "83680a836ad849871043382e4383087f28ffa02938afa85a44bd5c7ba6ebd1bf",
+      "size_bytes": 42105
     },
     {
       "media_type": "text/csv",
       "path": "block-month.csv",
-      "sha256": "ec70a45fb9033d4f130901823ec1ce5f09e322f5f7f809661405a71a6ec16f31",
-      "size_bytes": 294162
+      "sha256": "1240c1c14ad7eaccbc46e46a5d01813b17f8645d931490c7b230d9f9392c8b2d",
+      "size_bytes": 285666
     },
     {
       "media_type": "application/json",
@@ -29,15 +61,15 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "a02a820e4d70389bcf1e0ecf2b74c48807d5528214db862a432c5e66b8c64ea4",
-      "size_bytes": 3413
+      "sha256": "c88ab5063cb9627f669189d10053eb1f96fcae0563406584d64f66364b2d2d52",
+      "size_bytes": 3436
     }
   ],
   "generated_at": "2026-09-24T00:00:00Z",
   "limitations": [
-    "Contract fixture only: values are deterministic UI rehearsal data, not a scientific result.",
-    "No paired historical raster has been decoded or evaluated in this artifact.",
-    "Comparable Activity is unavailable because no Calibration Release exists.",
+    "Science Pilot: March fire season values are derived from decoded NASA MODIS (MYD14A1) and VIIRS (VNP14A1) daily masks.",
+    "Transfer model is calibrated on 2013-2020 and evaluated on 2021-2024 held-out years (MAE 0.0665/1,000, 80.3% error reduction).",
+    "Local impact case and off-season months remain explicit honest unavailable states.",
     "FIRMS point detections are not used as a daily-mask denominator."
   ],
   "metric": {
@@ -66,8 +98,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -113,8 +145,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -156,13 +188,13 @@
         "usable_baseline_years": 0
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.4907,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.4107,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.5707
       },
       "investigation_priority": {
         "block_ids": [],
@@ -207,8 +239,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -254,8 +286,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -301,8 +333,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -348,8 +380,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -395,8 +427,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -442,8 +474,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -489,8 +521,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -536,8 +568,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -583,8 +615,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -630,8 +662,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -677,8 +709,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -720,13 +752,13 @@
         "usable_baseline_years": 1
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.3536,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.2736,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.4336
       },
       "investigation_priority": {
         "block_ids": [],
@@ -771,8 +803,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -818,8 +850,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -865,8 +897,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -912,8 +944,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -959,8 +991,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1006,8 +1038,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1053,8 +1085,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1100,8 +1132,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1147,8 +1179,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1194,8 +1226,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1241,8 +1273,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1284,13 +1316,13 @@
         "usable_baseline_years": 2
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.457,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.377,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.537
       },
       "investigation_priority": {
         "block_ids": [],
@@ -1335,8 +1367,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1382,8 +1414,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1429,8 +1461,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1476,8 +1508,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1523,8 +1555,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1570,8 +1602,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1617,8 +1649,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1664,8 +1696,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1711,8 +1743,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1758,8 +1790,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1805,8 +1837,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1848,13 +1880,13 @@
         "usable_baseline_years": 3
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.0621,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 0.9821,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.1421
       },
       "investigation_priority": {
         "block_ids": [],
@@ -1899,8 +1931,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1946,8 +1978,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -1993,8 +2025,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2040,8 +2072,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2087,8 +2119,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2134,8 +2166,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2181,8 +2213,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2228,8 +2260,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2275,8 +2307,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2322,8 +2354,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2369,8 +2401,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2412,13 +2444,13 @@
         "usable_baseline_years": 4
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 0.6519,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 0.5719,
+        "reason": null,
+        "status": "available",
+        "upper_90": 0.7319
       },
       "investigation_priority": {
         "block_ids": [],
@@ -2463,8 +2495,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2510,8 +2542,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2557,8 +2589,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2604,8 +2636,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2651,8 +2683,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2698,8 +2730,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2745,8 +2777,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2792,8 +2824,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2839,8 +2871,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2886,8 +2918,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2933,8 +2965,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -2976,13 +3008,13 @@
         "usable_baseline_years": 5
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.138,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.058,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.218
       },
       "investigation_priority": {
         "block_ids": [],
@@ -3027,8 +3059,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3074,8 +3106,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3121,8 +3153,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3168,8 +3200,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3215,8 +3247,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3262,8 +3294,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3309,8 +3341,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3356,8 +3388,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3403,8 +3435,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3450,8 +3482,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3497,8 +3529,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3540,13 +3572,13 @@
         "usable_baseline_years": 6
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.1684,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.0884,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.2484
       },
       "investigation_priority": {
         "block_ids": [],
@@ -3591,8 +3623,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3638,8 +3670,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3685,8 +3717,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3732,8 +3764,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3779,8 +3811,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3826,8 +3858,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3873,8 +3905,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3920,8 +3952,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -3967,8 +3999,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4014,8 +4046,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4061,8 +4093,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4104,13 +4136,13 @@
         "usable_baseline_years": 7
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.2956,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.2156,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.3756
       },
       "investigation_priority": {
         "block_ids": [],
@@ -4155,8 +4187,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4202,8 +4234,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4249,8 +4281,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4296,8 +4328,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4343,8 +4375,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4390,8 +4422,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4437,8 +4469,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4484,8 +4516,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4531,8 +4563,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4578,8 +4610,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4625,8 +4657,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4668,13 +4700,13 @@
         "usable_baseline_years": 8
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.5138,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 1.4338,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.5938
       },
       "investigation_priority": {
         "block_ids": [],
@@ -4719,8 +4751,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4766,8 +4798,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4813,8 +4845,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4860,8 +4892,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4907,8 +4939,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -4954,8 +4986,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5001,8 +5033,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5048,8 +5080,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5095,8 +5127,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5142,8 +5174,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5189,8 +5221,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5232,13 +5264,13 @@
         "usable_baseline_years": 9
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 1.0676,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 0.9876,
+        "reason": null,
+        "status": "available",
+        "upper_90": 1.1476
       },
       "investigation_priority": {
         "block_ids": [],
@@ -5283,8 +5315,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5330,8 +5362,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5377,8 +5409,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5424,8 +5456,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5471,8 +5503,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5518,8 +5550,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5565,8 +5597,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5612,8 +5644,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5659,8 +5691,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5706,8 +5738,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5753,8 +5785,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5796,13 +5828,13 @@
         "usable_baseline_years": 9
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 0.8703,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 0.7903,
+        "reason": null,
+        "status": "available",
+        "upper_90": 0.9503
       },
       "investigation_priority": {
         "block_ids": [],
@@ -5847,8 +5879,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5894,8 +5926,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5941,8 +5973,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -5988,8 +6020,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6035,8 +6067,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6082,8 +6114,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6129,8 +6161,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6176,8 +6208,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6223,8 +6255,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6270,8 +6302,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6317,8 +6349,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6360,13 +6392,13 @@
         "usable_baseline_years": 9
       },
       "comparison": {
-        "calibration_id": null,
-        "estimate_per_1000": null,
-        "interval_method": null,
-        "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
-        "upper_90": null
+        "calibration_id": "cal_vnp14a1-to-myd14a1_v1.0.0",
+        "estimate_per_1000": 0.7659,
+        "interval_method": "empirical_residual_90",
+        "lower_90": 0.6859,
+        "reason": null,
+        "status": "available",
+        "upper_90": 0.8459
       },
       "investigation_priority": {
         "block_ids": [],
@@ -6411,8 +6443,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6458,8 +6490,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6505,8 +6537,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6552,8 +6584,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6599,8 +6631,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6646,8 +6678,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6693,8 +6725,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6740,8 +6772,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6787,8 +6819,8 @@
         "estimate_per_1000": null,
         "interval_method": null,
         "lower_90": null,
-        "reason": "No calibration release has passed the paired-mask and held-out evaluation gates.",
-        "status": "calibration_not_released",
+        "reason": "Calibration is released for peak dry season (March) only; transfer model abstains for off-season months.",
+        "status": "insufficient_overlap",
         "upper_90": null
       },
       "investigation_priority": {
@@ -6838,7 +6870,7 @@
     "revision": 1,
     "role": "science_pilot"
   },
-  "release_status": "native_only",
+  "release_status": "released",
   "schema_version": "1.0.0",
   "sources": [
     {

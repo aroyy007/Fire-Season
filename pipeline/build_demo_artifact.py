@@ -137,17 +137,22 @@ def monitoring_brief_html(artifact: dict[str, object], receipt: dict[str, object
         for row in blocks
         if row["month"] == month["month"]
     )
-    limitations = "".join(f"<li>{html.escape(item)}</li>" for item in artifact["limitations"])
     sources = "".join(f"<li>{html.escape(source['short_name'])} {html.escape(source['version'])} · {html.escape(source['source_url'])}</li>" for source in artifact["sources"])
+    limitations = "".join(f"<li>{html.escape(item)}</li>" for item in artifact["limitations"])
     comparison = month["comparison"]
     anomaly = month["anomaly"]
     anomaly_text = anomaly["reason"] or f"{anomaly['difference_per_1000']:+.1f} per 1,000 versus the same-month baseline."
+    if comparison["status"] == "available":
+        comparison_note = f"<strong>Comparison status:</strong> Available on reference scale (Estimate: {comparison['estimate_per_1000']:.1f} per 1,000; 90% interval [{comparison['lower_90']:.1f}, {comparison['upper_90']:.1f}]).<br><strong>Calibration Release:</strong> {html.escape(comparison['calibration_id'])}"
+    else:
+        reason_text = html.escape(comparison["reason"] or "")
+        comparison_note = f"<strong>Comparison status:</strong> {html.escape(comparison['status'].replace('_', ' '))}. {reason_text}<br><strong>Uncertainty:</strong> no interval is emitted until a calibration release passes evaluation gates."
     return f"""<!doctype html>
 <html lang='en'><head><meta charset='utf-8'><title>Fire Season Monitoring Brief · {month['month']}</title>
 <style>body{{font:14px system-ui,sans-serif;color:#182a30;max-width:820px;margin:32px auto;line-height:1.5}}h1{{font:32px Georgia,serif}}table{{width:100%;border-collapse:collapse;margin:18px 0}}td,th{{border-bottom:1px solid #cbd5d2;padding:8px;text-align:left}}.note{{background:#eef4f0;padding:12px;border-left:4px solid #2c6674}}</style></head>
 <body><p>FIRE SEASON · MONITORING BRIEF</p><h1>March 2024</h1>
 <p>{html.escape(artifact['region']['name'])} · {html.escape(artifact['region']['role'].replace('_', ' '))}<br>Analysis period: {html.escape(artifact['period']['start_date'])} → {html.escape(artifact['period']['end_date'])}<br>Typical higher-activity months: {html.escape(typical_label)}</p>
-<div class='note'><strong>Comparison status:</strong> {html.escape(comparison['status'].replace('_', ' '))}. {html.escape(comparison['reason'])}<br><strong>Uncertainty:</strong> no interval is emitted until a calibration release passes evaluation gates.</div>
+<div class='note'>{comparison_note}</div>
 <h2>Native Sensor Records</h2><table><thead><tr><th>Product</th><th>Rate per 1,000</th><th>Support</th><th>Eligible</th><th>Valid</th><th>Detected</th><th>State</th></tr></thead><tbody>{native_rows}</tbody></table>
 <h2>Activity Anomaly</h2><p>{html.escape(anomaly_text)}</p>
 <h2>Investigation Priority</h2><table><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Status</th></tr></thead><tbody>{block_rows_html}</tbody></table>
