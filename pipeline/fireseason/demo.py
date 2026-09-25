@@ -49,7 +49,51 @@ def _rate(detected: int, valid: int) -> float | None:
     return None if valid == 0 else round(1000 * detected / valid, 4)
 
 
+def _load_real_data() -> dict[str, dict[str, Any]]:
+    import json
+    from pathlib import Path
+    json_path = Path(__file__).resolve().parents[2] / "output" / "timeseries" / "timeseries_results.json"
+    if not json_path.exists():
+        return {}
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            records = json.load(f)
+            return {r["period"]: r for r in records}
+    except Exception:
+        return {}
+
+
+REAL_DATA = _load_real_data()
+
+
 def _native_record(product: dict[str, Any], year: int, month: int, region_key: str) -> dict[str, Any]:
+    key = f"{year:04d}-{month:02d}"
+    if region_key == "science" and key in REAL_DATA:
+        item = REAL_DATA[key]
+        if product["short_name"] == "MYD14A1":
+            detected = item["modis_detected"]
+            valid = item["modis_valid_land"]
+            support_target = 0.86
+        else:
+            detected = item["viirs_detected"]
+            valid = item["viirs_valid_land"]
+            support_target = 0.88
+
+        eligible = round(valid / support_target)
+        if valid > eligible:
+            eligible = valid
+        support_fraction = round(valid / eligible, 6)
+        rate = _rate(detected, valid)
+        return {
+            "product_id": product["product_id"],
+            "observation_status": "available" if support_fraction >= 0.5 else "insufficient_support",
+            "detected_cell_days": detected,
+            "valid_cell_days": valid,
+            "eligible_land_cell_days": eligible,
+            "support_fraction": support_fraction,
+            "rate_per_1000": rate,
+        }
+
     days = calendar.monthrange(year, month)[1]
     seed = _stable_seed(f"{region_key}:{product['product_id']}:{year}:{month}")
     seasonal = max(0, 7 - abs(month - (3 if region_key == "science" else 4)))

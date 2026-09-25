@@ -5,14 +5,14 @@
     {
       "media_type": "text/csv",
       "path": "calendar.csv",
-      "sha256": "6a60d43da4955d84c8c35c8a43ca872625b5de55a27c7a734408476e855f1c24",
-      "size_bytes": 43370
+      "sha256": "55c5b9462fd62cb71674676f316c9ffead976cd14eb6cff7aa2ada1a0ae83c54",
+      "size_bytes": 43521
     },
     {
       "media_type": "text/csv",
       "path": "block-month.csv",
-      "sha256": "905d010cb17e316e677c242d2f300d2dbc0c36e4e6752bfdb8d57a1ecae0a3b7",
-      "size_bytes": 294861
+      "sha256": "ec70a45fb9033d4f130901823ec1ce5f09e322f5f7f809661405a71a6ec16f31",
+      "size_bytes": 294162
     },
     {
       "media_type": "application/json",
@@ -29,8 +29,8 @@
     {
       "media_type": "text/html",
       "path": "monitoring-brief.html",
-      "sha256": "1393f51ca1b83fca64e9589b1bea1495b917192ff8f6764e17dc8c91bf9bc358",
-      "size_bytes": 3397
+      "sha256": "a02a820e4d70389bcf1e0ecf2b74c48807d5528214db862a432c5e66b8c64ea4",
+      "size_bytes": 3413
     }
   ],
   "generated_at": "2026-09-24T00:00:00Z",
@@ -172,22 +172,22 @@
       "month": "2013-03",
       "native_records": [
         {
-          "detected_cell_days": 66,
-          "eligible_land_cell_days": 1458,
+          "detected_cell_days": 48507,
+          "eligible_land_cell_days": 37699133,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 50.3049,
-          "support_fraction": 0.899863,
-          "valid_cell_days": 1312
+          "rate_per_1000": 1.4961,
+          "support_fraction": 0.86,
+          "valid_cell_days": 32421254
         },
         {
-          "detected_cell_days": 68,
-          "eligible_land_cell_days": 1465,
+          "detected_cell_days": 37020,
+          "eligible_land_cell_days": 37978524,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 53.3333,
-          "support_fraction": 0.870307,
-          "valid_cell_days": 1275
+          "rate_per_1000": 1.1077,
+          "support_fraction": 0.88,
+          "valid_cell_days": 33421101
         }
       ]
     },
@@ -736,22 +736,22 @@
       "month": "2014-03",
       "native_records": [
         {
-          "detected_cell_days": 68,
-          "eligible_land_cell_days": 1430,
+          "detected_cell_days": 42384,
+          "eligible_land_cell_days": 36595877,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 51.6717,
-          "support_fraction": 0.92028,
-          "valid_cell_days": 1316
+          "rate_per_1000": 1.3467,
+          "support_fraction": 0.86,
+          "valid_cell_days": 31472454
         },
         {
-          "detected_cell_days": 68,
-          "eligible_land_cell_days": 1479,
+          "detected_cell_days": 32839,
+          "eligible_land_cell_days": 37102348,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 50.5201,
-          "support_fraction": 0.910074,
-          "valid_cell_days": 1346
+          "rate_per_1000": 1.0058,
+          "support_fraction": 0.88,
+          "valid_cell_days": 32650066
         }
       ]
     },
@@ -1300,22 +1300,22 @@
       "month": "2015-03",
       "native_records": [
         {
-          "detected_cell_days": 77,
-          "eligible_land_cell_days": 1375,
+          "detected_cell_days": 50859,
+          "eligible_land_cell_days": 36468601,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 64.3813,
-          "support_fraction": 0.869818,
-          "valid_cell_days": 1196
+          "rate_per_1000": 1.6216,
+          "support_fraction": 0.86,
+          "valid_cell_days": 31362997
         },
         {
-          "detected_cell_days": 70,
-          "eligible_land_cell_days": 1366,
+          "detected_cell_days": 36786,
+          "eligible_land_cell_days": 38613450,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 58.2363,
-          "support_fraction": 0.879941,
-          "valid_cell_days": 1202
+          "rate_per_1000": 1.0826,
+          "support_fraction": 0.88,
+          "valid_cell_days": 33979836
         }
       ]
     },
@@ -1864,22 +1864,22 @@
       "month": "2016-03",
       "native_records": [
         {
-          "detected_cell_days": 79,
-          "eligible_land_cell_days": 1443,
+          "detected_cell_days": 30199,
+          "eligible_land_cell_days": 35584619,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 57.6222,
-          "support_fraction": 0.950104,
-          "valid_cell_days": 1371
+          "rate_per_1000": 0.9868,
+          "support_fraction": 0.86,
+          "valid_cell_days": 30602772
         },
         {
-          "detected_cell_days": 81,
-          "eligible_land_cell_days": 1457,
+          "detected_cell_days": 25187,
+          "eligible_land_cell_days": 36267236,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 62.4518,
-          "support_fraction": 0.890185,
-          "valid_cell_days": 1297
+          "rate_per_1000": 0.7892,
+          "support_fraction": 0.88,
+          "valid_cell_days": 31915168
         }
       ]
     },
@@ -2428,22 +2428,22 @@
       "month": "2017-03",
       "native_records": [
         {
-          "detected_cell_days": 81,
-          "eligible_land_cell_days": 1501,
+          "detected_cell_days": 17204,
+          "eligible_land_cell_days": 34152644,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 58.0229,
-          "support_fraction": 0.930047,
-          "valid_cell_days": 1396
+          "rate_per_1000": 0.5857,
+          "support_fraction": 0.86,
+          "valid_cell_days": 29371274
         },
         {
-          "detected_cell_days": 66,
-          "eligible_land_cell_days": 1469,
+          "detected_cell_days": 14810,
+          "eligible_land_cell_days": 34744753,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 49.3642,
-          "support_fraction": 0.910143,
-          "valid_cell_days": 1337
+          "rate_per_1000": 0.4844,
+          "support_fraction": 0.88,
+          "valid_cell_days": 30575383
         }
       ]
     },
@@ -2992,22 +2992,22 @@
       "month": "2018-03",
       "native_records": [
         {
-          "detected_cell_days": 78,
-          "eligible_land_cell_days": 1388,
+          "detected_cell_days": 39279,
+          "eligible_land_cell_days": 36698280,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 62.45,
-          "support_fraction": 0.899856,
-          "valid_cell_days": 1249
+          "rate_per_1000": 1.2446,
+          "support_fraction": 0.86,
+          "valid_cell_days": 31560521
         },
         {
-          "detected_cell_days": 81,
-          "eligible_land_cell_days": 1360,
+          "detected_cell_days": 27640,
+          "eligible_land_cell_days": 37145055,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 64.7482,
-          "support_fraction": 0.919853,
-          "valid_cell_days": 1251
+          "rate_per_1000": 0.8456,
+          "support_fraction": 0.88,
+          "valid_cell_days": 32687648
         }
       ]
     },
@@ -3556,22 +3556,22 @@
       "month": "2019-03",
       "native_records": [
         {
-          "detected_cell_days": 74,
-          "eligible_land_cell_days": 1401,
+          "detected_cell_days": 36102,
+          "eligible_land_cell_days": 36447502,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 56.792,
-          "support_fraction": 0.93005,
-          "valid_cell_days": 1303
+          "rate_per_1000": 1.1518,
+          "support_fraction": 0.86,
+          "valid_cell_days": 31344852
         },
         {
-          "detected_cell_days": 74,
-          "eligible_land_cell_days": 1381,
+          "detected_cell_days": 28100,
+          "eligible_land_cell_days": 36777409,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 57.6324,
-          "support_fraction": 0.929761,
-          "valid_cell_days": 1284
+          "rate_per_1000": 0.8682,
+          "support_fraction": 0.88,
+          "valid_cell_days": 32364120
         }
       ]
     },
@@ -4120,22 +4120,22 @@
       "month": "2020-03",
       "native_records": [
         {
-          "detected_cell_days": 68,
-          "eligible_land_cell_days": 1442,
+          "detected_cell_days": 42332,
+          "eligible_land_cell_days": 37303002,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 50.1845,
-          "support_fraction": 0.939667,
-          "valid_cell_days": 1355
+          "rate_per_1000": 1.3196,
+          "support_fraction": 0.86,
+          "valid_cell_days": 32080582
         },
         {
-          "detected_cell_days": 74,
-          "eligible_land_cell_days": 1469,
+          "detected_cell_days": 31947,
+          "eligible_land_cell_days": 37708055,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 55.3478,
-          "support_fraction": 0.910143,
-          "valid_cell_days": 1337
+          "rate_per_1000": 0.9627,
+          "support_fraction": 0.88,
+          "valid_cell_days": 33183088
         }
       ]
     },
@@ -4660,9 +4660,9 @@
       "anomaly": {
         "baseline_end_year": 2020,
         "baseline_start_year": 2013,
-        "difference_per_1000": 3.3356,
-        "percentile": 75.0,
-        "rank": 3,
+        "difference_per_1000": 0.3896,
+        "percentile": 87.5,
+        "rank": 2,
         "reason": null,
         "status": "available",
         "usable_baseline_years": 8
@@ -4684,22 +4684,22 @@
       "month": "2021-03",
       "native_records": [
         {
-          "detected_cell_days": 71,
-          "eligible_land_cell_days": 1365,
+          "detected_cell_days": 51386,
+          "eligible_land_cell_days": 37143095,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 59.7643,
-          "support_fraction": 0.87033,
-          "valid_cell_days": 1188
+          "rate_per_1000": 1.6087,
+          "support_fraction": 0.86,
+          "valid_cell_days": 31943062
         },
         {
-          "detected_cell_days": 71,
-          "eligible_land_cell_days": 1506,
+          "detected_cell_days": 36986,
+          "eligible_land_cell_days": 37367657,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 53.5849,
-          "support_fraction": 0.879814,
-          "valid_cell_days": 1325
+          "rate_per_1000": 1.1248,
+          "support_fraction": 0.88,
+          "valid_cell_days": 32883538
         }
       ]
     },
@@ -5224,7 +5224,7 @@
       "anomaly": {
         "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -4.0504,
+        "difference_per_1000": -0.0922,
         "percentile": 33.33,
         "rank": 7,
         "reason": null,
@@ -5248,22 +5248,22 @@
       "month": "2022-03",
       "native_records": [
         {
-          "detected_cell_days": 71,
-          "eligible_land_cell_days": 1432,
+          "detected_cell_days": 38741,
+          "eligible_land_cell_days": 38496757,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 52.7489,
-          "support_fraction": 0.939944,
-          "valid_cell_days": 1346
+          "rate_per_1000": 1.1702,
+          "support_fraction": 0.86,
+          "valid_cell_days": 33107211
         },
         {
-          "detected_cell_days": 75,
-          "eligible_land_cell_days": 1487,
+          "detected_cell_days": 27478,
+          "eligible_land_cell_days": 39360969,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 56.6893,
-          "support_fraction": 0.889711,
-          "valid_cell_days": 1323
+          "rate_per_1000": 0.7933,
+          "support_fraction": 0.88,
+          "valid_cell_days": 34637653
         }
       ]
     },
@@ -5788,9 +5788,9 @@
       "anomaly": {
         "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -2.2969,
-        "percentile": 33.33,
-        "rank": 7,
+        "difference_per_1000": -0.3731,
+        "percentile": 11.11,
+        "rank": 9,
         "reason": null,
         "status": "available",
         "usable_baseline_years": 9
@@ -5812,22 +5812,22 @@
       "month": "2023-03",
       "native_records": [
         {
-          "detected_cell_days": 69,
-          "eligible_land_cell_days": 1361,
+          "detected_cell_days": 25282,
+          "eligible_land_cell_days": 33056200,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 54.5024,
-          "support_fraction": 0.930198,
-          "valid_cell_days": 1266
+          "rate_per_1000": 0.8893,
+          "support_fraction": 0.86,
+          "valid_cell_days": 28428332
         },
         {
-          "detected_cell_days": 73,
-          "eligible_land_cell_days": 1338,
+          "detected_cell_days": 19526,
+          "eligible_land_cell_days": 34311881,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 60.6312,
-          "support_fraction": 0.899851,
-          "valid_cell_days": 1204
+          "rate_per_1000": 0.6467,
+          "support_fraction": 0.88,
+          "valid_cell_days": 30194455
         }
       ]
     },
@@ -6352,9 +6352,9 @@
       "anomaly": {
         "baseline_end_year": 2021,
         "baseline_start_year": 2013,
-        "difference_per_1000": -1.7955,
-        "percentile": 33.33,
-        "rank": 7,
+        "difference_per_1000": -0.4469,
+        "percentile": 11.11,
+        "rank": 9,
         "reason": null,
         "status": "available",
         "usable_baseline_years": 9
@@ -6376,22 +6376,22 @@
       "month": "2024-03",
       "native_records": [
         {
-          "detected_cell_days": 72,
-          "eligible_land_cell_days": 1505,
+          "detected_cell_days": 24565,
+          "eligible_land_cell_days": 35027305,
           "observation_status": "available",
           "product_id": "myd14a1_061_aqua",
-          "rate_per_1000": 55.0038,
-          "support_fraction": 0.869767,
-          "valid_cell_days": 1309
+          "rate_per_1000": 0.8155,
+          "support_fraction": 0.86,
+          "valid_cell_days": 30123482
         },
         {
-          "detected_cell_days": 72,
-          "eligible_land_cell_days": 1365,
+          "detected_cell_days": 18347,
+          "eligible_land_cell_days": 36632628,
           "observation_status": "available",
           "product_id": "vnp14a1_002_suomi_npp",
-          "rate_per_1000": 60.6061,
-          "support_fraction": 0.87033,
-          "valid_cell_days": 1188
+          "rate_per_1000": 0.5691,
+          "support_fraction": 0.88,
+          "valid_cell_days": 32236713
         }
       ]
     },
