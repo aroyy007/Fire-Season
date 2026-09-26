@@ -1,8 +1,10 @@
 # Fire Season — technical requirements document
 
 Version 2.0  
-Status: implementation contract for the Competition MVP  
+Status: target technical specification; not an as-built inventory
 Prepared: 20 September 2026
+
+> **Implementation note:** this document describes the intended Competition MVP architecture. The code currently uses a local Python raster build and a static vanilla HTML/CSS/JavaScript app. It processes one real month, has no released calibration, and does not yet implement the target ingestion, model, or evaluation stages. See [implementation status](09-IMPLEMENTATION-STATUS.md), [implemented features](12-CORE-FEATURES.md), and [as-built architecture](13-ARCHITECTURE-AND-DATA-FLOW.md) for what runs today.
 
 ## System objective
 

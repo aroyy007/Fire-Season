@@ -2,6 +2,8 @@
 
 The repository now builds a real, narrow raster-analysis sample. It does not claim a validated sensor harmonization result.
 
+See [implemented features](12-CORE-FEATURES.md) for the full user-visible inventory and [as-built architecture](13-ARCHITECTURE-AND-DATA-FLOW.md) for the source-to-app flow. The PRD, TRD, and backend schema also contain target capabilities that are not yet part of this sample.
+
 ## Executable sample
 
 - `pipeline/fireseason/raster_analysis.py` decodes the MODIS and VIIRS QA land bits, applies the declared confidence policy, projects candidate region windows into the shared h26v06 sinusoidal grid, and groups reference-product pixels into 10×10 native-cell blocks.

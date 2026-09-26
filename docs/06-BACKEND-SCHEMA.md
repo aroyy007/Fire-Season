@@ -1,12 +1,14 @@
 # Fire Season — artifact and backend schema
 
 Version 2.0  
-Status: authoritative Competition MVP data contract  
+Status: target Competition MVP data contract
 Prepared: 20 September 2026
+
+> **Implementation note:** the schemas and expanded fields below define the target data contract. The current published sample implements the native-only artifact, receipt, manifest, monthly records, and block CSV described in [implementation status](09-IMPLEMENTATION-STATUS.md). There is no runtime database or write API, and the current static HTML/CSS/JavaScript application reads bundled artifacts. See [as-built architecture](13-ARCHITECTURE-AND-DATA-FLOW.md) for the implemented boundaries.
 
 ## Architecture premise
 
-The Competition MVP has a build-time scientific backend and a static runtime. There is no runtime database or write API. The Python pipeline retrieves source data, creates analytical tables, evaluates calibration, and publishes an immutable **Analysis Artifact** bundle. The React application reads that bundle.
+The target Competition MVP has a build-time scientific backend and a static runtime. There is no runtime database or write API. The full target pipeline retrieves source data, creates analytical tables, evaluates calibration, and publishes an immutable **Analysis Artifact** bundle. The static application reads that bundle.
 
 The word “backend” in this document refers to the pipeline, release rules, analytical storage, and publication contract. The existing PostgreSQL and OpenAPI designs describe a possible later service and do not belong to the judged dependency path.
 
