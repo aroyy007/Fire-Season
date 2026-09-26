@@ -1,0 +1,155 @@
+{
+  "artifact_id": "art_local_aoi_sample_202303_r2_edd035e463a2",
+  "calibration": null,
+  "files": [
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "6fa9eb02b1846c097fbb0e893f5bef7d49f6e46b4e69ee1940c0621857e98195",
+      "size_bytes": 522
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "b530729aa62e03bbae890769f80f91686b024c9a71fa9b535e4208d29bf977a8",
+      "size_bytes": 80021
+    },
+    {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "f4eabb3e84df50793eff0c67b1a6c746cd505a217e20f2286c74de77903f4716",
+      "size_bytes": 241
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "2298885e72730c02ee50776c1612b10fe053dd3eaeac4f39afadb2e87b479a06",
+      "size_bytes": 943
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "00014d5af478e0134d6c914677e61f79b96e370c4cbe9eac2b8e6ab5fb48e759",
+      "size_bytes": 43250
+    }
+  ],
+  "generated_at": "2026-09-26T03:35:31.493609Z",
+  "grid_version": "modis-viirs-sinusoidal-h26v06-926m-v1",
+  "limitations": [
+    "Research sample only: native mask counts were decoded from the listed NASA granules for March 2023.",
+    "The bounding box is a candidate analysis window inherited from the project; the team and local event have not frozen it.",
+    "A daily cell is counted once per product composite. MYD14A1 is an eight-day file containing daily planes; VNP14A1 is daily.",
+    "QA land cells define eligible support; clear land and nominal/high-confidence fire define valid support; nominal/high-confidence fire define detections.",
+    "Low-confidence fire, water, cloud, unknown, and unprocessed cells are excluded from valid support and detections.",
+    "The metric describes product detections, not independent fires, burned area, ignition probability, or fire danger.",
+    "The two native sensor rates are not directly comparable; no transfer model, anomaly, interval, or priority score is released.",
+    "Original local download timestamps were not retained; source file identity is established by filename, byte size, and SHA-256."
+  ],
+  "metric": {
+    "definition": "1,000 × nominal/high-confidence active land-cell-days ÷ valid observed land-cell-days.",
+    "label": "Detected activity rate",
+    "maximum": 1000,
+    "metric_id": "detected_active_land_cell_days_per_1000_valid_land_cell_days",
+    "minimum": 0,
+    "scale": 1000,
+    "unit": "detected active land-cell-days per 1,000 valid observed land-cell-days"
+  },
+  "months": [
+    {
+      "anomaly": {
+        "baseline_end_year": null,
+        "baseline_start_year": null,
+        "difference_per_1000": null,
+        "percentile": null,
+        "rank": null,
+        "reason": "A single-month sample cannot establish a seasonal baseline or activity anomaly.",
+        "status": "indeterminate",
+        "usable_baseline_years": 0
+      },
+      "comparison": {
+        "calibration_id": null,
+        "estimate_per_1000": null,
+        "interval_method": null,
+        "lower_90": null,
+        "reason": "The current sample has one month and no independent temporal or geographic transfer evaluation.",
+        "status": "calibration_not_released",
+        "upper_90": null
+      },
+      "investigation_priority": {
+        "block_ids": [],
+        "reason": "No independently evaluated priority rule is declared.",
+        "status": "unavailable"
+      },
+      "month": "2023-03",
+      "native_records": [
+        {
+          "detected_cell_days": 1420,
+          "eligible_land_cell_days": 853259,
+          "observation_status": "available",
+          "product_id": "myd14a1_061_aqua",
+          "rate_per_1000": 1.8742,
+          "support_fraction": 0.887943,
+          "valid_cell_days": 757645
+        },
+        {
+          "detected_cell_days": 787,
+          "eligible_land_cell_days": 860945,
+          "observation_status": "available",
+          "product_id": "vnp14a1_002_suomi_npp",
+          "rate_per_1000": 1.0063,
+          "support_fraction": 0.908359,
+          "valid_cell_days": 782047
+        }
+      ]
+    }
+  ],
+  "period": {
+    "end_date": "2023-03-31",
+    "start_date": "2023-03-01"
+  },
+  "quality_policy": {
+    "low_confidence_fire_policy": "excluded",
+    "minimum_monthly_support_fraction": 0.5,
+    "version": "firemask-qa-land-highnominal-v1"
+  },
+  "receipt_ref": "evidence-receipt.json",
+  "reference_product_id": "myd14a1_061_aqua",
+  "region": {
+    "bounds_wsen": [
+      91.4,
+      20.6,
+      92.7,
+      23.2
+    ],
+    "geometry_ref": "region.geojson",
+    "geometry_sha256": "2298885e72730c02ee50776c1612b10fe053dd3eaeac4f39afadb2e87b479a06",
+    "name": "Chattogram Hills and Cox’s Bazar candidate window",
+    "region_id": "region_chattogram_hills_candidate_r2",
+    "revision": 2,
+    "role": "local_impact_case"
+  },
+  "release_status": "native_only",
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Aqua",
+      "product_guide_url": "https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf",
+      "product_id": "myd14a1_061_aqua",
+      "short_name": "MYD14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-myd14a1-061",
+      "stream": "science_mask",
+      "version": "Collection 6.1"
+    },
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Suomi-NPP",
+      "product_guide_url": "https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf",
+      "product_id": "vnp14a1_002_suomi_npp",
+      "short_name": "VNP14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002",
+      "stream": "science_mask",
+      "version": "Version 2"
+    }
+  ]
+}

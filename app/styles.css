@@ -44,10 +44,11 @@ h3 { font-size: 16px; }
 .region-picker label { display: block; color: var(--slate); font-size: 12px; margin-bottom: 8px; }
 .region-picker select { width: 100%; border: 1px solid var(--basalt); background: var(--surface); color: var(--basalt); border-radius: 2px; padding: 10px 12px; }
 .region-role { display: block; color: var(--slate); font-size: 12px; margin-top: 8px; }
+.region-coordinates { display: block; color: var(--muted); font: 10px var(--mono); margin-top: 5px; }
 
-.fixture-banner { display: flex; gap: 12px; align-items: baseline; background: #e5eeeb; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); color: var(--slate); padding: 12px 14px; font-size: 13px; margin-bottom: 28px; }
-.fixture-banner strong { color: var(--basalt); }
-.fixture-banner a { margin-left: auto; white-space: nowrap; }
+.sample-banner { display: flex; gap: 12px; align-items: baseline; background: #e5eeeb; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); color: var(--slate); padding: 12px 14px; font-size: 13px; margin-bottom: 28px; }
+.sample-banner strong { color: var(--basalt); }
+.sample-banner a { margin-left: auto; white-space: nowrap; }
 .banner-mark { display: grid; place-items: center; border: 1px solid var(--blue); color: var(--blue); border-radius: 50%; width: 18px; height: 18px; font-size: 11px; font-weight: 700; flex: 0 0 auto; }
 
 .instrument, .panel { background: var(--surface); border: 1px solid var(--rule); }
@@ -125,13 +126,17 @@ h3 { font-size: 16px; }
 .outline-button:hover { background: var(--basalt); color: white; }
 
 .heatmap-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--slate); font: 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 10px; }
-.block-heatmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(62px, 1fr); gap: 3px; background: var(--basalt); border: 1px solid var(--basalt); padding: 3px; }
-.heat-cell { position: relative; overflow: hidden; min-height: 62px; border: 0; background: var(--surface); color: var(--basalt); text-align: left; padding: 9px; }
-.heat-cell .heat-fill { position: absolute; inset: auto 0 0; height: var(--heat); background: var(--ember); opacity: var(--heat-alpha, .24); pointer-events: none; }
-.heat-cell strong { position: relative; z-index: 1; font: 600 13px var(--mono); }
+.heatmap-scroll { overflow: auto; border: 1px solid var(--rule); background: #edf2f0; padding: 6px; }
+.block-heatmap { display: grid; width: min(100%, 560px); aspect-ratio: var(--block-cols) / var(--block-rows); grid-template-columns: repeat(var(--block-cols), minmax(5px, 1fr)); grid-template-rows: repeat(var(--block-rows), minmax(5px, 1fr)); gap: 1px; margin: 0 auto; }
+.heat-cell { position: relative; overflow: hidden; min-width: 0; min-height: 0; border: 0; background: var(--surface); color: var(--basalt); padding: 0; cursor: pointer; }
+.heat-cell .heat-fill { position: absolute; inset: 0; background: var(--ember); opacity: var(--heat-alpha, .24); pointer-events: none; }
 .heat-cell.is-selected { outline: 3px solid var(--focus); outline-offset: -3px; z-index: 2; }
 .heat-cell.heat-empty { background: repeating-linear-gradient(135deg, #fff 0, #fff 5px, #e3e9e6 5px, #e3e9e6 7px); }
 .heat-cell.heat-empty .heat-fill { display: none; }
+.heat-cell.heat-zero .heat-fill { opacity: .08; }
+.block-heatmap-empty { border: 1px dashed var(--rule); background: #f6f8f7; color: var(--slate); padding: 26px; text-align: center; font-size: 13px; }
+.table-wrap summary { color: var(--blue); cursor: pointer; font-size: 12px; padding: 8px 0; }
+.table-wrap[open] summary { margin-bottom: 8px; }
 .heatmap-legend { display: flex; flex-wrap: wrap; gap: 13px; margin: 10px 0 2px; color: var(--slate); font-size: 11px; }
 .heatmap-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .heatmap-selection { border-left: 3px solid var(--blue); background: #f2f6f4; padding: 10px 12px; margin: 12px 0 0; color: var(--slate); font-size: 12px; }
@@ -139,6 +144,7 @@ h3 { font-size: 16px; }
 .heat-key { width: 12px; height: 12px; display: inline-block; border: 1px solid var(--rule); background: var(--ember); }
 .heat-key.low { opacity: .25; }
 .heat-key.high { opacity: .85; }
+.heat-key.zero { opacity: .08; }
 .heat-key.empty { background: repeating-linear-gradient(135deg, #fff 0, #fff 4px, #dfe7e3 4px, #dfe7e3 6px); }
 .table-wrap { overflow-x: auto; margin-top: 18px; }
 table { border-collapse: collapse; width: 100%; font-size: 12px; }
@@ -165,8 +171,8 @@ th { color: var(--slate); font-weight: 500; font-size: 11px; }
   .topbar-meta span:first-child, .topbar-meta .status-dot { display: none; }
   .intro { grid-template-columns: 1fr; gap: 24px; padding: 36px 0 24px; }
   h1 { font-size: clamp(32px, 11vw, 48px); }
-  .fixture-banner { align-items: flex-start; flex-wrap: wrap; }
-  .fixture-banner a { margin-left: 30px; }
+  .sample-banner { align-items: flex-start; flex-wrap: wrap; }
+  .sample-banner a { margin-left: 30px; }
   .instrument { padding: 20px 16px 18px; }
   .instrument-head { align-items: flex-start; flex-direction: column; }
   .view-control { width: 100%; }
@@ -213,8 +219,8 @@ th { color: var(--slate); font-weight: 500; font-size: 11px; }
   .topbar-meta { display: none; }
   .text-button { margin-left: auto; }
   h1 { font-size: 36px; }
-  .fixture-banner { align-items: flex-start; flex-wrap: wrap; }
-  .fixture-banner a { margin-left: 30px; }
+  .sample-banner { align-items: flex-start; flex-wrap: wrap; }
+  .sample-banner a { margin-left: 30px; }
   .instrument { padding: 18px 12px 16px; }
   .instrument-head { display: block; }
   .view-control { margin-top: 16px; width: 100%; }
@@ -238,7 +244,7 @@ th { color: var(--slate); font-weight: 500; font-size: 11px; }
 }
 
 @media print {
-  .topbar, .fixture-banner, .instrument, .context-panel, .receipt-panel, .footer { display: none !important; }
+  .topbar, .sample-banner, .instrument, .context-panel, .receipt-panel, .footer { display: none !important; }
   .shell { width: 100%; }
   .evidence-grid { display: block; margin: 0; }
   .evidence-panel { border: 0; }

@@ -1,0 +1,7 @@
+{
+  "candidate_model": null,
+  "reason": "The single-month sample does not provide independent temporal or geographic validation or interval coverage.",
+  "release_eligible": false,
+  "schema_version": "1.0.0",
+  "status": "not_evaluated"
+}

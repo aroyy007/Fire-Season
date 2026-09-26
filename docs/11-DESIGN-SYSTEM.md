@@ -18,8 +18,8 @@ The app uses system sans-serif text for reliable offline rendering and a monospa
 ## Component rules
 
 - The calendar is the opening instrument. It keeps the 12-month matrix on wide screens and switches to a selected-year vertical list on narrow screens.
-- The seasonal pulse is a compact context strip, not a dashboard KPI wall. It reports mean rate, typical months, support, and release status.
-- The 10 km heatmap is the visual signature. Ember opacity encodes native-rate rank within the selected month; hatching means no usable observation; a blue outline marks the selected block. The equivalent table remains visible for exact reading.
+- The sample strip reports the one Aqua rate, support, and native-only status. It explicitly declines to estimate a seasonal pattern from one month.
+- The heatmap is built from 10×10 native-pixel cells (about 9.3 km at this tile), positioned by tile row and column. Ember opacity scales the reference sensor's block rate within the sample; unprocessed months have no map, while observed zero-rate blocks remain distinct. The exact block counts are available in a collapsed table.
 - Evidence panels show counts before interpretation: eligible, valid, detected, rate, and support. Comparable Activity remains a plain unavailable state until release gates pass.
 - Receipt details expose provider objects, checksums, exclusions, files, calibration state, and limitations in one place.
 - Motion answers actions only: pressed controls, selected cells, and focus return. Reduced-motion users receive the same information without animation.

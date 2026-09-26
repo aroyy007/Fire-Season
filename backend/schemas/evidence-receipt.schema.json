@@ -24,11 +24,11 @@
     },
     "receipt_id": {
       "type": "string",
-      "pattern": "^rcpt_[a-z0-9][a-z0-9_-]+$"
+      "pattern": "^rcpt_[0-9a-f]{12}$"
     },
     "artifact_id": {
       "type": "string",
-      "pattern": "^art_[a-z0-9][a-z0-9_-]+$"
+      "pattern": "^art_[a-z0-9][a-z0-9_-]*_[0-9a-f]{12}$"
     },
     "published_at": {
       "type": "string",
@@ -90,7 +90,7 @@
     "region": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["region_id", "revision", "name", "role", "geometry_sha256"],
+      "required": ["region_id", "revision", "name", "role", "geometry_ref", "geometry_sha256", "bounds_wsen"],
       "properties": {
         "region_id": {
           "type": "string",
@@ -107,10 +107,29 @@
         "role": {
           "enum": ["science_pilot", "local_impact_case", "transfer_test_region"]
         },
+        "geometry_ref": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\.\\.).+\\.geojson$"
+        },
         "geometry_sha256": {
           "$ref": "#/$defs/sha256"
+        },
+        "bounds_wsen": {
+          "$ref": "#/$defs/boundsWsen"
         }
       }
+    },
+    "boundsWsen": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 },
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
     },
     "analysis": {
       "type": "object",
@@ -124,7 +143,8 @@
         "source_manifest_sha256",
         "grid_version",
         "quality_policy_version",
-        "minimum_monthly_support_fraction"
+        "minimum_monthly_support_fraction",
+        "daily_coverage"
       ],
       "properties": {
         "start_date": {
@@ -161,6 +181,36 @@
           "type": "number",
           "minimum": 0,
           "maximum": 1
+        },
+        "daily_coverage": {
+          "$ref": "#/$defs/dailyCoverage"
+        }
+      }
+    },
+    "dailyCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_calendar_days",
+        "myd14a1_observed_days",
+        "vnp14a1_observed_days",
+        "complete"
+      ],
+      "properties": {
+        "expected_calendar_days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "myd14a1_observed_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "vnp14a1_observed_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete": {
+          "const": true
         }
       }
     },
@@ -172,6 +222,8 @@
         "short_name",
         "version",
         "platform",
+        "stream",
+        "nominal_resolution_m",
         "source_url",
         "product_guide_url",
         "provider_objects"
@@ -192,6 +244,13 @@
         "platform": {
           "type": "string",
           "minLength": 1
+        },
+        "stream": {
+          "enum": ["science_mask", "recent_context"]
+        },
+        "nominal_resolution_m": {
+          "type": "integer",
+          "minimum": 1
         },
         "source_url": {
           "type": "string",
@@ -219,6 +278,7 @@
         "observed_start",
         "observed_end",
         "retrieved_at",
+        "retrieval_timestamp_status",
         "size_bytes",
         "sha256"
       ],
@@ -240,8 +300,18 @@
           "format": "date-time"
         },
         "retrieved_at": {
-          "type": "string",
-          "format": "date-time"
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retrieval_timestamp_status": {
+          "enum": ["recorded", "not_recorded_for_local_copy"]
         },
         "provider_checksum": {
           "type": ["string", "null"]
@@ -273,6 +343,44 @@
         }
       }
     },
+    "activityRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "maximum"],
+      "properties": {
+        "minimum": { "type": "number", "minimum": 0, "maximum": 1000 },
+        "maximum": { "type": "number", "minimum": 0, "maximum": 1000 }
+      }
+    },
+    "calibrationDomain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_product_version",
+        "reference_product_version",
+        "quality_policy_version",
+        "grid_version",
+        "region_ids",
+        "source_activity_range_per_1000",
+        "comparable_activity_range_per_1000",
+        "minimum_support_fraction"
+      ],
+      "properties": {
+        "source_product_version": { "type": "string", "minLength": 1 },
+        "reference_product_version": { "type": "string", "minLength": 1 },
+        "quality_policy_version": { "type": "string", "minLength": 1 },
+        "grid_version": { "type": "string", "minLength": 1 },
+        "region_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^region_[a-z0-9][a-z0-9_-]+_r[1-9][0-9]*$" }
+        },
+        "source_activity_range_per_1000": { "$ref": "#/$defs/activityRange" },
+        "comparable_activity_range_per_1000": { "$ref": "#/$defs/activityRange" },
+        "minimum_support_fraction": { "type": "number", "minimum": 0.5, "maximum": 1 }
+      }
+    },
     "calibration": {
       "type": "object",
       "additionalProperties": false,
@@ -285,6 +393,8 @@
         "split_manifest_sha256",
         "model_sha256",
         "code_revision",
+        "domain",
+        "evaluation_ref",
         "evaluation"
       ],
       "properties": {
@@ -316,6 +426,14 @@
           "type": "string",
           "minLength": 7
         },
+        "domain": {
+          "$ref": "#/$defs/calibrationDomain"
+        },
+        "evaluation_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*\\.\\.).+$"
+        },
         "evaluation": {
           "$ref": "#/$defs/evaluation"
         }
@@ -333,10 +451,20 @@
         "candidate_mae",
         "mae_improvement_fraction",
         "regional_bias",
+        "regional_bias_baseline",
+        "regional_bias_tolerance",
+        "peak_month_identifiable",
         "peak_month_error",
         "nominal_interval_level",
         "empirical_interval_coverage",
+        "independent_test_block_months",
+        "paired_support_fraction",
         "transfer_test_status",
+        "transfer_test_region_id",
+        "transfer_test_region_geometry_ref",
+        "transfer_test_region_geometry_sha256",
+        "transfer_test_region_bounds_wsen",
+        "gate_results",
         "release_gate_status"
       ],
       "properties": {
@@ -369,10 +497,28 @@
         },
         "regional_bias": {
           "type": "object",
-          "minProperties": 1,
+          "minProperties": 2,
           "additionalProperties": {
             "type": "number"
           }
+        },
+        "regional_bias_baseline": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "regional_bias_tolerance": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "peak_month_identifiable": {
+          "type": "boolean"
         },
         "peak_month_error": {
           "type": ["integer", "null"],
@@ -389,8 +535,57 @@
           "minimum": 0,
           "maximum": 1
         },
+        "independent_test_block_months": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "paired_support_fraction": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 1
+        },
         "transfer_test_status": {
           "enum": ["pass", "fail", "insufficient_support"]
+        },
+        "transfer_test_region_id": {
+          "type": "string",
+          "pattern": "^region_[a-z0-9][a-z0-9_-]+_r[1-9][0-9]*$"
+        },
+        "transfer_test_region_geometry_ref": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\.\\.).+\\.geojson$"
+        },
+        "transfer_test_region_geometry_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "transfer_test_region_bounds_wsen": {
+          "$ref": "#/$defs/boundsWsen"
+        },
+        "gate_results": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "training_and_holdout_support",
+            "paired_support",
+            "baseline_skill",
+            "regional_bias",
+            "peak_timing",
+            "interval_coverage",
+            "transfer_test",
+            "declared_domain",
+            "provenance_reproducibility"
+          ],
+          "properties": {
+            "training_and_holdout_support": { "enum": ["pass", "fail", "insufficient_support"] },
+            "paired_support": { "enum": ["pass", "fail", "insufficient_support"] },
+            "baseline_skill": { "enum": ["pass", "fail", "insufficient_support"] },
+            "regional_bias": { "enum": ["pass", "fail", "insufficient_support"] },
+            "peak_timing": { "enum": ["pass", "fail", "insufficient_support"] },
+            "interval_coverage": { "enum": ["pass", "fail", "insufficient_support"] },
+            "transfer_test": { "enum": ["pass", "fail", "insufficient_support"] },
+            "declared_domain": { "enum": ["pass", "fail", "insufficient_support"] },
+            "provenance_reproducibility": { "enum": ["pass", "fail", "insufficient_support"] }
+          }
         },
         "release_gate_status": {
           "enum": ["pass", "fail"]

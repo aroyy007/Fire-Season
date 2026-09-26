@@ -1,13 +1,13 @@
-# Fire Season static demo
+# Fire Season offline raster sample
 
-This directory is a zero-dependency browser shell for the Competition MVP contract fixture. Open `index.html` directly or serve the repository with any static server. The generated `data.js` bundle is offline-capable and intentionally contains contract-fixture values marked in the interface; it is not a scientific result.
+The browser shell renders native-only March 2023 records decoded from the stored MYD14A1 and VNP14A1 rasters. Its data bundle includes two candidate region windows, a QA-aware paired sample, raster-derived 10×10-cell reference blocks, a checksum receipt, and explicit limits. A blank calendar month means no sample was processed; it does not mean zero detections.
 
-Regenerate the bundle from the dependency-free Python pipeline with:
+Rebuild the data bundle from the repository root:
 
 ```sh
-python3 pipeline/build_demo_artifact.py
+venv/bin/python pipeline/build_research_bundle.py
 ```
 
-The shell includes a seasonal pulse summary, responsive year/month list, selectable 10 km block heatmap, equivalent block table, evidence receipt, CSV/JSON exports, and a printable Monitoring Brief. These are all artifact-driven; there is no LLM or runtime API in the browser.
+Install the pinned HDF and projection packages first using `pipeline/requirements-science.lock`. The browser itself has no runtime API, LLM, remote font, or other network dependency.
 
-The first real-data implementation must replace the fixture with a decoded paired MODIS–VIIRS Analysis Artifact and retain the same public contract. A future Evidence Investigator may use a local model only to explain released fields; it must never calculate or invent scientific values.
+The bundle is a research sample, not a harmonized time series. It keeps MODIS and VIIRS records separate; Comparable Activity, anomaly, uncertainty interval, and priority remain unavailable. The evidence investigator remains out of scope until a calibration passes temporal, geographic, overlap, and interval-coverage evaluation.

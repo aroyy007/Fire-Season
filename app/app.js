@@ -9,7 +9,7 @@
   const state = {
     region: "science",
     view: "native",
-    selectedMonth: "2024-03",
+    selectedMonth: "2023-03",
     selectedBlock: null,
     receiptOpen: false,
     receiptFocus: null,
@@ -26,7 +26,36 @@
   }
 
   function monthRecord(monthKey) {
-    return artifact().months.find((month) => month.month === monthKey) || artifact().months[0];
+    const month = artifact().months.find((item) => item.month === monthKey);
+    if (month) return month;
+    return {
+      month: monthKey,
+      native_records: artifact().sources.filter((source) => source.stream === "science_mask").map((source) => ({
+        product_id: source.product_id,
+        observation_status: "no_observation",
+        detected_cell_days: null,
+        valid_cell_days: 0,
+        eligible_land_cell_days: 0,
+        support_fraction: 0,
+        rate_per_1000: null,
+      })),
+      comparison: {
+        status: "calibration_not_released",
+        estimate_per_1000: null,
+        lower_90: null,
+        upper_90: null,
+        interval_method: null,
+        calibration_id: null,
+        reason: "No raster sample is published for this month.",
+      },
+      anomaly: {
+        status: "indeterminate",
+        usable_baseline_years: 0,
+        difference_per_1000: null,
+        reason: "No raster sample is published for this month.",
+      },
+      investigation_priority: { status: "unavailable", reason: "No raster sample is published for this month.", block_ids: [] },
+    };
   }
 
   function yearList() {
@@ -51,7 +80,7 @@
   }
 
   function formatRate(value) {
-    return value == null ? "—" : Number(value).toFixed(1);
+    return value == null || value === "" || !Number.isFinite(Number(value)) ? "—" : Number(value).toFixed(1);
   }
 
   function formatPercent(value) {
@@ -63,6 +92,7 @@
   }
 
   function typicalMonths() {
+    if (artifact().months.length < 8) return [];
     const totals = Array.from({ length: 12 }, () => ({ total: 0, count: 0 }));
     artifact().months.forEach((month) => {
       const record = referenceRecord(month);
@@ -118,7 +148,7 @@
       return `${formatDateLabel(month.month)}; Comparable Activity ${formatRate(comparison.estimate_per_1000)} per 1,000; interval ${formatRate(comparison.lower_90)} to ${formatRate(comparison.upper_90)}.`;
     }
     if (record.observation_status === "no_observation") {
-      return `${formatDateLabel(month.month)}; no usable observations in ${productLabel(record.product_id)}.`;
+      return `${formatDateLabel(month.month)}; no raster sample is published for ${productLabel(record.product_id)}.`;
     }
     return `${formatDateLabel(month.month)}; ${productLabel(record.product_id)} Native Sensor Record ${formatRate(record.rate_per_1000)} per 1,000; ${formatPercent(record.support_fraction)} valid support.`;
   }
@@ -129,7 +159,7 @@
       <div class="shell">
         <header class="topbar">
           <a class="wordmark" href="#" aria-label="Fire Season home">Fire Season<span class="wordmark-dot">.</span></a>
-          <div class="topbar-meta"><span>One Last Launch</span><span class="status-dot" aria-hidden="true"></span><span>offline artifact demo</span></div>
+          <div class="topbar-meta"><span>One Last Launch</span><span class="status-dot" aria-hidden="true"></span><span>offline raster sample</span></div>
           <button class="text-button" data-action="receipt">Evidence receipt</button>
         </header>
 
@@ -140,17 +170,18 @@
             <p class="intro-copy">A seasonal calendar that keeps each satellite record visible and states when a comparison has not earned release.</p>
           </div>
           <div class="region-picker">
-            <label for="region-select">Curated Region</label>
+            <label for="region-select">Candidate analysis window</label>
             <select id="region-select" data-action="region">
               ${DATA.index.regions.map((entry) => `<option value="${entry.key}" ${entry.key === state.region ? "selected" : ""}>${escapeHtml(entry.name)}</option>`).join("")}
             </select>
-            <span class="region-role">${current.region.role === "science_pilot" ? "Science Pilot" : "Local Impact Case"}</span>
+            <span class="region-role">${current.region.role === "science_pilot" ? "Science Pilot candidate" : "Chattogram candidate"} · boundary not frozen</span>
+            <small class="region-coordinates">${(() => { const [west, south, east, north] = DATA.index.regions.find((entry) => entry.key === state.region).bounds_wsen; return `W ${Number(west).toFixed(2)}° · S ${Number(south).toFixed(2)}° · E ${Number(east).toFixed(2)}° · N ${Number(north).toFixed(2)}°`; })()}</small>
           </div>
         </section>
 
-        <div class="fixture-banner" role="note">
+        <div class="sample-banner" role="note">
           <span class="banner-mark">i</span>
-          <span><strong>Contract fixture.</strong> These bundled values rehearse the product states. No historical raster has been decoded and no Calibration Release is present.</span>
+          <span><strong>Complete March 2023 raster sample.</strong> Native counts and the reference heatmap come from stored NASA masks clipped to this candidate window. One month is not enough to validate a sensor transfer; Comparable Activity remains unavailable.</span>
           <a href="../docs/03-MODEL-AND-DATA-PROTOCOL.md">Read the evidence boundary</a>
         </div>
 
@@ -159,14 +190,14 @@
             <div>
               <p class="section-label">Burning Activity Calendar</p>
               <h2 id="calendar-heading">${escapeHtml(current.region.name)}</h2>
-              <p class="measurement">${escapeHtml(current.metric.unit)} · ${current.period.start_date.slice(0, 4)}–${current.period.end_date.slice(0, 4)}</p>
+              <p class="measurement">${escapeHtml(current.metric.unit)} · sample ${current.period.start_date}–${current.period.end_date}</p>
             </div>
             <div class="view-control" role="group" aria-label="Measurement view">
               <button class="view-button ${state.view === "native" ? "is-active" : ""}" data-action="view" data-view="native">Native Sensor Records</button>
               <button class="view-button ${state.view === "comparable" ? "is-active" : ""}" data-action="view" data-view="comparable">Comparable Activity</button>
             </div>
           </div>
-          <div class="era-note"><span class="era-line"></span><span>Sensor-era boundary will be asserted only after paired historical masks pass QA. Product identity stays visible in every record.</span></div>
+          <div class="era-note"><span class="era-line"></span><span>Only March 2023 has been processed. Blank months mean no raster sample is bundled; they are not zero-fire observations.</span></div>
           <div class="calendar-wrap">
             <div class="calendar" role="grid" aria-label="${escapeHtml(current.region.name)} burning activity calendar">
               <div class="calendar-corner" aria-hidden="true">Year</div>
@@ -176,9 +207,9 @@
           </div>
           ${renderMobileCalendar()}
           <div class="legend" aria-label="Calendar legend">
-            <span class="legend-item"><span class="legend-swatch activity-low"></span> lower detected rate</span>
-            <span class="legend-item"><span class="legend-swatch activity-high"></span> higher detected rate</span>
-            <span class="legend-item"><span class="legend-swatch hatch"></span> comparison unavailable / weak support</span>
+            <span class="legend-item"><span class="legend-swatch activity-low"></span> lower sampled rate</span>
+            <span class="legend-item"><span class="legend-swatch activity-high"></span> higher sampled rate</span>
+            <span class="legend-item"><span class="legend-swatch hatch"></span> month not processed</span>
             <span class="legend-item"><span class="legend-swatch zero-mark">0</span> observed zero</span>
           </div>
           ${renderSignalStrip()}
@@ -192,7 +223,7 @@
         ${state.receiptOpen ? renderReceiptPanel() : ""}
 
         <footer class="footer">
-          <span>Fire Season · contract fixture ${escapeHtml(current.artifact_id)}</span>
+          <span>Fire Season · native-only sample ${escapeHtml(current.artifact_id)}</span>
           <span>NASA data sources remain under their own terms.</span>
         </footer>
       </div>
@@ -231,8 +262,11 @@
     const mean = rates.length ? rates.reduce((sum, rate) => sum + rate, 0) / rates.length : null;
     const peak = rates.length ? Math.max(...rates) : null;
     const support = artifact().months.reduce((sum, month) => sum + Number(referenceRecord(month).support_fraction), 0) / artifact().months.length;
-    const points = rates.length ? rates.map((rate, index) => `${Math.round((index / Math.max(1, rates.length - 1)) * 220)},${Math.round(44 - (rate / Math.max(peak || 1, 1)) * 34)}`).join(" ") : "0,44 220,44";
-    return `<div class="signal-strip" aria-label="Artifact signal summary"><div class="signal-chart"><div><span class="signal-label">Reference pulse</span><strong>${formatRate(mean)} <small>mean / 1,000</small></strong></div><svg viewBox="0 0 220 48" role="img" aria-label="Reference product seasonal pulse"><polyline points="${points}" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke"></polyline></svg></div><div class="signal-item"><span class="signal-label">Typical higher months</span><strong>${escapeHtml(typicalMonths().slice(0, 2).join(" · ") || "Unavailable")}</strong><small>${formatRate(peak)} peak detected rate</small></div><div class="signal-item"><span class="signal-label">Observation support</span><strong>${formatPercent(support)}</strong><small>mean valid land-cell support</small></div><div class="signal-item signal-status"><span class="signal-label">Release status</span><strong>Native only</strong><small>calibration withheld</small></div></div>`;
+    const points = rates.map((rate, index) => `${rates.length === 1 ? 110 : Math.round((index / (rates.length - 1)) * 220)},${Math.round(44 - (rate / Math.max(peak || 1, 1)) * 34)}`).join(" ");
+    const profile = rates.length > 1
+      ? `<polyline points="${points}" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke"></polyline>`
+      : `<circle cx="110" cy="${rates.length ? Math.round(44 - (mean / Math.max(peak || 1, 1)) * 34) : 44}" r="4" fill="currentColor"></circle>`;
+    return `<div class="signal-strip" aria-label="Raster sample summary"><div class="signal-chart"><div><span class="signal-label">Aqua sample rate</span><strong>${formatRate(mean)} <small>/ 1,000</small></strong></div><svg viewBox="0 0 220 48" role="img" aria-label="One March 2023 Aqua sample point">${profile}</svg></div><div class="signal-item"><span class="signal-label">Seasonal pattern</span><strong>Not estimated</strong><small>one month cannot define a season</small></div><div class="signal-item"><span class="signal-label">Valid support</span><strong>${formatPercent(support)}</strong><small>March 2023 sample only</small></div><div class="signal-item signal-status"><span class="signal-label">Release status</span><strong>Native only</strong><small>calibration withheld</small></div></div>`;
   }
 
   function renderEvidencePanel(month) {
@@ -254,21 +288,36 @@
 
   function renderContextPanel(month) {
     const blocks = DATA.blocks[state.region].filter((block) => block.month === month.month);
-    const blockValues = blocks.map((block) => Number(block.native_rate_per_1000)).filter((value) => Number.isFinite(value));
-    const blockMin = blockValues.length ? Math.min(...blockValues) : 0;
-    const blockMax = blockValues.length ? Math.max(...blockValues) : 1;
+    const blockValues = blocks.map((block) => block.native_rate_per_1000 === "" ? null : Number(block.native_rate_per_1000)).filter((value) => Number.isFinite(value));
+    const blockMax = blockValues.length ? Math.max(...blockValues) : 0;
+    const minRow = blocks.length ? Math.min(...blocks.map((block) => Number(block.block_row))) : 0;
+    const maxRow = blocks.length ? Math.max(...blocks.map((block) => Number(block.block_row))) : 0;
+    const minCol = blocks.length ? Math.min(...blocks.map((block) => Number(block.block_col))) : 0;
+    const maxCol = blocks.length ? Math.max(...blocks.map((block) => Number(block.block_col))) : 0;
+    const rowCount = blocks.length ? maxRow - minRow + 1 : 1;
+    const columnCount = blocks.length ? maxCol - minCol + 1 : 1;
     const selected = blocks.find((block) => block.block_id === state.selectedBlock);
     const selectionNote = selected
-      ? `<p class="heatmap-selection"><strong>Selected ${escapeHtml(selected.block_id.split("_").slice(-2).join("·"))}</strong> · ${formatRate(selected.native_rate_per_1000)} per 1,000 · ${formatPercent(selected.support_fraction)} support · priority ${escapeHtml(selected.investigation_priority)}</p>`
-      : `<p class="heatmap-selection">Select a block to keep its native rate and support in view.</p>`;
+      ? `<p class="heatmap-selection"><strong>Selected ${escapeHtml(selected.block_id.split("_").slice(-2).join("·"))}</strong> · ${formatRate(selected.native_rate_per_1000)} detections per 1,000 · ${formatPercent(selected.support_fraction)} support · ${formatCount(selected.valid_cell_days)} valid cell-days</p>`
+      : `<p class="heatmap-selection">${blocks.length ? "Select a block to inspect its native count and support." : "No raster block sample is published for this month."}</p>`;
+    const heatCells = blocks.map((block) => {
+      const rate = block.native_rate_per_1000 === "" ? null : Number(block.native_rate_per_1000);
+      const fraction = rate == null || blockMax === 0 ? 0 : rate / blockMax;
+      const alpha = rate == null ? 0 : 0.18 + fraction * 0.68;
+      const row = Number(block.block_row) - minRow + 1;
+      const col = Number(block.block_col) - minCol + 1;
+      const isSelected = state.selectedBlock === block.block_id;
+      const label = `${block.block_id}; native rate ${formatRate(rate)} per 1,000; ${formatPercent(block.support_fraction)} support; ${formatCount(block.valid_cell_days)} valid cell-days`;
+      return `<button class="heat-cell ${rate == null ? "heat-empty" : rate === 0 ? "heat-zero" : ""} ${isSelected ? "is-selected" : ""}" style="--heat-alpha:${alpha.toFixed(2)};grid-column:${col};grid-row:${row}" data-action="block" data-block="${escapeHtml(block.block_id)}" role="gridcell" aria-selected="${isSelected}" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}"><span class="heat-fill" aria-hidden="true"></span><span class="sr-only">${formatRate(rate)}</span></button>`;
+    }).join("");
     return `<article class="context-panel panel" aria-labelledby="context-title">
-      <div class="panel-heading"><div><p class="section-label">Geographic context</p><h2 id="context-title">10 km activity heatmap</h2></div><span class="context-tag">${escapeHtml(artifact().region.role.replaceAll("_", " "))}</span></div>
-      <div class="heatmap-meta"><span>Native ${escapeHtml(productLabel(artifact().reference_product_id))}</span><span>${formatDateLabel(month.month)}</span></div>
-      <div class="block-heatmap" role="grid" aria-label="10 km block activity heatmap for ${formatDateLabel(month.month)}">${blocks.map((block) => { const rate = Number(block.native_rate_per_1000); const intensity = block.native_rate_per_1000 == null ? 0 : 12 + ((rate - blockMin) / Math.max(0.1, blockMax - blockMin)) * 88; const alpha = block.native_rate_per_1000 == null ? 0 : 0.2 + intensity / 100 * 0.62; const selected = state.selectedBlock === block.block_id; return `<button class="heat-cell ${block.native_rate_per_1000 == null ? "heat-empty" : ""} ${selected ? "is-selected" : ""}" style="--heat:${intensity.toFixed(1)}%;--heat-alpha:${alpha.toFixed(2)}" data-action="block" data-block="${escapeHtml(block.block_id)}" role="gridcell" aria-selected="${selected}" aria-label="${escapeHtml(block.block_id)}; native rate ${formatRate(block.native_rate_per_1000)} per 1,000; ${formatPercent(block.support_fraction)} support; priority ${escapeHtml(block.investigation_priority)}" title="${escapeHtml(block.block_id)} · ${formatRate(block.native_rate_per_1000)} per 1,000"><span class="heat-fill" aria-hidden="true"></span><strong>${formatRate(block.native_rate_per_1000)}</strong></button>`; }).join("")}</div>
-      <div class="heatmap-legend"><span><i class="heat-key low"></i>lower detected rate</span><span><i class="heat-key high"></i>higher detected rate</span><span><i class="heat-key empty"></i>no usable observation</span></div>
+      <div class="panel-heading"><div><p class="section-label">Geographic context</p><h2 id="context-title">10×10-cell native-grid heatmap</h2></div><span class="context-tag">${escapeHtml(artifact().region.role.replaceAll("_", " "))}</span></div>
+      <div class="heatmap-meta"><span>MYD14A1 · ≈9.3 km blocks</span><span>${formatDateLabel(month.month)}</span></div>
+      ${blocks.length ? `<div class="heatmap-scroll"><div class="block-heatmap" style="--block-cols:${columnCount};--block-rows:${rowCount}" role="grid" aria-label="Raster-derived native-grid activity heatmap for ${formatDateLabel(month.month)}">${heatCells}</div></div>` : `<div class="block-heatmap-empty">No raster blocks are available for ${formatDateLabel(month.month)}.</div>`}
+      <div class="heatmap-legend"><span><i class="heat-key low"></i>lower rate</span><span><i class="heat-key high"></i>higher rate</span><span><i class="heat-key zero"></i>observed zero</span><span>color is relative within this sample</span></div>
       ${selectionNote}
-      <div class="table-wrap"><table><caption class="sr-only">Review blocks for ${formatDateLabel(month.month)}</caption><thead><tr><th>Block</th><th>Native rate</th><th>Support</th><th>Priority</th></tr></thead><tbody>${blocks.map((block) => `<tr class="${state.selectedBlock === block.block_id ? "row-selected" : ""}"><td><button class="table-link" data-action="block" data-block="${escapeHtml(block.block_id)}">${escapeHtml(block.block_id.split("_").slice(-2).join("·"))}</button></td><td>${formatRate(block.native_rate_per_1000)}</td><td>${formatPercent(block.support_fraction)}</td><td><span class="priority ${block.investigation_priority}">${block.investigation_priority}</span></td></tr>`).join("")}</tbody></table></div>
-      <p class="table-note">Investigation Priority is unavailable until a calibration release or a separately declared native rule exists.</p>
+      <details class="table-wrap"><summary>Inspect ${formatCount(blocks.length)} block records</summary><table><caption class="sr-only">Review blocks for ${formatDateLabel(month.month)}</caption><thead><tr><th>Block</th><th>Longitude</th><th>Latitude</th><th>Rate / 1,000</th><th>Valid cell-days</th><th>Detected cell-days</th><th>Support</th></tr></thead><tbody>${blocks.map((block) => `<tr class="${state.selectedBlock === block.block_id ? "row-selected" : ""}"><td><button class="table-link" data-action="block" data-block="${escapeHtml(block.block_id)}">${escapeHtml(block.block_id.split("_").slice(-2).join("·"))}</button></td><td>${block.longitude}</td><td>${block.latitude}</td><td>${formatRate(block.native_rate_per_1000)}</td><td>${formatCount(block.valid_cell_days)}</td><td>${formatCount(block.detected_cell_days)}</td><td>${formatPercent(block.support_fraction)}</td></tr>`).join("")}</tbody></table></details>
+      <p class="table-note">Priority is withheld. This map describes raster detections and is not a fire-risk forecast.</p>
     </article>`;
   }
 
@@ -276,19 +325,20 @@
     const current = receipt();
     const sourceRows = current.sources.map((source) => `<li><strong>${escapeHtml(source.short_name)} ${escapeHtml(source.version)}</strong> · ${escapeHtml(source.platform)} · ${source.provider_objects.map((object) => `${escapeHtml(object.provider_object_id)} (${escapeHtml(object.sha256)})`).join(", ")}</li>`).join("");
     const fileRows = current.files.map((file) => `<li>${escapeHtml(file.path)} · ${escapeHtml(file.sha256)} · ${formatCount(file.size_bytes)} bytes</li>`).join("");
-    const exclusions = current.exclusions.length ? current.exclusions.map((item) => `<li>${escapeHtml(JSON.stringify(item))}</li>`).join("") : "<li>None declared.</li>";
-    return `<section class="receipt-panel panel" id="receipt-panel" aria-labelledby="receipt-title"><div class="panel-heading"><div><p class="section-label">Provenance</p><h2 id="receipt-title">Evidence Receipt</h2></div><button class="close-button" data-action="receipt" aria-label="Close evidence receipt">×</button></div><dl class="receipt-grid"><div><dt>Receipt ID</dt><dd>${escapeHtml(current.receipt_id)}</dd></div><div><dt>Artifact ID</dt><dd>${escapeHtml(current.artifact_id)}</dd></div><div><dt>Region revision</dt><dd>${escapeHtml(current.region.region_id)}</dd></div><div><dt>Period</dt><dd>${current.analysis.start_date} → ${current.analysis.end_date}</dd></div><div><dt>Source manifest</dt><dd>${escapeHtml(current.analysis.source_manifest_id)} · ${escapeHtml(current.analysis.source_manifest_sha256)}</dd></div><div><dt>Quality policy</dt><dd>${escapeHtml(current.analysis.quality_policy_version)}</dd></div><div><dt>Calibration</dt><dd>${current.calibration ? "Released" : "None released"}</dd></div><div><dt>Environment</dt><dd>${escapeHtml(current.environment.pipeline_revision)}</dd></div></dl><div class="receipt-limitations"><h3>Source provider objects</h3><ul>${sourceRows}</ul><h3>Exclusions</h3><ul>${exclusions}</ul><h3>Files and checksums</h3><ul>${fileRows}</ul><h3>Limits recorded with this artifact</h3><ul>${current.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="panel-actions"><button class="outline-button" data-action="receipt-json">Download receipt JSON</button></div></section>`;
+    const exclusions = current.exclusions.length ? current.exclusions.map((item) => `<li>${escapeHtml(productLabel(item.product_id))} · ${escapeHtml(item.reason.replaceAll("_", " "))} · ${formatCount(item.cell_days)} cell-days</li>`).join("") : "<li>No excluded cell-days recorded.</li>";
+    const coverage = current.analysis.daily_coverage;
+    return `<section class="receipt-panel panel" id="receipt-panel" aria-labelledby="receipt-title"><div class="panel-heading"><div><p class="section-label">Provenance</p><h2 id="receipt-title">Evidence Receipt</h2></div><button class="close-button" data-action="receipt" aria-label="Close evidence receipt">×</button></div><dl class="receipt-grid"><div><dt>Receipt ID</dt><dd>${escapeHtml(current.receipt_id)}</dd></div><div><dt>Artifact ID</dt><dd>${escapeHtml(current.artifact_id)}</dd></div><div><dt>Region revision</dt><dd>r${formatCount(current.region.revision)} · candidate boundary</dd></div><div><dt>Period</dt><dd>${current.analysis.start_date} → ${current.analysis.end_date}</dd></div><div><dt>Daily coverage</dt><dd>MYD14A1 ${coverage.myd14a1_observed_days}/${coverage.expected_calendar_days} · VNP14A1 ${coverage.vnp14a1_observed_days}/${coverage.expected_calendar_days} days</dd></div><div><dt>Source manifest</dt><dd>${escapeHtml(current.analysis.source_manifest_id)} · ${escapeHtml(current.analysis.source_manifest_sha256)}</dd></div><div><dt>Quality policy</dt><dd>${escapeHtml(current.analysis.quality_policy_version)}</dd></div><div><dt>Calibration</dt><dd>${current.calibration ? "Released" : "None released"}</dd></div><div><dt>Environment</dt><dd>${escapeHtml(current.environment.pipeline_revision)}</dd></div></dl><div class="receipt-limitations"><h3>Source provider objects</h3><ul>${sourceRows}</ul><h3>Excluded cell-days</h3><ul>${exclusions}</ul><h3>Files and checksums</h3><ul>${fileRows}</ul><h3>Limits recorded with this artifact</h3><ul>${current.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="panel-actions"><button class="outline-button" data-action="receipt-json">Download receipt JSON</button></div></section>`;
   }
 
   function bindEvents() {
     app.querySelectorAll("[data-action='region']").forEach((element) => element.addEventListener("change", () => {
       state.region = element.value;
-      state.selectedMonth = "2024-03";
+      state.selectedMonth = "2023-03";
       state.selectedBlock = null;
       render();
     }));
     app.querySelectorAll("[data-action='mobile-year']").forEach((element) => element.addEventListener("change", () => {
-      state.selectedMonth = `${element.value}-01`;
+      state.selectedMonth = artifact().months.find((month) => month.month.startsWith(`${element.value}-`))?.month || `${element.value}-01`;
       render();
       app.querySelector(".mobile-month.is-selected")?.focus();
     }));

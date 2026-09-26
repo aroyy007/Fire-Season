@@ -29,8 +29,18 @@
         "type": "Polygon"
       },
       "properties": {
-        "fixture": true,
-        "region_key": "local"
+        "boundary_status": "candidate_not_frozen",
+        "bounds_wsen": [
+          91.4,
+          20.6,
+          92.7,
+          23.2
+        ],
+        "crs": "OGC:CRS84",
+        "pixel_inclusion_rule": "native-grid pixel center inside polygon",
+        "region_id": "region_chattogram_hills_candidate_r2",
+        "region_key": "local",
+        "revision": 2
       },
       "type": "Feature"
     }

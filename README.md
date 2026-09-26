@@ -33,7 +33,7 @@ The [14-challenge comparison](research/challenges/challenge-comparison.md) inclu
 | [Post-MVP backend references](backend/README.md) | Earlier PostgreSQL and OpenAPI designs, excluded from the competition path. |
 | [Repositories and models](docs/07-REPOSITORIES-AND-MODELS.md) | Relevant code, crop/EO model alternatives, licenses and reuse decisions. |
 | [Skills audit](docs/08-SKILLS-AUDIT.md) | Every requested skill resource and actual installation/use status. |
-| [Implementation status](docs/09-IMPLEMENTATION-STATUS.md) | Executable fixture, validation commands, and the remaining science gate. |
+| [Implementation status](docs/09-IMPLEMENTATION-STATUS.md) | Real March 2023 raster sample, validation commands, and the remaining science gates. |
 | [LLM decision](docs/10-LLM-DECISION.md) | Why the judged MVP has no hosted LLM dependency and how a bounded local explainer could fit later. |
 | [Design system](docs/11-DESIGN-SYSTEM.md) | Palette, typography, heatmap encoding, evidence states, and anti-slop component rules. |
 
@@ -43,14 +43,14 @@ The [winner review](research/winners/winners-and-competition-research.md) and [3
 
 The [duplication audit and competition verdict](research/duplication-audit.md) compares the concept with FIRMS, GWIS, scientific harmonization work, public repositories, earlier Space Apps fire projects, and the 2024 global-winning GROW project. Its conclusion is deliberately strict: the concept is promising, but it becomes competitive only after the paired-data validity gate succeeds.
 
-Public FIRMS CSV and NASA POWER requests succeeded. Historical fire-product granules, HLS metadata and NISAR collections were discovered. NASA manuals and selected repository/license records were saved. This proves bounded access and structure, not complete historical ingestion or scientific validity.
+Public FIRMS CSV and NASA POWER requests succeeded. A real March 2023 MYD14A1/VNP14A1 raster sample is now decoded for two candidate windows with QA filtering, pixel-center clipping, complete daily coverage, a native-only artifact and raster-derived blocks. This proves a bounded processing path, not a validated harmonization result.
 
 Three important design findings: FIRMS positive detections alone cannot distinguish no fire from no observation; the daily VIIRS 1 km mask is a different product from 375 m hotspots; and NASA has announced the November 2026 Suomi-NPP delivery transition. The [model protocol](docs/03-MODEL-AND-DATA-PROTOCOL.md) reflects these limits. Field Shift also faces a paused SoilGrids REST service and a documented 2026 SMAP quality notice.
 
-**Still required before implementation is considered validated:** authenticated paired-raster decoding, coverage inspection, fitted and held-out calibration, a real reference-data review, user testing, offline artifact verification and confirmation of final 2026 competition rules. No model score, prevented-fire count or field outcome is claimed.
+**Still required before the science is considered validated:** confirm and freeze the candidate boundaries, extend the sample across enough years and regions, run independent temporal and geographic evaluation, assess reference data and uncertainty coverage, and conduct user testing. No harmonization score, prevented-fire count or field outcome is claimed.
 
 ECC's `api-design`, `postgres-patterns` and `verification-loop` skills were installed. Other requested repositories were reviewed selectively; no full plugin/hook stack was installed.
 
-## First action
+## Next action
 
-Assign the remote-sensing/statistics and Python data owners, then download one matching Aqua/VIIRS historical mask pair. If that gate passes, freeze the Analysis Artifact contract and let the science and frontend tracks work in parallel. This package is preparation; check the current pre-event-work rules before building competition submission assets.
+Have the team and Chattogram organizers confirm whether the two candidate windows fit the challenge and local event rules. Then process additional complete seasonal months and a geographically separate holdout before considering any calibration model. This implementation is a research prototype; verify the local event’s current pre-event-work rules before treating it as submission work.

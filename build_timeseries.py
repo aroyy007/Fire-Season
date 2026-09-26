@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""
-build_timeseries.py: Download and aggregate MODIS (MYD14A1) and VIIRS (VNP14A1)
-fire masks for tile h26v06 across 2013-2024 with exact daily plane boundary trimming.
+"""Legacy diagnostic: count FireMask classes over the full h26v06 tile.
+
+This tool does not apply QA or clip pixels to a candidate region. Its output is
+not a science artifact and must not be used for calibration or comparison. The
+current app publisher is ``pipeline/build_research_bundle.py``.
 """
 
 import os
@@ -9,6 +11,7 @@ import sys
 import time
 import argparse
 import csv
+import calendar
 import json
 import re
 from pathlib import Path
@@ -202,22 +205,31 @@ def process_month(year: int, month: int, max_days: int = None):
             viirs_total_pixels += stats["total_pixels"]
             viirs_days_counted += stats["included_days"]
 
-    # Metrics calculation
-    modis_rate = (modis_detected / modis_valid_land * 1000) if modis_valid_land > 0 else None
-    viirs_rate = (viirs_detected / viirs_valid_land * 1000) if viirs_valid_land > 0 else None
+    # This full-tile diagnostic is not a science artifact. Even here, abstain if
+    # either product has not covered every calendar day in the requested month.
+    expected_days = (month_end - month_start).days
+    modis_coverage_complete = modis_days_counted == expected_days
+    viirs_coverage_complete = viirs_days_counted == expected_days
+    modis_rate = (modis_detected / modis_valid_land * 1000) if modis_valid_land > 0 and modis_coverage_complete else None
+    viirs_rate = (viirs_detected / viirs_valid_land * 1000) if viirs_valid_land > 0 and viirs_coverage_complete else None
     ratio = (viirs_rate / modis_rate) if (modis_rate and viirs_rate and modis_rate > 0) else None
 
     result = {
         "year": year,
         "month": month,
         "period": f"{year:04d}-{month:02d}",
+        "analysis_status": "legacy_full_tile_firemask_only_not_for_comparison",
+        "spatial_scope": "entire h26v06 tile; requested bounding box was used only for granule search",
+        "quality_policy": "QA not applied; use only for exploratory inventory",
         "modis_granules": len(modis_files),
         "modis_days_counted": modis_days_counted,
+        "modis_coverage_complete": modis_coverage_complete,
         "modis_detected": modis_detected,
         "modis_valid_land": modis_valid_land,
         "modis_rate_per_1000": round(modis_rate, 4) if modis_rate is not None else None,
         "viirs_granules": len(viirs_files),
         "viirs_days_counted": viirs_days_counted,
+        "viirs_coverage_complete": viirs_coverage_complete,
         "viirs_detected": viirs_detected,
         "viirs_valid_land": viirs_valid_land,
         "viirs_rate_per_1000": round(viirs_rate, 4) if viirs_rate is not None else None,
@@ -245,7 +257,7 @@ def plot_timeseries(results: list[dict], output_plot: Path):
     ax1.plot(periods, m_rates, marker="o", color="#2c6674", label="Aqua MODIS (MYD14A1)")
     ax1.plot(periods, v_rates, marker="s", color="#b94a2c", label="Suomi-NPP VIIRS (VNP14A1)")
     ax1.set_ylabel("Rate per 1,000 valid land cells")
-    ax1.set_title("MODIS vs VIIRS Monthly Detection Rates (Tile h26v06)")
+    ax1.set_title("LEGACY FULL-TILE MASK COUNTS · NOT A COMPARATIVE RESULT")
     ax1.grid(True, linestyle="--", alpha=0.5)
     ax1.legend()
 
@@ -257,7 +269,7 @@ def plot_timeseries(results: list[dict], output_plot: Path):
         ax2.axhline(1.0, color="grey", linestyle=":", label="Parity (1.0)")
     ax2.set_ylabel("Sensor Ratio (VIIRS / MODIS)")
     ax2.set_xlabel("Time Period")
-    ax2.set_title("Sensor Comparison Ratio (Evaluating Sensor Stability & Drift)")
+    ax2.set_title("Exploratory ratio only · no QA, AOI clipping, or release evaluation")
     ax2.grid(True, linestyle="--", alpha=0.5)
     ax2.legend()
 
@@ -269,13 +281,20 @@ def plot_timeseries(results: list[dict], output_plot: Path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build MODIS vs VIIRS Time Series")
+    parser = argparse.ArgumentParser(description="Legacy full-tile FireMask inventory (not a science result)")
+    parser.add_argument(
+        "--allow-legacy-diagnostic",
+        action="store_true",
+        help="Confirm that this is an unfiltered, full-tile diagnostic and must not be compared or released.",
+    )
     parser.add_argument("--start-year", type=int, default=2013, help="Start year (default: 2013)")
     parser.add_argument("--end-year", type=int, default=2024, help="End year (default: 2024)")
     parser.add_argument("--months", type=int, nargs="+", default=[3], help="Months to sample (e.g. 3 for March peak fire season)")
     parser.add_argument("--max-granules", type=int, default=None, help="Limit granules per month for quick testing")
     parser.add_argument("--force-refresh", action="store_true", help="Ignore cached JSON summary and recompute")
     args = parser.parse_args()
+    if not args.allow_legacy_diagnostic:
+        parser.error("This legacy tool is not suitable for comparison; pass --allow-legacy-diagnostic only for exploratory inventory. Use pipeline/build_research_bundle.py to rebuild the validated raster sample.")
 
     ensure_dirs()
 
@@ -297,6 +316,28 @@ def main():
         try:
             with open(json_path, "r") as f:
                 all_results = json.load(f)
+            for record in all_results:
+                expected_days = calendar.monthrange(int(record["year"]), int(record["month"]))[1]
+                modis_complete = record.get("modis_days_counted", 0) == expected_days
+                viirs_complete = record.get("viirs_days_counted", 0) == expected_days
+                record.update({
+                    "analysis_status": "legacy_full_tile_firemask_only_not_for_comparison",
+                    "spatial_scope": "entire h26v06 tile; requested bounding box was used only for granule search",
+                    "quality_policy": "QA not applied; use only for exploratory inventory",
+                    "modis_coverage_complete": modis_complete,
+                    "viirs_coverage_complete": viirs_complete,
+                })
+                if not modis_complete:
+                    record["modis_rate_per_1000"] = None
+                if not viirs_complete:
+                    record["viirs_rate_per_1000"] = None
+                modis_rate = record.get("modis_rate_per_1000")
+                viirs_rate = record.get("viirs_rate_per_1000")
+                record["viirs_to_modis_ratio"] = (
+                    round(viirs_rate / modis_rate, 4)
+                    if modis_rate and viirs_rate and modis_rate > 0
+                    else None
+                )
             print(f"Loaded {len(all_results)} existing records from {json_path}")
         except Exception:
             all_results = []

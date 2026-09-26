@@ -10,6 +10,7 @@
     "release_status",
     "generated_at",
     "region",
+    "grid_version",
     "period",
     "metric",
     "reference_product_id",
@@ -27,7 +28,7 @@
     },
     "artifact_id": {
       "type": "string",
-      "pattern": "^art_[a-z0-9][a-z0-9_-]+$"
+      "pattern": "^art_[a-z0-9][a-z0-9_-]*_[0-9a-f]{12}$"
     },
     "release_status": {
       "enum": ["released", "native_only"]
@@ -38,6 +39,10 @@
     },
     "region": {
       "$ref": "#/$defs/region"
+    },
+    "grid_version": {
+      "type": "string",
+      "minLength": 1
     },
     "period": {
       "$ref": "#/$defs/period"
@@ -104,7 +109,7 @@
     "region": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["region_id", "name", "revision", "role", "geometry_ref", "geometry_sha256"],
+      "required": ["region_id", "name", "revision", "role", "geometry_ref", "geometry_sha256", "bounds_wsen"],
       "properties": {
         "region_id": {
           "type": "string",
@@ -127,7 +132,60 @@
         },
         "geometry_sha256": {
           "$ref": "#/$defs/sha256"
+        },
+        "bounds_wsen": {
+          "$ref": "#/$defs/boundsWsen"
         }
+      }
+    },
+    "boundsWsen": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 },
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "activityRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "maximum"],
+      "properties": {
+        "minimum": { "type": "number", "minimum": 0, "maximum": 1000 },
+        "maximum": { "type": "number", "minimum": 0, "maximum": 1000 }
+      }
+    },
+    "calibrationDomain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_product_version",
+        "reference_product_version",
+        "quality_policy_version",
+        "grid_version",
+        "region_ids",
+        "source_activity_range_per_1000",
+        "comparable_activity_range_per_1000",
+        "minimum_support_fraction"
+      ],
+      "properties": {
+        "source_product_version": { "type": "string", "minLength": 1 },
+        "reference_product_version": { "type": "string", "minLength": 1 },
+        "quality_policy_version": { "type": "string", "minLength": 1 },
+        "grid_version": { "type": "string", "minLength": 1 },
+        "region_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^region_[a-z0-9][a-z0-9_-]+_r[1-9][0-9]*$" }
+        },
+        "source_activity_range_per_1000": { "$ref": "#/$defs/activityRange" },
+        "comparable_activity_range_per_1000": { "$ref": "#/$defs/activityRange" },
+        "minimum_support_fraction": { "type": "number", "minimum": 0.5, "maximum": 1 }
       }
     },
     "period": {
@@ -251,7 +309,13 @@
         "reference_product_id",
         "model_family",
         "evaluation_ref",
-        "domain_summary"
+        "domain_summary",
+        "domain",
+        "training_manifest_sha256",
+        "split_manifest_sha256",
+        "model_sha256",
+        "code_revision",
+        "release_gate_status"
       ],
       "properties": {
         "calibration_id": {
@@ -279,6 +343,25 @@
         "domain_summary": {
           "type": "string",
           "minLength": 1
+        },
+        "domain": {
+          "$ref": "#/$defs/calibrationDomain"
+        },
+        "training_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "split_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "model_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "code_revision": {
+          "type": "string",
+          "minLength": 7
+        },
+        "release_gate_status": {
+          "const": "pass"
         }
       }
     },

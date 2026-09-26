@@ -1,0 +1,556 @@
+{
+  "analysis": {
+    "daily_coverage": {
+      "complete": true,
+      "expected_calendar_days": 31,
+      "myd14a1_observed_days": 31,
+      "vnp14a1_observed_days": 31
+    },
+    "end_date": "2023-03-31",
+    "grid_version": "modis-viirs-sinusoidal-h26v06-926m-v1",
+    "metric_id": "detected_active_land_cell_days_per_1000_valid_land_cell_days",
+    "minimum_monthly_support_fraction": 0.5,
+    "quality_policy_version": "firemask-qa-land-highnominal-v1",
+    "reference_product_id": "myd14a1_061_aqua",
+    "source_manifest_id": "src_c625a961eb1f",
+    "source_manifest_sha256": "c625a961eb1fa91decafb64dd14d5adcf1d7ad1671a14df0674c521ef31ecd7d",
+    "start_date": "2023-03-01"
+  },
+  "artifact_id": "art_science_aoi_sample_202303_r2_12de5b9c94a1",
+  "calibration": null,
+  "environment": {
+    "dependency_lock_sha256": "5f974dd576e830551988b114a0680e1ef7070acf94e752c3b7360ae9e7989948",
+    "operating_system": "Darwin",
+    "pipeline_revision": "science-sample-2023-03-v1",
+    "python_version": "3.9.6"
+  },
+  "exclusions": [
+    {
+      "cell_days": 527325,
+      "product_id": "myd14a1_061_aqua",
+      "reason": "cloud"
+    },
+    {
+      "cell_days": 341,
+      "product_id": "myd14a1_061_aqua",
+      "reason": "low_confidence_excluded"
+    },
+    {
+      "cell_days": 36,
+      "product_id": "myd14a1_061_aqua",
+      "reason": "unknown"
+    },
+    {
+      "cell_days": 42294,
+      "product_id": "myd14a1_061_aqua",
+      "reason": "water_or_non_land"
+    },
+    {
+      "cell_days": 442381,
+      "product_id": "vnp14a1_002_suomi_npp",
+      "reason": "cloud"
+    },
+    {
+      "cell_days": 111,
+      "product_id": "vnp14a1_002_suomi_npp",
+      "reason": "low_confidence_excluded"
+    },
+    {
+      "cell_days": 2,
+      "product_id": "vnp14a1_002_suomi_npp",
+      "reason": "unknown"
+    },
+    {
+      "cell_days": 43601,
+      "product_id": "vnp14a1_002_suomi_npp",
+      "reason": "water_or_non_land"
+    }
+  ],
+  "files": [
+    {
+      "media_type": "application/json",
+      "path": "analysis.json",
+      "sha256": "cc6f0f7487eb6ffe960e50755b4d593782a559120c7a43982861f1cc60a301e2",
+      "size_bytes": 5835
+    },
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "e0621818f19a9d49d858c5c7f3efb916b1ba58f942dbc10f03907eb0a1556c66",
+      "size_bytes": 531
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "b8bb6c57bae6a444c08e2956981a47b5297477f247c67053b13a43a40a917cfe",
+      "size_bytes": 319617
+    },
+    {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "f4eabb3e84df50793eff0c67b1a6c746cd505a217e20f2286c74de77903f4716",
+      "size_bytes": 241
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "96edf3b65a2f2a36609a0184ca7025744a6a5c0071997fcc05538e248d4bac4a",
+      "size_bytes": 945
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "06c26aed0d53b6d7230fb8092101af98622bac793b3b29a659ae217e8738d8f5",
+      "size_bytes": 161919
+    }
+  ],
+  "limitations": [
+    "Research sample only: native mask counts were decoded from the listed NASA granules for March 2023.",
+    "The bounding box is a candidate analysis window inherited from the project; the team and local event have not frozen it.",
+    "A daily cell is counted once per product composite. MYD14A1 is an eight-day file containing daily planes; VNP14A1 is daily.",
+    "QA land cells define eligible support; clear land and nominal/high-confidence fire define valid support; nominal/high-confidence fire define detections.",
+    "Low-confidence fire, water, cloud, unknown, and unprocessed cells are excluded from valid support and detections.",
+    "The metric describes product detections, not independent fires, burned area, ignition probability, or fire danger.",
+    "The two native sensor rates are not directly comparable; no transfer model, anomaly, interval, or priority score is released.",
+    "Original local download timestamps were not retained; source file identity is established by filename, byte size, and SHA-256."
+  ],
+  "published_at": "2026-09-26T03:35:31.493609Z",
+  "receipt_id": "rcpt_12de5b9c94a1",
+  "region": {
+    "bounds_wsen": [
+      93.0,
+      23.0,
+      96.0,
+      26.5
+    ],
+    "geometry_ref": "region.geojson",
+    "geometry_sha256": "96edf3b65a2f2a36609a0184ca7025744a6a5c0071997fcc05538e248d4bac4a",
+    "name": "Northeast India–Myanmar candidate window",
+    "region_id": "region_ne_india_myanmar_candidate_r2",
+    "revision": 2,
+    "role": "science_pilot"
+  },
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Aqua",
+      "product_guide_url": "https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf",
+      "product_id": "myd14a1_061_aqua",
+      "provider_objects": [
+        {
+          "observed_end": "2023-03-05T23:59:59Z",
+          "observed_start": "2023-02-26T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "MYD14A1.A2023057.h26v06.061.2023070135900.hdf",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "f573aee5442384485482f8a9f6bb4147f878a2cd704026172a9df49f4b09eb35",
+          "size_bytes": 1205106,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MYD14A1/2023/057/MYD14A1.A2023057.h26v06.061.2023070135900.hdf"
+        },
+        {
+          "observed_end": "2023-03-13T23:59:59Z",
+          "observed_start": "2023-03-06T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "MYD14A1.A2023065.h26v06.061.2023074074609.hdf",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "0477d956a7a035f64fe3df5776942ff602619c72129d52b41a80bd0bd3f27ae4",
+          "size_bytes": 1442503,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MYD14A1/2023/065/MYD14A1.A2023065.h26v06.061.2023074074609.hdf"
+        },
+        {
+          "observed_end": "2023-03-21T23:59:59Z",
+          "observed_start": "2023-03-14T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "MYD14A1.A2023073.h26v06.061.2023082000920.hdf",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "f244aa85f253072cf32c643184fef756db383cebc549dec865f193744d09ac6d",
+          "size_bytes": 1356061,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MYD14A1/2023/073/MYD14A1.A2023073.h26v06.061.2023082000920.hdf"
+        },
+        {
+          "observed_end": "2023-03-29T23:59:59Z",
+          "observed_start": "2023-03-22T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "MYD14A1.A2023081.h26v06.061.2023090032802.hdf",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "afd75210e57c4af74ac7e4bef58a48c3010c388426092756b737ce3fce1669be",
+          "size_bytes": 1375577,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MYD14A1/2023/081/MYD14A1.A2023081.h26v06.061.2023090032802.hdf"
+        },
+        {
+          "observed_end": "2023-04-06T23:59:59Z",
+          "observed_start": "2023-03-30T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "MYD14A1.A2023089.h26v06.061.2023100002616.hdf",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "11b5f3598467bb73cd171d909f2ba7912767d31bbf49c7b461d48311805361d0",
+          "size_bytes": 1374557,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MYD14A1/2023/089/MYD14A1.A2023089.h26v06.061.2023100002616.hdf"
+        }
+      ],
+      "short_name": "MYD14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-myd14a1-061",
+      "stream": "science_mask",
+      "version": "Collection 6.1"
+    },
+    {
+      "nominal_resolution_m": 1000,
+      "platform": "Suomi-NPP",
+      "product_guide_url": "https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf",
+      "product_id": "vnp14a1_002_suomi_npp",
+      "provider_objects": [
+        {
+          "observed_end": "2023-03-01T23:59:59Z",
+          "observed_start": "2023-03-01T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023060.h26v06.002.2023101003005.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "163912f1f4be591da6f0a9a7b8741f338115ddfaf23881a9668080f965383597",
+          "size_bytes": 200146,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/060/VNP14A1.A2023060.h26v06.002.2023101003005.h5"
+        },
+        {
+          "observed_end": "2023-03-02T23:59:59Z",
+          "observed_start": "2023-03-02T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023061.h26v06.002.2023101020358.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "38f7184998107697640c3e8c3bd736f1244e8b90724e2656677bfac3a717eb18",
+          "size_bytes": 214586,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/061/VNP14A1.A2023061.h26v06.002.2023101020358.h5"
+        },
+        {
+          "observed_end": "2023-03-03T23:59:59Z",
+          "observed_start": "2023-03-03T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023062.h26v06.002.2023101035505.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "3ab87ececcd5997b554d05ed6f6829a3ce4fb9154b535edb32a7a5dfbef8c102",
+          "size_bytes": 228183,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/062/VNP14A1.A2023062.h26v06.002.2023101035505.h5"
+        },
+        {
+          "observed_end": "2023-03-04T23:59:59Z",
+          "observed_start": "2023-03-04T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023063.h26v06.002.2023101060623.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "96123b634b41d63bb435f55a82250c938f7a54c6b724d29b3c370039ee97104e",
+          "size_bytes": 224570,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/063/VNP14A1.A2023063.h26v06.002.2023101060623.h5"
+        },
+        {
+          "observed_end": "2023-03-05T23:59:59Z",
+          "observed_start": "2023-03-05T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023064.h26v06.002.2023101073037.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "44be7ce6ebdb40d3f27e6a3b39c2935e55c567b5253968cea2ed37b9e64e8988",
+          "size_bytes": 219185,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/064/VNP14A1.A2023064.h26v06.002.2023101073037.h5"
+        },
+        {
+          "observed_end": "2023-03-06T23:59:59Z",
+          "observed_start": "2023-03-06T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023065.h26v06.002.2023101092137.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "8742acf9cb089a0e56836729a2ec66c7a2bfc42ee45787048dffa4847dfcc336",
+          "size_bytes": 223220,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/065/VNP14A1.A2023065.h26v06.002.2023101092137.h5"
+        },
+        {
+          "observed_end": "2023-03-07T23:59:59Z",
+          "observed_start": "2023-03-07T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023066.h26v06.002.2023101104605.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "aee5550a4f6a4f407be42faabec6545eba858004f9dfaa3c0eb9e326f4155edc",
+          "size_bytes": 228692,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/066/VNP14A1.A2023066.h26v06.002.2023101104605.h5"
+        },
+        {
+          "observed_end": "2023-03-08T23:59:59Z",
+          "observed_start": "2023-03-08T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023067.h26v06.002.2023101120233.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "664a15bc221601f787b7deb8cd52817a4777c0dc7ef9af9a7913f33bccc58ae1",
+          "size_bytes": 242213,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/067/VNP14A1.A2023067.h26v06.002.2023101120233.h5"
+        },
+        {
+          "observed_end": "2023-03-09T23:59:59Z",
+          "observed_start": "2023-03-09T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023068.h26v06.002.2023101132239.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "ea00055b4c61513e7da86220fbee38f79e657d5c02be3aaa6692ccd55cb26be3",
+          "size_bytes": 260459,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/068/VNP14A1.A2023068.h26v06.002.2023101132239.h5"
+        },
+        {
+          "observed_end": "2023-03-10T23:59:59Z",
+          "observed_start": "2023-03-10T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023069.h26v06.002.2023101144734.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "743e759454b037572e09d25697a72436ff415bf157f22db8ad0e8e2f5345aadd",
+          "size_bytes": 277067,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/069/VNP14A1.A2023069.h26v06.002.2023101144734.h5"
+        },
+        {
+          "observed_end": "2023-03-11T23:59:59Z",
+          "observed_start": "2023-03-11T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023070.h26v06.002.2023101161536.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "16dac9edc4b3842738b61c492057fa877850bb8a2ecb66c45baed27a03013da4",
+          "size_bytes": 263907,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/070/VNP14A1.A2023070.h26v06.002.2023101161536.h5"
+        },
+        {
+          "observed_end": "2023-03-12T23:59:59Z",
+          "observed_start": "2023-03-12T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023071.h26v06.002.2023101175637.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "d6a8089c7672e6261e9062c3a24a0fd693a2731dbf367042c74825d91209b75f",
+          "size_bytes": 215548,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/071/VNP14A1.A2023071.h26v06.002.2023101175637.h5"
+        },
+        {
+          "observed_end": "2023-03-13T23:59:59Z",
+          "observed_start": "2023-03-13T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023072.h26v06.002.2023101191405.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "b6c5497f74ea0f1ec973d4adc23de083158992d95765bc661ae49b12fc15bd63",
+          "size_bytes": 233695,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/072/VNP14A1.A2023072.h26v06.002.2023101191405.h5"
+        },
+        {
+          "observed_end": "2023-03-14T23:59:59Z",
+          "observed_start": "2023-03-14T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023073.h26v06.002.2023101203608.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "ca34a21bc9c8f39f58978fa07f08572a628f6fc02f34be14e62f43c1e0a7bfbe",
+          "size_bytes": 259843,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/073/VNP14A1.A2023073.h26v06.002.2023101203608.h5"
+        },
+        {
+          "observed_end": "2023-03-15T23:59:59Z",
+          "observed_start": "2023-03-15T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023074.h26v06.002.2023101220202.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "dcb4ac6d42a891bf43cc2f57908d36f359f2bb3cb00fe42ee6bebc2a3cdb5f52",
+          "size_bytes": 247458,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/074/VNP14A1.A2023074.h26v06.002.2023101220202.h5"
+        },
+        {
+          "observed_end": "2023-03-16T23:59:59Z",
+          "observed_start": "2023-03-16T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023075.h26v06.002.2023101232308.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "8bea570ae57d04adbc0f9a2289b2c8b98989a8ac5401d24b96b3224b3f99b4e9",
+          "size_bytes": 260964,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/075/VNP14A1.A2023075.h26v06.002.2023101232308.h5"
+        },
+        {
+          "observed_end": "2023-03-17T23:59:59Z",
+          "observed_start": "2023-03-17T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023076.h26v06.002.2023102005234.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "73c192e00997f5f89d8b525d13ef60ff7ad6abe3700ea3bb16182fb767465065",
+          "size_bytes": 260689,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/076/VNP14A1.A2023076.h26v06.002.2023102005234.h5"
+        },
+        {
+          "observed_end": "2023-03-18T23:59:59Z",
+          "observed_start": "2023-03-18T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023077.h26v06.002.2023102020306.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "340b34a3d1b2ad8130fa73d58befbec1a29b79bc0923151b370d732227668cd0",
+          "size_bytes": 269501,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/077/VNP14A1.A2023077.h26v06.002.2023102020306.h5"
+        },
+        {
+          "observed_end": "2023-03-19T23:59:59Z",
+          "observed_start": "2023-03-19T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023078.h26v06.002.2023102035501.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "227e4b1dc92af3dc18913c13b35255617c394ac2601d51ea2cc50be652865092",
+          "size_bytes": 209654,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/078/VNP14A1.A2023078.h26v06.002.2023102035501.h5"
+        },
+        {
+          "observed_end": "2023-03-20T23:59:59Z",
+          "observed_start": "2023-03-20T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023079.h26v06.002.2023102064846.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "cbeecee8e79f53e61aa3e521c7801742e5057ba571a98ec7be2a0c4d65670394",
+          "size_bytes": 257175,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/079/VNP14A1.A2023079.h26v06.002.2023102064846.h5"
+        },
+        {
+          "observed_end": "2023-03-21T23:59:59Z",
+          "observed_start": "2023-03-21T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023080.h26v06.002.2023102095909.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "071270c6244804a5821e5063c3cc9f2707919db291f61498daad7b5af8372993",
+          "size_bytes": 284242,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/080/VNP14A1.A2023080.h26v06.002.2023102095909.h5"
+        },
+        {
+          "observed_end": "2023-03-22T23:59:59Z",
+          "observed_start": "2023-03-22T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023081.h26v06.002.2023102133635.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "819953abe1b2dd0836408f0d69616252518fe60a8bc8577d0bebe8ba61062524",
+          "size_bytes": 269689,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/081/VNP14A1.A2023081.h26v06.002.2023102133635.h5"
+        },
+        {
+          "observed_end": "2023-03-23T23:59:59Z",
+          "observed_start": "2023-03-23T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023082.h26v06.002.2023102160546.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "fb362933f52a09be19e6e3e149574389a524ce989a10bac0aa2851ee94d3a459",
+          "size_bytes": 255930,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/082/VNP14A1.A2023082.h26v06.002.2023102160546.h5"
+        },
+        {
+          "observed_end": "2023-03-24T23:59:59Z",
+          "observed_start": "2023-03-24T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023083.h26v06.002.2023103141512.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "63a8349a6540a2da42c59a682f371dfe2b78439de5503cd3b0db3604830b1cf9",
+          "size_bytes": 264627,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/083/VNP14A1.A2023083.h26v06.002.2023103141512.h5"
+        },
+        {
+          "observed_end": "2023-03-25T23:59:59Z",
+          "observed_start": "2023-03-25T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023084.h26v06.002.2023103161613.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "26d6fb66e1099e053fadce88647bbb66af98f5b7d0a29b22e694f740f9c71326",
+          "size_bytes": 265219,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/084/VNP14A1.A2023084.h26v06.002.2023103161613.h5"
+        },
+        {
+          "observed_end": "2023-03-26T23:59:59Z",
+          "observed_start": "2023-03-26T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023085.h26v06.002.2023103181512.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "bb72209fe96fde9828feb2933b230e8f1a08dc6b8fa9c01e9e978534f7dcfa6a",
+          "size_bytes": 262480,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/085/VNP14A1.A2023085.h26v06.002.2023103181512.h5"
+        },
+        {
+          "observed_end": "2023-03-27T23:59:59Z",
+          "observed_start": "2023-03-27T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023086.h26v06.002.2023103194913.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "40edcd07eef6a8e33c8af160517f66d147e758e2290dd023266a27ecc0ca87af",
+          "size_bytes": 260166,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/086/VNP14A1.A2023086.h26v06.002.2023103194913.h5"
+        },
+        {
+          "observed_end": "2023-03-28T23:59:59Z",
+          "observed_start": "2023-03-28T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023087.h26v06.002.2023103213738.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "4e83a3ebbc8af3152c61caa259c31e1afb5a79b076230e326edf1dddfb66c07a",
+          "size_bytes": 253160,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/087/VNP14A1.A2023087.h26v06.002.2023103213738.h5"
+        },
+        {
+          "observed_end": "2023-03-29T23:59:59Z",
+          "observed_start": "2023-03-29T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023088.h26v06.002.2023103231443.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "a9fa4e4d6d647ed8c89b3719b3bacd680f0dc7e961c5644caf1ec6e597e05ab6",
+          "size_bytes": 252463,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/088/VNP14A1.A2023088.h26v06.002.2023103231443.h5"
+        },
+        {
+          "observed_end": "2023-03-30T23:59:59Z",
+          "observed_start": "2023-03-30T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023089.h26v06.002.2023104004512.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "eeacbf458832cb6ffc810dc5d011bbfd6c86f29d76609fb8126367b8b7598d20",
+          "size_bytes": 278687,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/089/VNP14A1.A2023089.h26v06.002.2023104004512.h5"
+        },
+        {
+          "observed_end": "2023-03-31T23:59:59Z",
+          "observed_start": "2023-03-31T00:00:00Z",
+          "provider_checksum": null,
+          "provider_object_id": "VNP14A1.A2023090.h26v06.002.2023104074244.h5",
+          "retrieval_timestamp_status": "not_recorded_for_local_copy",
+          "retrieved_at": null,
+          "sha256": "a608a26d1c39e21ee7d33389fb5921b891d5d22d4ca1dc370344e67ff330a768",
+          "size_bytes": 272203,
+          "source_url": "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP14A1/2023/090/VNP14A1.A2023090.h26v06.002.2023104074244.h5"
+        }
+      ],
+      "short_name": "VNP14A1",
+      "source_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-vnp14a1-002",
+      "stream": "science_mask",
+      "version": "Version 2"
+    }
+  ]
+}

@@ -1,18 +1,40 @@
 {
-  "fixture_status": "contract_fixture_not_scientific_result",
+  "expected_daily_planes_per_product": 31,
   "regions": [
     {
+      "artifact_id": "art_science_aoi_sample_202303_r2_12de5b9c94a1",
+      "boundary_status": "candidate_not_frozen",
+      "bounds_wsen": [
+        93.0,
+        23.0,
+        96.0,
+        26.5
+      ],
       "key": "science",
-      "name": "Northeast India–Myanmar Science Pilot",
-      "path": "data/releases/science-pilot",
+      "manifest_sha256": "a42100aca573aecbefc8358b61c3d21118b096ea589ac68fbf0e8dcef7507bcc",
+      "name": "Northeast India–Myanmar candidate window",
+      "path": "data/releases/science-pilot/r2/src_c625a961eb1f-12de5b9c94a19b4d",
+      "region_revision": 2,
       "role": "science_pilot"
     },
     {
+      "artifact_id": "art_local_aoi_sample_202303_r2_edd035e463a2",
+      "boundary_status": "candidate_not_frozen",
+      "bounds_wsen": [
+        91.4,
+        20.6,
+        92.7,
+        23.2
+      ],
       "key": "local",
-      "name": "Chattogram Hills and Cox's Bazar Local Impact Case",
-      "path": "data/releases/local-impact-case",
+      "manifest_sha256": "3c2fabb98153c0d64a747f2a44cbd9893045d7d39a541a1b0120f2e1529ada13",
+      "name": "Chattogram Hills and Cox’s Bazar candidate window",
+      "path": "data/releases/local-impact-case/r2/src_c625a961eb1f-edd035e463a2a287",
+      "region_revision": 2,
       "role": "local_impact_case"
     }
   ],
+  "sample_month": "2023-03",
+  "sample_status": "real_raster_sample_native_only",
   "schema_version": "1.0.0"
 }

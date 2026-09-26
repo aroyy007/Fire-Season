@@ -1,27 +1,35 @@
 # Implementation status
 
-This is the first executable pass of the Fire Season Competition MVP. It deliberately implements the public artifact contract and the product states before claiming any scientific result.
+The repository now builds a real, narrow raster-analysis sample. It does not claim a validated sensor harmonization result.
 
-## What is executable now
+## Executable sample
 
-- `pipeline/fireseason/contract.py` validates Analysis Artifacts and Evidence Receipts, including native-rate arithmetic and unavailable-comparison invariants.
-- `pipeline/fireseason/demo.py` creates deterministic contract fixtures for the Science Pilot and Local Impact Case. The values are illustrative and are marked as such in the UI.
-- `pipeline/build_demo_artifact.py` publishes both regions as portable release bundles with CSV, GeoJSON, HTML, JSON, and checksum manifests.
-- `app/` is a zero-dependency static browser shell. It supports native/comparable view states, selected-month evidence, receipt inspection, CSV/JSON export, printable Monitoring Brief output, keyboard calendar movement, a narrow-screen month list, a seasonal pulse summary, and a selectable 10 km activity heatmap with a table alternative. This prototype intentionally avoids a React/Vite build step until a real paired sample justifies freezing the production frontend stack; the TRD remains the target implementation architecture.
+- `pipeline/fireseason/raster_analysis.py` decodes the MODIS and VIIRS QA land bits, applies the declared confidence policy, projects candidate region windows into the shared h26v06 sinusoidal grid, and groups reference-product pixels into 10×10 native-cell blocks.
+- `pipeline/fireseason/sample.py` verifies all 31 March 2023 dates for both sensors, rejects duplicate or missing days and misaligned grids, then aggregates both candidate windows.
+- `pipeline/fireseason/science_release.py` publishes native-only artifacts and an Evidence Receipt with the source granule names, byte sizes, and SHA-256 hashes. Original local download timestamps were not retained and are recorded as unknown.
+- `pipeline/build_research_bundle.py` regenerates the static offline bundle from the stored HDF4/HDF5 granules. Release IDs bind source hashes, region revision and geometry, code/schema hashes, the dependency lock, and runtime. Identical rebuilds reuse a checked immutable directory; changed region geometry within the same revision fails closed.
+- `pipeline/fireseason/calibrator.py` can report only exploratory monthly-ratio diagnostics. It cannot issue a Calibration Release. The app publishes no Comparable Activity estimate, anomaly, uncertainty interval, or priority score.
+- The two bounding boxes are candidate analysis windows carried over from prior project files. They remain unfrozen and must be confirmed by the team and local event before they are described as final regions. After a boundary decision, update its bounds and increment `revision` in `pipeline/fireseason/sample.py`; the new artifact uses a new path and leaves previous receipts intact.
 
-Run the fixture build and checks from the repository root:
+The observed March 2023 sample includes 5 MYD14A1 eight-day granules and 31 VNP14A1 daily granules. The QA policy counts QA-land pixels as eligible; clear non-fire land and nominal/high-confidence fire as valid; nominal/high-confidence fire as detections. Low confidence, water, cloud, unknown, and unprocessed cells do not enter valid support or detections. See NASA’s [MODIS C6/C6.1 Fire User Guide](https://www.earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf) and [VIIRS Active Fire User Guide](https://viirsland.gsfc.nasa.gov/PDF/VIIRS_activefire_User_Guide.pdf) for the product FireMask and QA meanings.
+
+## Rebuild and verify
+
+The static browser has no runtime network dependency. The analysis builder needs the pinned HDF/geospatial Python packages:
 
 ```sh
-python3 pipeline/build_demo_artifact.py
-python3 -m unittest discover -s pipeline/tests -v
+python3 -m venv venv
+venv/bin/python -m pip install -r pipeline/requirements-science.lock
+venv/bin/python pipeline/build_research_bundle.py
+venv/bin/python -m unittest discover -s pipeline/tests -v
 node --check app/app.js
 python3 scripts/check_package.py
 ```
 
-Serve `app/` with any static server to inspect the browser flow. The generated `app/data.js` bundle contains all data needed after the initial page load; the app does not fetch a runtime API or remote font.
+The source rasters are already stored under `data/timeseries/`; rebuilding does not require an Earthdata login or another download. The local retrieval timestamps are unknown, and the publisher says so in each receipt.
 
-## What remains behind the science gate
+## Remaining science work
 
-The fixture does not decode NASA granules, fit a MODIS–VIIRS transfer, or claim a released Calibration Release. Tickets 01–03 and 07–08 have executable contract-level coverage. Tickets 04–06 remain ready for the real-data work: paired historical masks, QA/overlap/transfer evaluation, held-out uncertainty, a declared local transfer test, and defensible block-level priority rules.
+The real sample proves file decoding, QA interpretation, spatial clipping, complete-month coverage, grid alignment, artifact validation, and raster-derived block output for one month. It does not prove that a MODIS-to-VIIRS transfer generalizes. The candidate boundaries remain unfrozen; the study has only one sample month; there is no independent geographic transfer test, multi-year held-out evaluation, reference-data assessment, calibrated interval, or field-impact evaluation. Keep native sensor records separate and the comparison unavailable until those gates are run and pass.
 
-The first real bundle must preserve the same public schemas and replace `fixture_status` with a release status backed by an Evidence Receipt. A numeric Comparable Activity estimate must never appear without a released calibration and passing evaluation gates.
+The app’s sparse calendar intentionally leaves unprocessed months blank. The standalone legacy `build_timeseries.py` output is a full-tile exploratory inventory, not an AOI-clipped science artifact and not a source for the browser bundle or model release.

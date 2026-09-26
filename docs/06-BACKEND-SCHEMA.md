@@ -193,8 +193,8 @@ The receipt schema is `backend/schemas/evidence-receipt.schema.json`. A receipt 
 | Analysis | inclusive dates, metric ID, reference product, grid version, quality-policy version |
 | Sources | product and platform, provider object IDs, observation intervals, retrieval dates, source URLs, file sizes, and full SHA-256 checksums |
 | Exclusions | counts by semantic exclusion reason and product |
-| Calibration | calibration ID or null, lifecycle status, source/reference direction, training manifest, model checksum, code revision |
-| Evaluation | split manifest, baseline scores, candidate scores, interval method and coverage, transfer-test result, release-gate result |
+| Calibration | calibration ID or null, lifecycle status, source/reference direction, training manifest, model checksum, code revision, evaluation file reference |
+| Evaluation | split manifest, baseline scores, candidate scores, interval method and coverage, transfer-test result, release-gate result; the embedded record must match the referenced JSON payload checksum |
 | Environment | Python version, dependency-lock checksum, operating-system note, pipeline revision |
 | Limitations | material interpretation and transfer limits |
 | Files | `analysis.json` and related payload checksums; the receipt and final manifest are excluded to avoid recursive hashes |
@@ -288,6 +288,8 @@ One JSON record per candidate and split contains:
 
 The final gate is `pass` only when every required sub-gate is `pass`. A missing metric is not a pass.
 
+The Python artifact contract enforces this rule before an artifact can set `release_status` to `released`: it requires at least five training and two untouched held-out seasons, the positive-block diagnostic floor, paired support at the declared minimum, a recomputed 10% improvement over the best simple baseline, per-pilot bias comparisons with explicit tolerances, eligible peak timing, nominal-90% interval coverage, an identified separate transfer region, and every named gate result. The calibration domain must match the source/reference product versions, quality-policy and grid versions, include the artifact and transfer-test regions, and contain the displayed source and comparable rates. The target region geometry and held-out transfer geometry each require a distinct GeoJSON reference, a checksum matching the actual payload, a feature region ID and bounds matching their declarations, and polygon coordinates matching the declared west/south/east/north bounds. The contract rejects overlapping target and transfer bounding boxes. Training, split, model, and evaluation references must resolve to checksummed files. The artifact and receipt must agree on every shared calibration identity, domain, model-provenance, and evaluation-reference field, and the evaluation bytes must match that file checksum in both manifests. Before reusing an immutable release, the publisher compares complete size, media type, and checksum records across the artifact, receipt, manifest, and on-disk files. A failed or missing item leaves the artifact native-only with unavailable comparison values.
+
 ## File manifest
 
 `manifest.json` follows `backend/schemas/release-manifest.schema.json` and contains:
@@ -333,7 +335,7 @@ JSON Schema validation is necessary but not sufficient. Publication must also pr
 
 ## Canonicalisation and checksums
 
-Canonical JSON uses UTF-8, sorted object keys, no insignificant whitespace, and a trailing newline. Arrays keep semantic order and are not sorted during hashing. Floating-point values are rounded once by the publisher to the declared display/storage precision before canonicalisation.
+Published JSON payloads use UTF-8, sorted object keys, two-space indentation, and a trailing newline. Arrays keep semantic order and are not sorted during hashing. Floating-point values are rounded once by the publisher to the declared display/storage precision before serialization.
 
 The scientific identity hash excludes `generated_at` and local output paths. It includes region revision, source manifest, product versions, quality policy, grid version, period, split manifest, calibration identity, and publisher version.
 
