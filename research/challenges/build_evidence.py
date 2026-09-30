@@ -28,7 +28,7 @@ rows=[
 ('C24','POWER Dhaka-area 3-day sample','https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=90.4&latitude=23.8&start=20240101&end=20240103&format=JSON','properties.parameter.T2M.20240101','17.93','live_api'),
 ('C25','Trend generation documentation','https://gis.earthdata.nasa.gov/portal/help/en/11.5/analyze/generate-trend.htm','Notes','The Mann-Kendall test does not consider serial correlation or seasonal effects.','platform_documentation')
 ]
-with (p/'sources.jsonl').open('w') as f, (p/'evidence.jsonl').open('w') as e:
+with (p/'sources.jsonl').open('w',encoding='utf-8',newline='\n') as f, (p/'evidence.jsonl').open('w',encoding='utf-8',newline='\n') as e:
  for sid,title,url,locator,quote,typ in rows:
   f.write(json.dumps(dict(source_id=sid,title=title,url=url,retrieved_at='2026-09-18',source_type=typ),ensure_ascii=False)+'\n')
   e.write(json.dumps(dict(evidence_id='E'+sid[1:],source_id=sid,quote=quote,locator=locator,support_status='verified_source_text' if typ!='user_supplied' else 'user_provided_brief',limitations='Single-source documentation establishes provider-specific facts, not independent validation of user outcomes.'),ensure_ascii=False)+'\n')
@@ -42,7 +42,7 @@ claims=[
 ('field_limits','Coarse climate/soil moisture grids cannot establish measured field-specific agronomic outcomes.', ['C02','C05'],'scale-based_inference'),
 ('nisar_quality','Provisional GCOV is suitable for exploratory analysis with explicit validation limitations.', ['C22'],'verified_metadata'),
 ]
-with (p/'claims.jsonl').open('w') as f:
+with (p/'claims.jsonl').open('w',encoding='utf-8',newline='\n') as f:
  for cid,claim,ids,status in claims:f.write(json.dumps(dict(claim_id=cid,claim=claim,source_ids=ids,status=status))+'\n')
-(p/'run_manifest.json').write_text(json.dumps(dict(date='2026-09-18',task='Compare 14 NASA Space Apps 2026 challenges; deep-dive fire, farms, trends and NISAR',mode='deep',assumptions=['4-6 people','Strong Python/data science or remote sensing confirmed via parent','Practical Earth impact preferred','Hackathon MVP, not operational decision system'],providers=['web search/open','direct HTTPS small public samples'],limitations=['Main challenge web pages unavailable through web open; supplied brief used','Full historical fire archive not downloaded','No Earthdata authentication or remote-sensing binary granule download','Rankings are analyst judgments, not competition outcome probabilities']),indent=2))
+(p/'run_manifest.json').write_text(json.dumps(dict(date='2026-09-18',task='Compare 14 NASA Space Apps 2026 challenges; deep-dive fire, farms, trends and NISAR',mode='deep',assumptions=['4-6 people','Strong Python/data science or remote sensing confirmed via parent','Practical Earth impact preferred','Hackathon MVP, not operational decision system'],providers=['web search/open','direct HTTPS small public samples'],limitations=['Main challenge web pages unavailable through web open; supplied brief used','Full historical fire archive not downloaded','No Earthdata authentication or remote-sensing binary granule download','Rankings are analyst judgments, not competition outcome probabilities']),indent=2),encoding='utf-8',newline='\n')
 print('Wrote',len(rows),'sources and evidence records')

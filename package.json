@@ -1,0 +1,13 @@
+{
+  "name": "fire-season-research-tools",
+  "private": true,
+  "description": "Builds and browser-checks research-report.html. The app itself needs no npm packages.",
+  "scripts": {
+    "build:report": "node scripts/build_report.mjs",
+    "check:report": "node scripts/check_report.cjs"
+  },
+  "devDependencies": {
+    "marked": "18.0.14",
+    "playwright": "1.63.0"
+  }
+}

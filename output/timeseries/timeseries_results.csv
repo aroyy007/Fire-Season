@@ -1,13 +1,13 @@
-year,month,period,modis_granules,modis_days_counted,modis_detected,modis_valid_land,modis_rate_per_1000,viirs_granules,viirs_days_counted,viirs_detected,viirs_valid_land,viirs_rate_per_1000,viirs_to_modis_ratio
-2013,3,2013-03,5,31,48507,32421254,1.4961,31,31,37020,33421101,1.1077,0.7404
-2014,3,2014-03,5,31,42384,31472454,1.3467,31,31,32839,32650066,1.0058,0.7469
-2015,3,2015-03,5,29,50859,31362997,1.6216,31,31,36786,33979836,1.0826,0.6676
-2016,3,2016-03,5,31,30199,30602772,0.9868,31,31,25187,31915168,0.7892,0.7997
-2017,3,2017-03,5,31,17204,29371274,0.5857,31,31,14810,30575383,0.4844,0.8269
-2018,3,2018-03,5,31,39279,31560521,1.2446,31,31,27640,32687648,0.8456,0.6794
-2019,3,2019-03,5,31,36102,31344852,1.1518,31,31,28100,32364120,0.8682,0.7538
-2020,3,2020-03,5,31,42332,32080582,1.3196,31,31,31947,33183088,0.9627,0.7296
-2021,3,2021-03,5,31,51386,31943062,1.6087,31,31,36986,32883538,1.1248,0.6992
-2022,3,2022-03,5,31,38741,33107211,1.1702,31,31,27478,34637653,0.7933,0.6779
-2023,3,2023-03,5,31,25282,28428332,0.8893,31,31,19526,30194455,0.6467,0.7272
-2024,3,2024-03,5,31,24565,30123482,0.8155,31,31,18347,32236713,0.5691,0.6979
+year,month,period,analysis_status,spatial_scope,quality_policy,modis_granules,modis_days_counted,modis_coverage_complete,modis_detected,modis_valid_land,modis_rate_per_1000,viirs_granules,viirs_days_counted,viirs_coverage_complete,viirs_detected,viirs_valid_land,viirs_rate_per_1000,viirs_to_modis_ratio
+2013,3,2013-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,46920,32419667,1.4473,31,31,True,36288,33420369,1.0858,0.7502
+2014,3,2014-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,40817,31470887,1.297,31,31,True,32226,32649453,0.987,0.761
+2015,3,2015-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,4,29,False,49110,31361248,,31,31,True,36189,33979239,1.065,
+2016,3,2016-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,29073,30601646,0.95,31,31,True,24566,31914547,0.7697,0.8102
+2017,3,2017-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,16530,29370600,0.5628,31,31,True,14479,30575052,0.4736,0.8414
+2018,3,2018-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,37927,31559169,1.2018,31,31,True,27139,32687147,0.8303,0.6909
+2019,3,2019-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,34758,31343508,1.1089,31,31,True,27568,32363588,0.8518,0.7681
+2020,3,2020-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,40850,32079100,1.2734,31,31,True,31310,33182451,0.9436,0.741
+2021,3,2021-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,49572,31941248,1.552,31,31,True,36367,32882919,1.106,0.7126
+2022,3,2022-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,37699,33106169,1.1387,31,31,True,27061,34637236,0.7813,0.6861
+2023,3,2023-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,24401,28427451,0.8584,31,31,True,19132,30194061,0.6336,0.7382
+2024,3,2024-03,legacy_full_tile_not_for_comparison,entire h26v06 tile; requested bounding box was used only for granule search,firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping,5,31,True,23645,30122562,0.785,31,31,True,17992,32236358,0.5581,0.711

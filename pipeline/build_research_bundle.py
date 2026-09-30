@@ -8,7 +8,6 @@ import hashlib
 import html
 import json
 import os
-import platform
 import shutil
 import sys
 import tempfile
@@ -40,8 +39,17 @@ def write_json(path: Path, value: object) -> bytes:
     return data
 
 
+def text_sha256(path: Path) -> str:
+    """Hash a text file with LF endings so a CRLF checkout does not change identity."""
+    return sha256_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
+
+
 def release_fingerprint(region_key: str, sample: dict[str, Any], geometry_sha256: str) -> str:
-    """Bind an immutable release ID to its inputs, code, region and runtime."""
+    """Bind an immutable release ID to its inputs, code, schemas, lock and region.
+
+    The runtime (OS, Python patch) is recorded in the Evidence Receipt instead, so
+    the same inputs and code yield the same release on every teammate's machine.
+    """
     code_files = [
         ROOT / "pipeline" / "build_research_bundle.py",
         *sorted((ROOT / "pipeline" / "fireseason").glob("*.py")),
@@ -52,9 +60,8 @@ def release_fingerprint(region_key: str, sample: dict[str, Any], geometry_sha256
         f"region={region_key}:r{REGIONS[region_key]['revision']}",
         f"geometry={geometry_sha256}",
         f"source_manifest={sample['source_manifest_sha256']}",
-        f"runtime={platform.python_version()}:{platform.system()}",
     ]
-    parts.extend(f"{path.relative_to(ROOT)}:{sha256_bytes(path.read_bytes())}" for path in code_files)
+    parts.extend(f"{path.relative_to(ROOT).as_posix()}:{text_sha256(path)}" for path in code_files)
     return sha256_bytes("\n".join(parts).encode("utf-8"))[:16]
 
 
@@ -192,7 +199,7 @@ def _release_entry(region_key: str, path: Path) -> dict[str, Any]:
         "name": region["name"],
         "artifact_id": analysis["artifact_id"],
         "manifest_sha256": manifest_sha256,
-        "path": str(path.relative_to(ROOT / "app")),
+        "path": path.relative_to(ROOT / "app").as_posix(),
         "boundary_status": "candidate_not_frozen",
         "region_revision": region["revision"],
         "bounds_wsen": list(region["bounds"]),
@@ -307,7 +314,8 @@ def _write_release(region_key: str, sample: dict[str, Any]) -> dict[str, Any]:
         "reason": "The single-month sample does not provide independent temporal or geographic validation or interval coverage.",
     })
     brief_path = region_dir / "monitoring-brief.html"
-    brief_path.write_text(monitoring_brief_html(artifact, receipt, blocks), encoding="utf-8")
+    # Bytes, not write_text: Windows newline translation would change the checksummed payload.
+    brief_path.write_bytes(monitoring_brief_html(artifact, receipt, blocks).encode("utf-8"))
 
     payloads = [
         payload_record(calendar_path, "text/csv"),
@@ -374,9 +382,8 @@ def main() -> None:
         data["receipts"][key] = json.loads((region_dir / "evidence-receipt.json").read_text(encoding="utf-8"))
         with (region_dir / "block-month.csv").open(encoding="utf-8") as handle:
             data["blocks"][key] = list(csv.DictReader(handle))
-    (ROOT / "app" / "data.js").write_text(
-        "window.FIRE_SEASON_DATA = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";\n",
-        encoding="utf-8",
+    (ROOT / "app" / "data.js").write_bytes(
+        ("window.FIRE_SEASON_DATA = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";\n").encode("utf-8")
     )
     for region_dir_name in ("science-pilot", "local-impact-case"):
         legacy_dir = RELEASES / region_dir_name

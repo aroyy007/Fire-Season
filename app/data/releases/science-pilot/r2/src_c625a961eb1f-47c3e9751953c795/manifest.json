@@ -1,0 +1,49 @@
+{
+  "artifact_id": "art_science_aoi_sample_202303_r2_47c3e9751953",
+  "files": [
+    {
+      "media_type": "application/json",
+      "path": "analysis.json",
+      "sha256": "5394cbfb9db20fd335977261f2107ab927a54b1af25bba9aa6e0b5cfa8cef4f7",
+      "size_bytes": 5835
+    },
+    {
+      "media_type": "application/json",
+      "path": "evidence-receipt.json",
+      "sha256": "f8a1502b923c21be1a98a9374623068523663b5c032b811504d289e6f1883500",
+      "size_bytes": 27580
+    },
+    {
+      "media_type": "text/csv",
+      "path": "calendar.csv",
+      "sha256": "401053e000651212f8e0e7c798b13a94619758ff32112dbf488f8fb520f3fcf1",
+      "size_bytes": 531
+    },
+    {
+      "media_type": "text/csv",
+      "path": "block-month.csv",
+      "sha256": "bdad84a81bc91bf0b18716837783b9bd3636a76a88035a9f9a7200779e28ce7a",
+      "size_bytes": 319617
+    },
+    {
+      "media_type": "application/json",
+      "path": "evaluation.json",
+      "sha256": "f4eabb3e84df50793eff0c67b1a6c746cd505a217e20f2286c74de77903f4716",
+      "size_bytes": 241
+    },
+    {
+      "media_type": "application/geo+json",
+      "path": "region.geojson",
+      "sha256": "96edf3b65a2f2a36609a0184ca7025744a6a5c0071997fcc05538e248d4bac4a",
+      "size_bytes": 945
+    },
+    {
+      "media_type": "text/html",
+      "path": "monitoring-brief.html",
+      "sha256": "7b81d301a6711cad3e73c25e46991dc9f4f763397680e025c55c7a5ca90665fe",
+      "size_bytes": 161919
+    }
+  ],
+  "manifest_created_at": "2026-09-30T15:56:47.614500Z",
+  "schema_version": "1.0.0"
+}

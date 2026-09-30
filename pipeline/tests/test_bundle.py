@@ -6,13 +6,21 @@ import tempfile
 import unittest
 import csv
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "pipeline"))
 
 from fireseason.contract import validate_analysis_artifact, validate_artifact_receipt_pair, validate_evidence_receipt, validate_release_manifest
 from fireseason.sample import REGIONS, build_march_2023_sample, region_id
-from build_research_bundle import _assert_revision_geometry_unchanged, _verify_existing_release, _write_release, release_target
+from build_research_bundle import (
+    _assert_revision_geometry_unchanged,
+    _verify_existing_release,
+    _write_release,
+    release_fingerprint,
+    release_target,
+    text_sha256,
+)
 
 
 def sha256(path: Path) -> str:
@@ -166,8 +174,15 @@ class GeneratedBundleTests(unittest.TestCase):
 
     def test_identical_rebuild_keeps_published_release_files_immutable(self):
         sample = build_march_2023_sample()
+        # A different runtime yields a new fingerprint; keep that release out of the checkout.
+        with tempfile.TemporaryDirectory(dir=ROOT / "app" / "data") as releases, \
+                patch("build_research_bundle.RELEASES", Path(releases)):
+            self._assert_identical_rebuild_is_immutable(sample)
+
+    def _assert_identical_rebuild_is_immutable(self, sample):
         for region_key in ("science", "local"):
             entry = _write_release(region_key, sample)
+            self.assertNotIn("\\", entry["path"])
             region_dir = ROOT / "app" / entry["path"]
             filenames = ("analysis.json", "evidence-receipt.json", "manifest.json")
             before = {name: (region_dir / name).read_bytes() for name in filenames}
@@ -176,6 +191,17 @@ class GeneratedBundleTests(unittest.TestCase):
 
             self.assertEqual(entry["path"], repeated_entry["path"])
             self.assertEqual(before, {name: (region_dir / name).read_bytes() for name in filenames})
+
+    def test_release_fingerprint_is_independent_of_runtime_and_line_endings(self):
+        sample = {"source_manifest_sha256": "a" * 64}
+        expected = release_fingerprint("science", sample, "b" * 64)
+        with patch("platform.system", return_value="Windows"), patch("platform.python_version", return_value="3.99.0"):
+            self.assertEqual(release_fingerprint("science", sample, "b" * 64), expected)
+        with tempfile.TemporaryDirectory() as directory:
+            lf_path, crlf_path = Path(directory) / "lf.py", Path(directory) / "crlf.py"
+            lf_path.write_bytes(b"a = 1\nb = 2\n")
+            crlf_path.write_bytes(b"a = 1\r\nb = 2\r\n")
+            self.assertEqual(text_sha256(lf_path), text_sha256(crlf_path))
 
     def test_region_revision_creates_a_new_release_identity_and_path(self):
         region = REGIONS["science"]

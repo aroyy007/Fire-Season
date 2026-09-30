@@ -1,0 +1,3 @@
+# Release payloads are SHA-256 checksummed and code files feed the release
+# fingerprint, so every checkout must keep LF bytes on every OS.
+* text=auto eol=lf

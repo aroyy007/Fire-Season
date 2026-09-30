@@ -1,26 +1,32 @@
 #!/usr/bin/env python3
-"""Legacy diagnostic: count FireMask classes over the full h26v06 tile.
+"""Legacy diagnostic: monthly FireMask inventory over the full h26v06 tile.
 
-This tool does not apply QA or clip pixels to a candidate region. Its output is
-not a science artifact and must not be used for calibration or comparison. The
-current app publisher is ``pipeline/build_research_bundle.py``.
+Counts use the same QA-land and nominal/high-confidence policy as the science
+pipeline (``fireseason.decoder``), but pixels are not clipped to a candidate
+region. The output is not a science artifact and must not be used for
+calibration or comparison. The app publisher is
+``pipeline/build_research_bundle.py``.
+
+``--offline`` reads granules already stored under ``data/timeseries/``. Without
+it, ``earthaccess`` searches and downloads granules using ~/.netrc Earthdata
+credentials. The plot needs matplotlib. Neither package is in the science lock.
 """
 
-import os
-import sys
-import time
 import argparse
 import csv
-import calendar
 import json
-import re
+import sys
+import time
+from datetime import date, timedelta
 from pathlib import Path
-from datetime import datetime, date, timedelta
-import numpy as np
-import earthaccess
-from pyhdf.SD import SD, SDC
-import h5py
+
 import matplotlib.pyplot as plt
+import numpy as np
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "pipeline"))
+
+from fireseason.decoder import decode_modis_granule, decode_viirs_granule, parse_granule_date  # noqa: E402
 
 # Fixed bounding box for tile h26v06 (NE India - Myanmar / Chattogram region)
 BBOX = (93.0, 23.0, 96.0, 26.5)
@@ -29,10 +35,16 @@ MODIS_VERSION = "061"
 VIIRS_SHORT_NAME = "VNP14A1"
 VIIRS_VERSION = "002"
 
-DATA_DIR = Path("./data/timeseries")
+DATA_DIR = ROOT / "data" / "timeseries"
 MODIS_DIR = DATA_DIR / "modis"
 VIIRS_DIR = DATA_DIR / "viirs"
-OUTPUT_DIR = Path("./output/timeseries")
+OUTPUT_DIR = ROOT / "output" / "timeseries"
+
+# Both products use the 1200 x 1200 h26v06 sinusoidal grid; the whole tile is the "AOI".
+FULL_TILE = np.ones((1200, 1200), dtype=bool)
+ANALYSIS_STATUS = "legacy_full_tile_not_for_comparison"
+SPATIAL_SCOPE = "entire h26v06 tile; requested bounding box was used only for granule search"
+QUALITY_POLICY = "firemask-qa-land-highnominal-v1 (same as science pipeline); no AOI clipping"
 
 
 def ensure_dirs():
@@ -41,207 +53,104 @@ def ensure_dirs():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def parse_granule_date(filename: str) -> date:
-    """Extracts date from standard NASA granule filename A<YYYY><DOY>."""
-    m = re.search(r"A(\d{4})(\d{3})", filename)
-    if not m:
-        raise ValueError(f"Could not parse date from filename: {filename}")
-    year, doy = int(m.group(1)), int(m.group(2))
-    return date(year, 1, 1) + timedelta(days=doy - 1)
+def find_granules(short_name, version, directory, month_start, month_end, offline, max_granules):
+    """Return local granule paths that can hold days in [month_start, month_end)."""
+    if offline:
+        # MYD14A1 files hold eight daily planes, so one may start up to 7 days before the month.
+        files = [
+            path for path in sorted(directory.glob(f"{short_name}.A*"))
+            if month_start - timedelta(days=7) <= parse_granule_date(path.name) < month_end
+        ]
+        return files[:max_granules] if max_granules else files
+
+    import earthaccess
+
+    results = earthaccess.search_data(
+        short_name=short_name,
+        version=version,
+        temporal=(month_start.isoformat(), (month_end - timedelta(days=1)).isoformat()),
+        bounding_box=BBOX,
+    )
+    print(f"Found {len(results)} {short_name} granules")
+    if max_granules:
+        results = results[:max_granules]
+    return earthaccess.download(results, str(directory))
 
 
-def decode_modis_granule(filepath: str, month_start: date, month_end: date) -> dict:
-    """
-    Decodes an 8-day MODIS MYD14A1 HDF4 file, strictly trimming daily planes
-    to the requested [month_start, month_end) window.
-    """
-    try:
-        fname = Path(filepath).name
-        granule_start = parse_granule_date(fname)
-
-        hdf = SD(str(filepath), SDC.READ)
-        fm = hdf.select("FireMask")[:]
-        hdf.end()
-
-        planes = fm.shape[0] if len(fm.shape) == 3 else 1
-        detected = 0
-        valid_land = 0
-        total_pixels = 0
-        included_days = 0
-
-        for i in range(planes):
-            plane_date = granule_start + timedelta(days=i)
-            if month_start <= plane_date < month_end:
-                plane = fm[i] if len(fm.shape) == 3 else fm
-                detected += int(np.isin(plane, [7, 8, 9]).sum())
-                valid_land += int(np.isin(plane, [5, 7, 8, 9]).sum())
-                total_pixels += int(plane.size)
-                included_days += 1
-
-        return {
-            "detected": detected,
-            "valid_land": valid_land,
-            "total_pixels": total_pixels,
-            "included_days": included_days,
-            "planes": planes,
-            "success": True,
-        }
-    except Exception as e:
-        print(f"Error decoding MODIS {filepath}: {e}")
-        return {
-            "detected": 0,
-            "valid_land": 0,
-            "total_pixels": 0,
-            "included_days": 0,
-            "planes": 0,
-            "success": False,
-        }
+def count_month(files, decode, month_start, month_end, label):
+    totals = {"granules": len(files), "days": 0, "detected": 0, "valid": 0}
+    for path in files:
+        stats = decode(path, month_start, month_end, FULL_TILE)
+        if not stats["success"]:
+            print(f"Error decoding {label} {path}: {stats.get('error')}")
+            continue
+        totals["days"] += stats["included_days"]
+        totals["detected"] += stats["detected"]
+        totals["valid"] += stats["valid_land"]
+    return totals
 
 
-def decode_viirs_granule(filepath: str, month_start: date, month_end: date) -> dict:
-    """
-    Decodes a daily VIIRS VNP14A1 HDF5 file, verifying the date is within
-    the [month_start, month_end) window.
-    """
-    try:
-        fname = Path(filepath).name
-        granule_date = parse_granule_date(fname)
-
-        if not (month_start <= granule_date < month_end):
-            return {
-                "detected": 0,
-                "valid_land": 0,
-                "total_pixels": 0,
-                "included_days": 0,
-                "planes": 1,
-                "success": True,
-            }
-
-        with h5py.File(str(filepath), "r") as f:
-            fm = f["HDFEOS/GRIDS/VIIRS_Grid_Daily_Fire/Data Fields/FireMask"][:]
-            detected = int(np.isin(fm, [7, 8, 9]).sum())
-            valid_land = int(np.isin(fm, [5, 7, 8, 9]).sum())
-            total_pixels = int(fm.size)
-            return {
-                "detected": detected,
-                "valid_land": valid_land,
-                "total_pixels": total_pixels,
-                "included_days": 1,
-                "planes": 1,
-                "success": True,
-            }
-    except Exception as e:
-        print(f"Error decoding VIIRS {filepath}: {e}")
-        return {
-            "detected": 0,
-            "valid_land": 0,
-            "total_pixels": 0,
-            "included_days": 0,
-            "planes": 0,
-            "success": False,
-        }
-
-
-def process_month(year: int, month: int, max_days: int = None):
-    """Processes a single year-month for both MODIS and VIIRS with exact trimming."""
+def process_month(year: int, month: int, offline: bool, max_granules: int = None):
+    """Count one year-month for both products; abstain when a day is missing."""
     month_start = date(year, month, 1)
-    if month == 12:
-        month_end = date(year + 1, 1, 1)
-    else:
-        month_end = date(year, month + 1, 1)
-
-    start_date_str = month_start.isoformat()
-    end_date_str = (month_end - timedelta(days=1)).isoformat()
-
-    print(f"\n==========================================")
-    print(f"Processing {year}-{month:02d} ({start_date_str} to {end_date_str})")
-    print(f"==========================================")
-
-    # 1. Search and download MODIS
-    modis_query = earthaccess.search_data(
-        short_name=MODIS_SHORT_NAME,
-        version=MODIS_VERSION,
-        temporal=(start_date_str, end_date_str),
-        bounding_box=BBOX,
-    )
-    print(f"Found {len(modis_query)} MODIS granules")
-    if max_days and len(modis_query) > max_days:
-        modis_query = modis_query[:max_days]
-
-    modis_detected = 0
-    modis_valid_land = 0
-    modis_total_pixels = 0
-    modis_days_counted = 0
-    modis_files = earthaccess.download(modis_query, str(MODIS_DIR))
-    for f in modis_files:
-        stats = decode_modis_granule(f, month_start, month_end)
-        if stats["success"]:
-            modis_detected += stats["detected"]
-            modis_valid_land += stats["valid_land"]
-            modis_total_pixels += stats["total_pixels"]
-            modis_days_counted += stats["included_days"]
-
-    # 2. Search and download VIIRS
-    viirs_query = earthaccess.search_data(
-        short_name=VIIRS_SHORT_NAME,
-        version=VIIRS_VERSION,
-        temporal=(start_date_str, end_date_str),
-        bounding_box=BBOX,
-    )
-    print(f"Found {len(viirs_query)} VIIRS granules")
-    if max_days and len(viirs_query) > max_days:
-        viirs_query = viirs_query[:max_days]
-
-    viirs_detected = 0
-    viirs_valid_land = 0
-    viirs_total_pixels = 0
-    viirs_days_counted = 0
-    viirs_files = earthaccess.download(viirs_query, str(VIIRS_DIR))
-    for f in viirs_files:
-        stats = decode_viirs_granule(f, month_start, month_end)
-        if stats["success"]:
-            viirs_detected += stats["detected"]
-            viirs_valid_land += stats["valid_land"]
-            viirs_total_pixels += stats["total_pixels"]
-            viirs_days_counted += stats["included_days"]
-
-    # This full-tile diagnostic is not a science artifact. Even here, abstain if
-    # either product has not covered every calendar day in the requested month.
+    month_end = date(year + 1, 1, 1) if month == 12 else date(year, month + 1, 1)
     expected_days = (month_end - month_start).days
-    modis_coverage_complete = modis_days_counted == expected_days
-    viirs_coverage_complete = viirs_days_counted == expected_days
-    modis_rate = (modis_detected / modis_valid_land * 1000) if modis_valid_land > 0 and modis_coverage_complete else None
-    viirs_rate = (viirs_detected / viirs_valid_land * 1000) if viirs_valid_land > 0 and viirs_coverage_complete else None
-    ratio = (viirs_rate / modis_rate) if (modis_rate and viirs_rate and modis_rate > 0) else None
+
+    print("\n==========================================")
+    print(f"Processing {year}-{month:02d} ({month_start} to {month_end - timedelta(days=1)})")
+    print("==========================================")
+
+    modis_files = find_granules(MODIS_SHORT_NAME, MODIS_VERSION, MODIS_DIR, month_start, month_end, offline, max_granules)
+    viirs_files = find_granules(VIIRS_SHORT_NAME, VIIRS_VERSION, VIIRS_DIR, month_start, month_end, offline, max_granules)
+    modis = count_month(modis_files, decode_modis_granule, month_start, month_end, "MODIS")
+    viirs = count_month(viirs_files, decode_viirs_granule, month_start, month_end, "VIIRS")
+
+    def rate(totals):
+        # Fail closed: a month missing any calendar day has no rate.
+        if totals["valid"] > 0 and totals["days"] == expected_days:
+            return 1000 * totals["detected"] / totals["valid"]
+        return None
+
+    modis_rate, viirs_rate = rate(modis), rate(viirs)
+    ratio = viirs_rate / modis_rate if modis_rate and viirs_rate else None
 
     result = {
         "year": year,
         "month": month,
         "period": f"{year:04d}-{month:02d}",
-        "analysis_status": "legacy_full_tile_firemask_only_not_for_comparison",
-        "spatial_scope": "entire h26v06 tile; requested bounding box was used only for granule search",
-        "quality_policy": "QA not applied; use only for exploratory inventory",
-        "modis_granules": len(modis_files),
-        "modis_days_counted": modis_days_counted,
-        "modis_coverage_complete": modis_coverage_complete,
-        "modis_detected": modis_detected,
-        "modis_valid_land": modis_valid_land,
+        "analysis_status": ANALYSIS_STATUS,
+        "spatial_scope": SPATIAL_SCOPE,
+        "quality_policy": QUALITY_POLICY,
+        "modis_granules": modis["granules"],
+        "modis_days_counted": modis["days"],
+        "modis_coverage_complete": modis["days"] == expected_days,
+        "modis_detected": modis["detected"],
+        "modis_valid_land": modis["valid"],
         "modis_rate_per_1000": round(modis_rate, 4) if modis_rate is not None else None,
-        "viirs_granules": len(viirs_files),
-        "viirs_days_counted": viirs_days_counted,
-        "viirs_coverage_complete": viirs_coverage_complete,
-        "viirs_detected": viirs_detected,
-        "viirs_valid_land": viirs_valid_land,
+        "viirs_granules": viirs["granules"],
+        "viirs_days_counted": viirs["days"],
+        "viirs_coverage_complete": viirs["days"] == expected_days,
+        "viirs_detected": viirs["detected"],
+        "viirs_valid_land": viirs["valid"],
         "viirs_rate_per_1000": round(viirs_rate, 4) if viirs_rate is not None else None,
         "viirs_to_modis_ratio": round(ratio, 4) if ratio is not None else None,
     }
 
     print(f"Summary for {year}-{month:02d}:")
-    print(f"  MODIS ({modis_days_counted} days): Rate={result['modis_rate_per_1000']} (Det={modis_detected}, Valid={modis_valid_land})")
-    print(f"  VIIRS ({viirs_days_counted} days): Rate={result['viirs_rate_per_1000']} (Det={viirs_detected}, Valid={viirs_valid_land})")
+    print(f"  MODIS ({modis['days']}/{expected_days} days): Rate={result['modis_rate_per_1000']} (Det={modis['detected']}, Valid={modis['valid']})")
+    print(f"  VIIRS ({viirs['days']}/{expected_days} days): Rate={result['viirs_rate_per_1000']} (Det={viirs['detected']}, Valid={viirs['valid']})")
     print(f"  VIIRS/MODIS Ratio: {result['viirs_to_modis_ratio']}")
-
     return result
+
+
+def save_results(results: list[dict], json_path: Path, csv_path: Path):
+    with open(json_path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(results, f, indent=2)
+        f.write("\n")
+    with open(csv_path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(results[0].keys()), lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(results)
 
 
 def plot_timeseries(results: list[dict], output_plot: Path):
@@ -269,7 +178,7 @@ def plot_timeseries(results: list[dict], output_plot: Path):
         ax2.axhline(1.0, color="grey", linestyle=":", label="Parity (1.0)")
     ax2.set_ylabel("Sensor Ratio (VIIRS / MODIS)")
     ax2.set_xlabel("Time Period")
-    ax2.set_title("Exploratory ratio only · no QA, AOI clipping, or release evaluation")
+    ax2.set_title("Exploratory ratio only · pipeline QA policy, but no AOI clipping or release evaluation")
     ax2.grid(True, linestyle="--", alpha=0.5)
     ax2.legend()
 
@@ -285,62 +194,39 @@ def main():
     parser.add_argument(
         "--allow-legacy-diagnostic",
         action="store_true",
-        help="Confirm that this is an unfiltered, full-tile diagnostic and must not be compared or released.",
+        help="Confirm that this is a full-tile diagnostic and must not be compared or released.",
     )
     parser.add_argument("--start-year", type=int, default=2013, help="Start year (default: 2013)")
     parser.add_argument("--end-year", type=int, default=2024, help="End year (default: 2024)")
     parser.add_argument("--months", type=int, nargs="+", default=[3], help="Months to sample (e.g. 3 for March peak fire season)")
     parser.add_argument("--max-granules", type=int, default=None, help="Limit granules per month for quick testing")
     parser.add_argument("--force-refresh", action="store_true", help="Ignore cached JSON summary and recompute")
+    parser.add_argument("--offline", action="store_true", help="Use granules already in data/timeseries/; no Earthdata login")
     args = parser.parse_args()
     if not args.allow_legacy_diagnostic:
         parser.error("This legacy tool is not suitable for comparison; pass --allow-legacy-diagnostic only for exploratory inventory. Use pipeline/build_research_bundle.py to rebuild the validated raster sample.")
 
     ensure_dirs()
 
-    print("Authenticating with Earthdata...")
-    auth = earthaccess.login(strategy="netrc")
-    if not auth.authenticated:
-        print("ERROR: Failed to authenticate via .netrc. Please check ~/.netrc credentials.")
-        sys.exit(1)
-    print("Authentication successful.")
+    if not args.offline:
+        import earthaccess
+
+        print("Authenticating with Earthdata...")
+        if not earthaccess.login(strategy="netrc").authenticated:
+            print("ERROR: Failed to authenticate via .netrc. Please check ~/.netrc credentials.")
+            sys.exit(1)
+        print("Authentication successful.")
 
     csv_path = OUTPUT_DIR / "timeseries_results.csv"
     json_path = OUTPUT_DIR / "timeseries_results.json"
     plot_path = OUTPUT_DIR / "timeseries_ratio.png"
 
     all_results = []
-    
-    # Load existing results if any unless forced
     if json_path.exists() and not args.force_refresh:
-        try:
-            with open(json_path, "r") as f:
-                all_results = json.load(f)
-            for record in all_results:
-                expected_days = calendar.monthrange(int(record["year"]), int(record["month"]))[1]
-                modis_complete = record.get("modis_days_counted", 0) == expected_days
-                viirs_complete = record.get("viirs_days_counted", 0) == expected_days
-                record.update({
-                    "analysis_status": "legacy_full_tile_firemask_only_not_for_comparison",
-                    "spatial_scope": "entire h26v06 tile; requested bounding box was used only for granule search",
-                    "quality_policy": "QA not applied; use only for exploratory inventory",
-                    "modis_coverage_complete": modis_complete,
-                    "viirs_coverage_complete": viirs_complete,
-                })
-                if not modis_complete:
-                    record["modis_rate_per_1000"] = None
-                if not viirs_complete:
-                    record["viirs_rate_per_1000"] = None
-                modis_rate = record.get("modis_rate_per_1000")
-                viirs_rate = record.get("viirs_rate_per_1000")
-                record["viirs_to_modis_ratio"] = (
-                    round(viirs_rate / modis_rate, 4)
-                    if modis_rate and viirs_rate and modis_rate > 0
-                    else None
-                )
-            print(f"Loaded {len(all_results)} existing records from {json_path}")
-        except Exception:
-            all_results = []
+        cached = json.loads(json_path.read_text(encoding="utf-8"))
+        # Records counted under another quality policy are recomputed, never relabelled.
+        all_results = [record for record in cached if record.get("quality_policy") == QUALITY_POLICY]
+        print(f"Loaded {len(all_results)} cached records; {len(cached) - len(all_results)} stale-policy records will be recomputed")
 
     existing_periods = {r["period"] for r in all_results}
 
@@ -351,28 +237,18 @@ def main():
                 print(f"Skipping {period_key} (already processed)")
                 continue
 
-            res = process_month(year, month, max_days=args.max_granules)
-            all_results.append(res)
-            
-            # Save incremental results
-            with open(json_path, "w") as f:
-                json.dump(all_results, f, indent=2)
+            all_results.append(process_month(year, month, args.offline, max_granules=args.max_granules))
+            save_results(all_results, json_path, csv_path)
+            if not args.offline:
+                time.sleep(0.5)
 
-            with open(csv_path, "w", newline="") as f:
-                writer = csv.DictWriter(f, fieldnames=list(res.keys()))
-                writer.writeheader()
-                writer.writerows(all_results)
-
-            time.sleep(0.5)
-
-    # Sort results by period
     all_results.sort(key=lambda x: x["period"])
-
     if all_results:
+        save_results(all_results, json_path, csv_path)
         plot_timeseries(all_results, plot_path)
 
     print("\n==========================================")
-    print(f"Completed! Output saved to:")
+    print("Completed! Output saved to:")
     print(f"  CSV:  {csv_path}")
     print(f"  JSON: {json_path}")
     print(f"  Plot: {plot_path}")

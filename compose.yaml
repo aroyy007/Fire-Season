@@ -1,0 +1,28 @@
+# Works with Docker Desktop (Windows/macOS/Linux) and OrbStack (macOS).
+# Images build for the host's native architecture (amd64 or Apple Silicon arm64).
+# Fixed project name keeps container names and OrbStack's domain the same whatever
+# the clone folder is called.
+name: fireseason
+
+services:
+  # Offline browser app: http://localhost:8888
+  # 8888 avoids Windows' Hyper-V reserved ranges (often 7811-8210); override with APP_PORT.
+  app:
+    image: fire-season
+    build: .
+    command: python -m http.server 8000 --directory app
+    ports:
+      - "${APP_PORT:-8888}:8000"
+    volumes:
+      - .:/work
+
+  # Science pipeline, tests, and checks. Default command runs the test suite:
+  #   docker compose run --rm pipeline
+  #   docker compose run --rm pipeline python pipeline/build_research_bundle.py
+  #   docker compose run --rm pipeline python scripts/check_package.py
+  pipeline:
+    image: fire-season
+    build: .
+    profiles: ["tools"]
+    volumes:
+      - .:/work

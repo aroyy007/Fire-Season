@@ -72,7 +72,7 @@ The app is usable offline once served locally because the artifacts, styles, and
 
 ## Provenance and publication safeguards
 
-The build creates a source manifest identity from the local input objects and binds the artifact identity to the selected sample, code, schemas, dependency lock, runtime, region revision, and geometry. Payload files carry SHA-256 checksums. The Evidence Receipt links scientific interpretation to its inputs and exclusions. The final manifest records the published file inventory and checksums.
+The build creates a source manifest identity from the local input objects and binds the artifact identity to the selected sample, code, schemas, dependency lock, region revision, and geometry. The runtime (OS and Python version) is recorded in the Evidence Receipt, not the identity. Payload files carry SHA-256 checksums. The Evidence Receipt links scientific interpretation to its inputs and exclusions. The final manifest records the published file inventory and checksums.
 
 Publication uses a temporary release directory and renames it into place only after the bundle passes validation. Rebuilding an identical artifact verifies the existing files and reuses that immutable release. Changing a region's geometry without incrementing its revision fails the build. Contract validation rejects invalid counts, impossible support fractions, unsafe file references, mismatched geometry, or an artifact/receipt/manifest disagreement.
 

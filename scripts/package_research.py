@@ -4,31 +4,31 @@ import json, re, hashlib
 ROOT=Path(__file__).resolve().parents[1]
 sources=[]; seen=set()
 for name in ['challenges','winners']:
- for line in (ROOT/'research'/name/'sources.jsonl').read_text().splitlines():
+ for line in (ROOT/'research'/name/'sources.jsonl').read_text(encoding='utf-8').splitlines():
   s=json.loads(line)
   if s['url'] not in seen:sources.append(s);seen.add(s['url'])
 for p in sorted((ROOT/'docs').glob('*.md')):
- for title,url in re.findall(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',p.read_text()):
+ for title,url in re.findall(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',p.read_text(encoding='utf-8')):
   if url not in seen:
    sources.append({'source_id':'R'+hashlib.sha256(url.encode()).hexdigest()[:10], 'title':title,'url':url,'retrieved_at':'2026-09-18/19','source_type':'linked_primary_reference','verification':'See module and endpoint ledgers; not all references have automated HTTP validation.'});seen.add(url)
-(ROOT/'research/sources.jsonl').write_text('\n'.join(json.dumps(s,ensure_ascii=False) for s in sources)+'\n')
+(ROOT/'research/sources.jsonl').write_text('\n'.join(json.dumps(s,ensure_ascii=False) for s in sources)+'\n',encoding='utf-8',newline='\n')
 for name in ['evidence','claims']:
  rows=[]
  for folder in ['challenges','winners']:
-  for line in (ROOT/'research'/folder/(name+'.jsonl')).read_text().splitlines():
+  for line in (ROOT/'research'/folder/(name+'.jsonl')).read_text(encoding='utf-8').splitlines():
    d=json.loads(line);d['module']=folder;rows.append(d)
  if name=='evidence':
   for f in ['endpoint_evidence.jsonl','fire_endpoint_evidence.jsonl']:
-   for line in (ROOT/'research/models'/f).read_text().splitlines():
+   for line in (ROOT/'research/models'/f).read_text(encoding='utf-8').splitlines():
     d=json.loads(line);d['module']='models';d['evidence_type']='request_log';rows.append(d)
  if name=='claims':
   rows += [{'claim_id':'P01','claim':'Fire Season is the recommended team-specific concept.','status':'analyst_judgment','support':'challenge-comparison.md'},
            {'claim_id':'P02','claim':'The proposed transfer model improves on baselines.','status':'not_tested_do_not_assert','support':'docs/03-MODEL-AND-DATA-PROTOCOL.md'},
            {'claim_id':'P03','claim':'The backend migration works in PostgreSQL.','status':'not_runtime_tested_do_not_assert','support':'backend/schema.sql'}]
- (ROOT/'research'/(name+'.jsonl')).write_text('\n'.join(json.dumps(s,ensure_ascii=False) for s in rows)+'\n')
+ (ROOT/'research'/(name+'.jsonl')).write_text('\n'.join(json.dumps(s,ensure_ascii=False) for s in rows)+'\n',encoding='utf-8',newline='\n')
 text='# Source index\n\nResearch dates: 18–19 September 2026. Each entry is a source, not an independent validation of product performance. See the module-level evidence and endpoint logs for retrieval limits.\n\n'
 for s in sources:text+=f"- **{s['source_id']}** — [{s['title']}]({s['url']})\n"
-(ROOT/'research/SOURCES.md').write_text(text)
+(ROOT/'research/SOURCES.md').write_text(text,encoding='utf-8',newline='\n')
 
 S={
  'Error':{'type':'object','required':['error'],'properties':{'error':{'type':'object','required':['code','message'],'properties':{'code':{'type':'string'},'message':{'type':'string'},'details':{'type':'array','items':{'type':'object'}}}}}},
@@ -70,5 +70,5 @@ add('/analyses/{id}/cancel','post','Idempotently cancel owned active analysis','
 for route in ['/api/v1/regions','/api/v1/analyses/{id}/detections']:
  op=paths[route]['get'];op.setdefault('parameters',[]).extend([{'name':'cursor','in':'query','schema':{'type':'string'}},{'name':'limit','in':'query','schema':{'type':'integer','minimum':1,'maximum':500,'default':100}}]);op['responses']['200']['headers']={'X-Next-Cursor':{'schema':{'type':'string'},'description':'Opaque next cursor, absent on final page'}}
 api={'openapi':'3.1.0','info':{'title':'Fire Season proposed API','version':'0.1.0','description':'Design contract; not an implemented service. Cross-field scientific and access-control invariants are in docs/06-BACKEND-SCHEMA.md.'},'paths':paths,'components':{'schemas':S,'securitySchemes':{'bearerAuth':{'type':'http','scheme':'bearer'}}}}
-(ROOT/'backend/openapi.json').write_text(json.dumps(api,indent=2)+'\n')
+(ROOT/'backend/openapi.json').write_text(json.dumps(api,indent=2)+'\n',encoding='utf-8',newline='\n')
 print(f'{len(sources)} unique linked sources; {sum(len(v) for v in paths.values())} API operations')

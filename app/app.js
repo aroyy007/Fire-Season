@@ -182,7 +182,7 @@
         <div class="sample-banner" role="note">
           <span class="banner-mark">i</span>
           <span><strong>Complete March 2023 raster sample.</strong> Native counts and the reference heatmap come from stored NASA masks clipped to this candidate window. One month is not enough to validate a sensor transfer; Comparable Activity remains unavailable.</span>
-          <a href="../docs/03-MODEL-AND-DATA-PROTOCOL.md">Read the evidence boundary</a>
+          <button class="text-button" data-action="receipt">Read the evidence boundary</button>
         </div>
 
         <section class="instrument" aria-labelledby="calendar-heading">
@@ -230,9 +230,10 @@
     `;
     bindEvents();
     if (!state.receiptOpen && state.receiptFocus) {
-      const returnTarget = state.receiptFocus === "panel"
-        ? app.querySelector(".panel-actions [data-action='receipt']")
-        : app.querySelector(".topbar [data-action='receipt']");
+      const returnTarget = app.querySelector({
+        panel: ".panel-actions [data-action='receipt']",
+        banner: ".sample-banner [data-action='receipt']",
+      }[state.receiptFocus] || ".topbar [data-action='receipt']");
       returnTarget?.focus();
       state.receiptFocus = null;
     }
@@ -361,7 +362,9 @@
       render();
     }));
     app.querySelectorAll("[data-action='receipt']").forEach((element) => element.addEventListener("click", () => {
-      state.receiptFocus = element.classList.contains("close-button") || element.closest(".panel-actions") ? "panel" : "top";
+      state.receiptFocus = element.closest(".sample-banner")
+        ? "banner"
+        : element.classList.contains("close-button") || element.closest(".panel-actions") ? "panel" : "top";
       state.receiptOpen = !state.receiptOpen;
       render();
       if (state.receiptOpen) document.getElementById("receipt-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });

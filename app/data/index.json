@@ -2,7 +2,7 @@
   "expected_daily_planes_per_product": 31,
   "regions": [
     {
-      "artifact_id": "art_science_aoi_sample_202303_r2_12de5b9c94a1",
+      "artifact_id": "art_science_aoi_sample_202303_r2_47c3e9751953",
       "boundary_status": "candidate_not_frozen",
       "bounds_wsen": [
         93.0,
@@ -11,14 +11,14 @@
         26.5
       ],
       "key": "science",
-      "manifest_sha256": "a42100aca573aecbefc8358b61c3d21118b096ea589ac68fbf0e8dcef7507bcc",
+      "manifest_sha256": "e1bf8babeb2b55891b33234d9b02efdf76e0989844efb434437c7a072205403b",
       "name": "Northeast India–Myanmar candidate window",
-      "path": "data/releases/science-pilot/r2/src_c625a961eb1f-12de5b9c94a19b4d",
+      "path": "data/releases/science-pilot/r2/src_c625a961eb1f-47c3e9751953c795",
       "region_revision": 2,
       "role": "science_pilot"
     },
     {
-      "artifact_id": "art_local_aoi_sample_202303_r2_edd035e463a2",
+      "artifact_id": "art_local_aoi_sample_202303_r2_f9db083551fa",
       "boundary_status": "candidate_not_frozen",
       "bounds_wsen": [
         91.4,
@@ -27,9 +27,9 @@
         23.2
       ],
       "key": "local",
-      "manifest_sha256": "3c2fabb98153c0d64a747f2a44cbd9893045d7d39a541a1b0120f2e1529ada13",
+      "manifest_sha256": "fb8969320b4e733f3d89d769bc622c9659340853532ddadaadfe3d0c80c07bd1",
       "name": "Chattogram Hills and Cox’s Bazar candidate window",
-      "path": "data/releases/local-impact-case/r2/src_c625a961eb1f-edd035e463a2a287",
+      "path": "data/releases/local-impact-case/r2/src_c625a961eb1f-f9db083551fa112f",
       "region_revision": 2,
       "role": "local_impact_case"
     }
