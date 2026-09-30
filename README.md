@@ -4,7 +4,7 @@
 
 > **Current status:** the repository processes a real, complete March 2023 raster sample for two candidate study windows. It publishes native sensor records only. It does **not** yet contain a validated MODIS–VIIRS transfer, a historical time series, or a scientific result that says how much burning changed.
 
-The project is called **Fire Season**; the team name is **One Last Launch**. The question guiding the product is: **Did recorded burning change, or did the observing system change?**
+The project is called **Fire Season**; the team name is **Zero Requiem**. The question guiding the product is: **Did recorded burning change, or did the observing system change?**
 
 ## What works today
 
