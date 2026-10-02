@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {marked} from '/Users/arijitroy/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/marked/lib/marked.esm.js';
+import {marked} from 'marked';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const sections=[
  ['decision','Decision and all 14 challenges','research/challenges/challenge-comparison.md'],

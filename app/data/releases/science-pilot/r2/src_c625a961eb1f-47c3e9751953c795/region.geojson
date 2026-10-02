@@ -1,0 +1,49 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              93.0,
+              23.0
+            ],
+            [
+              96.0,
+              23.0
+            ],
+            [
+              96.0,
+              26.5
+            ],
+            [
+              93.0,
+              26.5
+            ],
+            [
+              93.0,
+              23.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "boundary_status": "candidate_not_frozen",
+        "bounds_wsen": [
+          93.0,
+          23.0,
+          96.0,
+          26.5
+        ],
+        "crs": "OGC:CRS84",
+        "pixel_inclusion_rule": "native-grid pixel center inside polygon",
+        "region_id": "region_ne_india_myanmar_candidate_r2",
+        "region_key": "science",
+        "revision": 2
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

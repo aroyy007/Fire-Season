@@ -1,0 +1,3 @@
+# The image only needs the dependency lock; the repo is mounted at runtime.
+*
+!pipeline/requirements-science.lock

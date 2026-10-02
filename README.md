@@ -41,26 +41,58 @@ The browser app is plain static HTML, CSS, and JavaScript. From the repository r
 python3 -m http.server 8000 --directory app
 ```
 
-Then open [http://localhost:8000](http://localhost:8000). No JavaScript package install or login is needed to inspect the bundled sample.
+Then open [http://localhost:8000](http://localhost:8000). No JavaScript package install or login is needed to inspect the bundled sample. On Windows, use `py` instead of `python3`; if port 8000 is refused (Windows often reserves 7811–8210 for Hyper-V), use another port such as `8888`.
+
+## Run with Docker
+
+Docker gives every teammate the same Linux + Python 3.12.14 environment with the pinned HDF4/HDF5/geospatial packages, so no local Python setup is needed. It works with Docker Desktop (Windows, macOS, Linux) and [OrbStack](https://orbstack.dev) (macOS); the commands are identical. The repository is mounted into the container, so builds write back to your checkout.
+
+```sh
+docker compose up app                                                    # app at http://localhost:8888
+docker compose run --rm pipeline                                         # unit tests
+docker compose run --rm pipeline python pipeline/build_research_bundle.py
+docker compose run --rm pipeline python scripts/check_package.py
+```
+
+The image builds natively on Intel and Apple Silicon. `pyhdf` publishes no arm64 wheel, so on Apple Silicon the first `docker compose build` compiles it against Debian's HDF4 (a few minutes, then cached). Architecture does not change results: release IDs exclude the runtime, and the counts are integer arithmetic.
+
+- **Port:** set `APP_PORT` to use another host port (e.g. `APP_PORT=9000 docker compose up app`).
+- **OrbStack:** the app is also reachable at `http://app.fireseason.orb.local:8000` without port mapping.
+- **Force Intel image on Apple Silicon** (e.g. to compare against an amd64 teammate): `DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose build`. Docker Desktop runs it fastest with "Use Rosetta for x86_64/amd64 emulation" enabled in Settings → General; OrbStack uses Rosetta automatically.
+- **After changing `pipeline/requirements-science.lock`:** run `docker compose build` again.
 
 ## Rebuild the analysis bundle
 
-The raw sample files are stored under `data/timeseries/`. Rebuilding reads those local files; it does not fetch new data or need Earthdata credentials. Create the Python environment and install the pinned science dependencies:
+The raw sample files are stored under `data/timeseries/`. Rebuilding reads those local files; it does not fetch new data or need Earthdata credentials. Docker (above) is the simplest route. For a local environment, use **Python 3.12** (see `.python-version`): the pinned NumPy, h5py, and pyproj have no wheels for Python 3.13/3.14.
+
+macOS or Linux:
 
 ```sh
-python3 -m venv venv
+python3.12 -m venv venv
 venv/bin/python -m pip install -r pipeline/requirements-science.lock
 venv/bin/python pipeline/build_research_bundle.py
 ```
 
+Windows (all four packages, including `pyhdf`, install from wheels on Python 3.12):
+
+```sh
+py -3.12 -m venv venv
+venv\Scripts\python -m pip install -r pipeline/requirements-science.lock
+venv\Scripts\python pipeline/build_research_bundle.py
+```
+
+On Apple Silicon, `pyhdf` builds from source and needs the HDF4 C library first (for example `brew install hdf4`); Docker avoids this.
+
 The build validates the analysis and receipt contracts, verifies checksums for an existing immutable release, writes new release bundles atomically, and regenerates `app/data/index.json` and `app/data.js`. A changed region geometry requires a region revision change.
 
-Run the repository checks with:
+The release ID binds the source granules, region revision and geometry, pipeline code, schemas, and dependency lock. The OS and Python version are recorded in the Evidence Receipt but are not part of the ID, so the same inputs and code produce the same release on every machine.
+
+Run the repository checks with (Windows: `venv\Scripts\python`):
 
 ```sh
 venv/bin/python -m unittest discover -s pipeline/tests -v
 node --check app/app.js
-python3 scripts/check_package.py
+venv/bin/python scripts/check_package.py
 ```
 
 The Python tests cover raster interpretation, daily coverage and grid invariants, artifact contracts, bundle publication, and exploratory calibrator behavior. `scripts/check_package.py` also checks the repository's static schemas, local documentation links, research record counts, and placeholder text; it writes `output/qa/package-check.json`.

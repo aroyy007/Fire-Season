@@ -48,7 +48,7 @@ h3 { font-size: 16px; }
 
 .sample-banner { display: flex; gap: 12px; align-items: baseline; background: #e5eeeb; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); color: var(--slate); padding: 12px 14px; font-size: 13px; margin-bottom: 28px; }
 .sample-banner strong { color: var(--basalt); }
-.sample-banner a { margin-left: auto; white-space: nowrap; }
+.sample-banner .text-button { margin-left: auto; white-space: nowrap; padding: 0; }
 .banner-mark { display: grid; place-items: center; border: 1px solid var(--blue); color: var(--blue); border-radius: 50%; width: 18px; height: 18px; font-size: 11px; font-weight: 700; flex: 0 0 auto; }
 
 .instrument, .panel { background: var(--surface); border: 1px solid var(--rule); }
@@ -172,7 +172,7 @@ th { color: var(--slate); font-weight: 500; font-size: 11px; }
   .intro { grid-template-columns: 1fr; gap: 24px; padding: 36px 0 24px; }
   h1 { font-size: clamp(32px, 11vw, 48px); }
   .sample-banner { align-items: flex-start; flex-wrap: wrap; }
-  .sample-banner a { margin-left: 30px; }
+  .sample-banner .text-button { margin-left: 30px; }
   .instrument { padding: 20px 16px 18px; }
   .instrument-head { align-items: flex-start; flex-direction: column; }
   .view-control { width: 100%; }
@@ -220,7 +220,7 @@ th { color: var(--slate); font-weight: 500; font-size: 11px; }
   .text-button { margin-left: auto; }
   h1 { font-size: 36px; }
   .sample-banner { align-items: flex-start; flex-wrap: wrap; }
-  .sample-banner a { margin-left: 30px; }
+  .sample-banner .text-button { margin-left: 30px; }
   .instrument { padding: 18px 12px 16px; }
   .instrument-head { display: block; }
   .view-control { margin-top: 16px; width: 100%; }

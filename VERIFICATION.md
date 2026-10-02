@@ -18,7 +18,7 @@ Completed 19 September 2026. This record describes checks performed on the resea
 
 The default Playwright browser binary was absent; the installed Chrome executable was used in an isolated headless session after a sandbox launch failure. No personal browser profile was used. Generated QA images/logs are in `output/qa/`.
 
-Reproduction: run `python3 scripts/package_research.py`, the bundled Node runtime on `scripts/build_report.mjs`, the bundled Python runtime on `scripts/build_brief.py`, then `python3 scripts/check_package.py`. The rendering scripts currently contain this machine's bundled dependency paths; update those paths on another computer. The science access-check scripts perform network requests and record current results, which may differ from the preserved September samples.
+Reproduction: run `python3 scripts/package_research.py`, then `npm install` and `npm run build:report`, then `scripts/build_brief.py` (needs `reportlab`), then `python3 scripts/check_package.py`. `npm run check:report` needs Playwright's Chromium (`npx playwright install chromium`) or an installed Chrome given via `CHROME_PATH`. The science access-check scripts perform network requests and record current results, which may differ from the preserved September samples.
 
 ## 20 September 2026 implementation-document revision
 

@@ -9,7 +9,7 @@ See [implemented features](12-CORE-FEATURES.md) for the full user-visible invent
 - `pipeline/fireseason/raster_analysis.py` decodes the MODIS and VIIRS QA land bits, applies the declared confidence policy, projects candidate region windows into the shared h26v06 sinusoidal grid, and groups reference-product pixels into 10×10 native-cell blocks.
 - `pipeline/fireseason/sample.py` verifies all 31 March 2023 dates for both sensors, rejects duplicate or missing days and misaligned grids, then aggregates both candidate windows.
 - `pipeline/fireseason/science_release.py` publishes native-only artifacts and an Evidence Receipt with the source granule names, byte sizes, and SHA-256 hashes. Original local download timestamps were not retained and are recorded as unknown.
-- `pipeline/build_research_bundle.py` regenerates the static offline bundle from the stored HDF4/HDF5 granules. Release IDs bind source hashes, region revision and geometry, code/schema hashes, the dependency lock, and runtime. Identical rebuilds reuse a checked immutable directory; changed region geometry within the same revision fails closed.
+- `pipeline/build_research_bundle.py` regenerates the static offline bundle from the stored HDF4/HDF5 granules. Release IDs bind source hashes, region revision and geometry, code/schema hashes (line-ending normalized), and the dependency lock; the OS and Python version are recorded in the receipt, not the ID, so every machine produces the same release. Identical rebuilds reuse a checked immutable directory; changed region geometry within the same revision fails closed.
 - `pipeline/fireseason/calibrator.py` can report only exploratory monthly-ratio diagnostics. It cannot issue a Calibration Release. The app publishes no Comparable Activity estimate, anomaly, uncertainty interval, or priority score.
 - The two bounding boxes are candidate analysis windows carried over from prior project files. They remain unfrozen and must be confirmed by the team and local event before they are described as final regions. After a boundary decision, update its bounds and increment `revision` in `pipeline/fireseason/sample.py`; the new artifact uses a new path and leaves previous receipts intact.
 
@@ -17,15 +17,15 @@ The observed March 2023 sample includes 5 MYD14A1 eight-day granules and 31 VNP1
 
 ## Rebuild and verify
 
-The static browser has no runtime network dependency. The analysis builder needs the pinned HDF/geospatial Python packages:
+The static browser has no runtime network dependency. The analysis builder needs Python 3.12 and the pinned HDF/geospatial packages, or Docker (see the README). On Windows use `py -3.12` and `venv\Scripts\python`:
 
 ```sh
-python3 -m venv venv
+python3.12 -m venv venv
 venv/bin/python -m pip install -r pipeline/requirements-science.lock
 venv/bin/python pipeline/build_research_bundle.py
 venv/bin/python -m unittest discover -s pipeline/tests -v
 node --check app/app.js
-python3 scripts/check_package.py
+venv/bin/python scripts/check_package.py
 ```
 
 The source rasters are already stored under `data/timeseries/`; rebuilding does not require an Earthdata login or another download. The local retrieval timestamps are unknown, and the publisher says so in each receipt.
